@@ -61,6 +61,7 @@ public class KingdomBoardBuilder implements BoardBuilder {
 			player.setCoins(coinMap);
 			GameBox.getGameBox().assignRankOneCastles(player, players.size());
 			GameBox.getGameBox().assignCastles(player, players.size());
+//			GameBox.getGameBox().assignTiles(player, players.size());
 		}
 
 	}

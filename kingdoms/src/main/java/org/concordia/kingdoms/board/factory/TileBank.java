@@ -14,20 +14,37 @@ public class TileBank {
 
 	private static TileBank INSTANCE;
 
-	private Map<TileType, List<Tile>> tiles;
+	private Map<TileType, List<Tile>> tilesMap;
 
 	private TileBank() {
 		final List<TileType> tileTypes = Lists.newArrayList(TileType.DRAGON,
 				TileType.GOLDMINE, TileType.HAZARD, TileType.MOUNTAIN,
 				TileType.RESOURCE, TileType.WIZARD);
-		this.tiles = Maps.newHashMap();
+		this.tilesMap = Maps.newHashMap();
 		for (final TileType type : tileTypes) {
-			this.tiles.put(type, GameBox.getGameBox().getTiles(type));
+			this.tilesMap.put(type, GameBox.getGameBox().getTiles(type));
 		}
 	}
 
-	public Map<TileType, List<Tile>> getTiles() {
-		return this.tiles;
+	public Tile getTile(TileType type, String name, Integer tileValue) {
+		final List<Tile> tiles = this.tilesMap.get(type);
+		Tile retTile = null;
+		for (final Tile tile : tiles) {
+			if (name.equals(tile.getName())) {
+				if (tileValue == null && tile.getValue() == null) {
+					retTile = tile;
+				} else {
+					if (tileValue.equals(tile.getValue())) {
+						retTile = tile;
+					}
+				}
+			}
+		}
+		if (retTile == null) {
+			return null;
+		}
+		tiles.remove(retTile);
+		return retTile;
 	}
 
 	public static TileBank getTileBank() {

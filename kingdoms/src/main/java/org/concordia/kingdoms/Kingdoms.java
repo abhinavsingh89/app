@@ -7,8 +7,10 @@ import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.EpochCounter;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
 import org.concordia.kingdoms.board.factory.KingdomBoardBuilder;
+import org.concordia.kingdoms.board.factory.TileBank;
 import org.concordia.kingdoms.board.ui.Presentable;
 import org.concordia.kingdoms.tokens.Color;
+import org.concordia.kingdoms.tokens.TileType;
 
 import com.google.common.collect.Lists;
 
@@ -103,6 +105,15 @@ public class Kingdoms implements Game, Presentable {
 		player1.putCastle(player1.getCastle(2, Color.BLUE), 0, 1);
 		player1.putCastle(player1.getCastle(3, Color.BLUE), 0, 2);
 		player1.putCastle(player1.getCastle(4, Color.BLUE), 0, 3);
+		player1.putTile(
+				TileBank.getTileBank().getTile(TileType.RESOURCE,
+						NameUtils.RESOURCE_CITIES, 5), 1, 0);
+		player1.putTile(
+				TileBank.getTileBank().getTile(TileType.RESOURCE,
+						NameUtils.RESOURCE_CITIES, 5), 1, 1);
+		player1.putTile(
+				TileBank.getTileBank().getTile(TileType.RESOURCE,
+						NameUtils.RESOURCE_CITIES, 5), 1, 2);
 
 		kingdoms.present();
 	}

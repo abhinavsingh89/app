@@ -9,7 +9,6 @@ import org.concordia.kingdoms.tokens.Coin;
 import org.concordia.kingdoms.tokens.CoinType;
 import org.concordia.kingdoms.tokens.Color;
 import org.concordia.kingdoms.tokens.Tile;
-import org.concordia.kingdoms.tokens.TileType;
 
 import com.google.common.collect.Maps;
 
@@ -27,8 +26,6 @@ public class Player {
 
 	private Map<Integer, Map<Color, List<Castle>>> castles;
 
-	private Map<TileType, List<Tile>> tiles;
-
 	private Board board;
 
 	private Player(String name, final Color[] chosenColors) {
@@ -40,12 +37,8 @@ public class Player {
 		this.castles = Maps.newHashMap();
 	}
 
-	public void putTile(Tile tile, int row, int column) throws Exception {
-		if (!this.tiles.get(tile.getType()).contains(tile)) {
-			throw new RuntimeException("Tile not available with this player");
-		}
+	public void putTile(Tile tile, int row, int column) {
 		this.board.putComponent(tile, row, column);
-		this.tiles.get(tile.getType()).remove(tile);
 	}
 
 	public void putCastle(Castle castle, int row, int column) {
@@ -56,50 +49,6 @@ public class Player {
 		}
 		this.board.putComponent(castle, row, column);
 		this.castles.get(castle.getRank()).remove(castle);
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Color[] getChosenColors() {
-		return chosenColors;
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
-	}
-
-	public Tile getStartingTile() {
-		return startingTile;
-	}
-
-	public void setStartingTile(Tile startingTile) {
-		this.startingTile = startingTile;
-	}
-
-	public Map<CoinType, List<Coin>> getCoins() {
-		return coins;
-	}
-
-	public void setCoins(Map<CoinType, List<Coin>> coins) {
-		this.coins = coins;
-	}
-
-	public Board getBoard() {
-		return board;
-	}
-
-	public void setBoard(Board board) {
-		this.board = board;
 	}
 
 	public void addCastle(int rank, Color color, final List<Castle> kastles) {
@@ -144,6 +93,51 @@ public class Player {
 			}
 		}
 		return null;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Color[] getChosenColors() {
+		return chosenColors;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public Tile getStartingTile() {
+		return startingTile;
+	}
+
+	public void setStartingTile(Tile startingTile) {
+		this.startingTile = startingTile;
+	}
+
+	public Map<CoinType, List<Coin>> getCoins() {
+		return coins;
+	}
+
+	public void setCoins(Map<CoinType, List<Coin>> coins) {
+		this.coins = coins;
+	}
+
+	public Board getBoard() {
+		return board;
+	}
+
+	public void setBoard(Board board) {
+		this.board = board;
 	}
 
 	public static Player newPlayer(String name, final Color[] chosenColors) {
