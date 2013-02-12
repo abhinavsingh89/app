@@ -101,9 +101,9 @@ public class Kingdoms implements Game, Presentable {
 		kingdoms.start(players);
 		player1.putCastle(player1.getCastle(1, Color.BLUE), 0, 0);
 		player1.putCastle(player1.getCastle(2, Color.BLUE), 0, 1);
-//		player1.putCastle(player1.getCastle(3, Color.BLUE), 0, 2);
-//		player1.putCastle(player1.getCastle(4, Color.BLUE), 0, 3);
-		
+		player1.putCastle(player1.getCastle(3, Color.BLUE), 0, 2);
+		player1.putCastle(player1.getCastle(4, Color.BLUE), 0, 3);
+
 		kingdoms.present();
 	}
 }

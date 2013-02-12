@@ -3,6 +3,8 @@ package org.concordia.kingdoms;
 import java.util.List;
 import java.util.Map;
 
+import org.concordia.kingdoms.board.factory.ComponentFactory;
+import org.concordia.kingdoms.board.factory.KingdomComponentFactory;
 import org.concordia.kingdoms.tokens.Castle;
 import org.concordia.kingdoms.tokens.Coin;
 import org.concordia.kingdoms.tokens.CoinType;
@@ -25,33 +27,7 @@ public class GameBox {
 
 	private Map<Integer, Map<Color, List<Castle>>> castles = Maps.newHashMap();
 
-	private static final String RESOURCE_CITIES = "cities";
-
-	private static final String RESOURCE_VILLAGES = "village";
-
-	private static final String RESOURCE_FARMS = "farms";
-
-	private static final String HAZARD_BEAR = "BEAR";
-
-	private static final String HAZARD_LION = "LION";
-
-	private static final String HAZARD_TIGER = "TIGER";
-
-	private static final String HAZARD_HYNA = "HYNA";
-
-	private static final String HAZARD_VULTURE = "VULTURE";
-
-	private static final String HAZARD_THUNDER = "THUNDER";
-
-	private static final String MOUNTAIN_EVEREST = "EVEREST";
-
-	private static final String MOUNTAIN_ALPES = "ALPES";
-
-	private static final String DRAGON_RED = "RED_DRAGON";
-
-	private static final String GOLDMINE = "GOLDMINE";
-
-	private static final String WIZARD = "WIZARD";
+	private ComponentFactory componentFactory = new KingdomComponentFactory();
 
 	public GameBox() {
 		// tiles
@@ -71,56 +47,75 @@ public class GameBox {
 
 		// resource tiles
 		final List<Tile> resourceTiles = Lists.newArrayList();
-		resourceTiles.add(Tile.newTile(TileType.RESOURCE, RESOURCE_CITIES, 6));
-		resourceTiles.add(Tile.newTile(TileType.RESOURCE, RESOURCE_CITIES, 5));
-		resourceTiles.add(Tile.newTile(TileType.RESOURCE, RESOURCE_CITIES, 4));
-		resourceTiles.add(Tile.newTile(TileType.RESOURCE, RESOURCE_CITIES, 5));
+		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
+				NameUtils.RESOURCE_CITIES, 6));
+		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
+				NameUtils.RESOURCE_CITIES, 5));
+		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
+				NameUtils.RESOURCE_CITIES, 4));
+		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
+				NameUtils.RESOURCE_CITIES, 5));
 
-		resourceTiles
-				.add(Tile.newTile(TileType.RESOURCE, RESOURCE_VILLAGES, 6));
-		resourceTiles
-				.add(Tile.newTile(TileType.RESOURCE, RESOURCE_VILLAGES, 5));
-		resourceTiles
-				.add(Tile.newTile(TileType.RESOURCE, RESOURCE_VILLAGES, 1));
-		resourceTiles
-				.add(Tile.newTile(TileType.RESOURCE, RESOURCE_VILLAGES, 2));
+		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
+				NameUtils.RESOURCE_VILLAGES, 6));
+		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
+				NameUtils.RESOURCE_VILLAGES, 5));
+		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
+				NameUtils.RESOURCE_VILLAGES, 1));
+		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
+				NameUtils.RESOURCE_VILLAGES, 2));
 
-		resourceTiles.add(Tile.newTile(TileType.RESOURCE, RESOURCE_FARMS, 3));
-		resourceTiles.add(Tile.newTile(TileType.RESOURCE, RESOURCE_FARMS, 2));
-		resourceTiles.add(Tile.newTile(TileType.RESOURCE, RESOURCE_FARMS, 1));
-		resourceTiles.add(Tile.newTile(TileType.RESOURCE, RESOURCE_FARMS, 5));
+		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
+				NameUtils.RESOURCE_FARMS, 3));
+		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
+				NameUtils.RESOURCE_FARMS, 2));
+		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
+				NameUtils.RESOURCE_FARMS, 1));
+		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
+				NameUtils.RESOURCE_FARMS, 5));
 
 		this.tiles.put(TileType.RESOURCE, resourceTiles);
 
 		// hazard tiles
 		final List<Tile> hazardTiles = Lists.newArrayList();
 
-		hazardTiles.add(Tile.newTile(TileType.HAZARD, HAZARD_BEAR, -6));
-		hazardTiles.add(Tile.newTile(TileType.HAZARD, HAZARD_HYNA, -5));
-		hazardTiles.add(Tile.newTile(TileType.HAZARD, HAZARD_LION, -4));
-		hazardTiles.add(Tile.newTile(TileType.HAZARD, HAZARD_TIGER, -3));
-		hazardTiles.add(Tile.newTile(TileType.HAZARD, HAZARD_VULTURE, -2));
-		hazardTiles.add(Tile.newTile(TileType.HAZARD, HAZARD_THUNDER, -1));
+		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
+				NameUtils.HAZARD_BEAR, -6));
+		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
+				NameUtils.HAZARD_HYNA, -5));
+		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
+				NameUtils.HAZARD_LION, -4));
+		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
+				NameUtils.HAZARD_TIGER, -3));
+		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
+				NameUtils.HAZARD_VULTURE, -2));
+		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
+				NameUtils.HAZARD_THUNDER, -1));
 
 		this.tiles.put(TileType.HAZARD, hazardTiles);
 
 		// mountain tile
 		final List<Tile> mountainTiles = Lists.newArrayList();
 
-		mountainTiles.add(Tile.newTile(TileType.MOUNTAIN, MOUNTAIN_EVEREST, 0));
-		mountainTiles.add(Tile.newTile(TileType.MOUNTAIN, MOUNTAIN_ALPES, 0));
+		mountainTiles.add(this.componentFactory.createTile(TileType.MOUNTAIN,
+				NameUtils.MOUNTAIN_EVEREST, 0));
+		mountainTiles.add(this.componentFactory.createTile(TileType.MOUNTAIN,
+				NameUtils.MOUNTAIN_ALPES, 0));
 
 		this.tiles.put(TileType.MOUNTAIN, mountainTiles);
 
 		// dragon tile
-		this.tiles.put(TileType.DRAGON, Lists.newArrayList(Tile.newTile(
-				TileType.DRAGON, DRAGON_RED, 0)));
+		this.tiles.put(TileType.DRAGON, Lists
+				.newArrayList(this.componentFactory.createTile(TileType.DRAGON,
+						NameUtils.DRAGON_RED, 0)));
 		// goldmine tile
-		this.tiles.put(TileType.GOLDMINE, Lists.newArrayList(Tile.newTile(
-				TileType.GOLDMINE, GOLDMINE, 0)));
+		this.tiles.put(TileType.GOLDMINE, Lists
+				.newArrayList(this.componentFactory.createTile(
+						TileType.GOLDMINE, NameUtils.GOLDMINE, 0)));
 		// wizard tile
-		this.tiles.put(TileType.WIZARD,
-				Lists.newArrayList(Tile.newTile(TileType.WIZARD, WIZARD, 0)));
+		this.tiles.put(TileType.WIZARD, Lists
+				.newArrayList(this.componentFactory.createTile(TileType.WIZARD,
+						NameUtils.WIZARD, 0)));
 	}
 
 	private void fillCoins() {
@@ -159,7 +154,7 @@ public class GameBox {
 	private List<Castle> newCastles(int rank, Color color, int size) {
 		final List<Castle> castles = Lists.newArrayList();
 		for (int i = 0; i < size; i++) {
-			castles.add(Castle.newCastle(rank, color));
+			castles.add(this.componentFactory.createCastle(rank, color));
 		}
 		return castles;
 	}
