@@ -25,7 +25,7 @@ public class KingdomBoardBuilder implements BoardBuilder {
 		return entries;
 	}
 
-	private void initEntries(Entry[][] entries, int rows, int columns) {
+	private void initEntries(final Entry[][] entries, int rows, int columns) {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				entries[i][j] = Entry.newEntry();
@@ -59,6 +59,8 @@ public class KingdomBoardBuilder implements BoardBuilder {
 			coinMap.put(CoinType.GOLD_50,
 					GameBox.getGameBox().takeCoins(CoinType.GOLD_50, 1));
 			player.setCoins(coinMap);
+			GameBox.getGameBox().assignRankOneCastles(player, players.size());
+			GameBox.getGameBox().assignCastles(player, players.size());
 		}
 
 	}

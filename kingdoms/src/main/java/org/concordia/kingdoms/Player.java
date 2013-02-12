@@ -51,7 +51,8 @@ public class Player {
 	public void putCastle(Castle castle, int row, int column) {
 		if (!this.castles.get(castle.getRank()).get(castle.getColor())
 				.contains(castle)) {
-			throw new RuntimeException("Castle not available with this player");
+			throw new RuntimeException("Castle " + castle
+					+ " not available with this player");
 		}
 		this.board.putComponent(castle, row, column);
 		this.castles.get(castle.getRank()).remove(castle);
@@ -67,10 +68,6 @@ public class Player {
 
 	public Color[] getChosenColors() {
 		return chosenColors;
-	}
-
-	public void setChosenColors(Color[] chosenColors) {
-		this.chosenColors = chosenColors;
 	}
 
 	public int getScore() {
@@ -106,6 +103,9 @@ public class Player {
 	}
 
 	public void addCastle(int rank, Color color, final List<Castle> kastles) {
+		if (kastles == null || kastles.isEmpty()) {
+			return;
+		}
 		Map<Color, List<Castle>> kastleMap = this.castles.get(rank);
 		if (kastleMap != null) {
 			if (kastleMap.get(color) != null) {
@@ -115,6 +115,7 @@ public class Player {
 			}
 		} else {
 			kastleMap = Maps.newHashMap();
+			kastleMap.put(color, kastles);
 			this.castles.put(rank, kastleMap);
 		}
 	}
@@ -127,12 +128,22 @@ public class Player {
 				return castlesList.remove(0);
 			} else {
 				throw new RuntimeException("No castle with color " + color
-						+ "available with this player");
+						+ " available with this player");
 			}
 		} else {
 			throw new RuntimeException("No castle with rank " + rank
 					+ "available with this player");
 		}
+	}
+
+	public Castle getCastle(int rank, Color color) {
+		if (this.castles.get(rank) != null) {
+			final List<Castle> colorCastles = this.castles.get(rank).get(color);
+			if (colorCastles != null && !colorCastles.isEmpty()) {
+				return colorCastles.get(0);
+			}
+		}
+		return null;
 	}
 
 	public static Player newPlayer(String name, final Color[] chosenColors) {

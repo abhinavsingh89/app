@@ -21,6 +21,8 @@ public class GameBox {
 
 	private Map<CoinType, List<Coin>> coins = Maps.newHashMap();
 
+	private Map<Integer, Integer> rankOneCastlesPerPlayer = Maps.newHashMap();
+
 	private Map<Integer, Map<Color, List<Castle>>> castles = Maps.newHashMap();
 
 	private static final String RESOURCE_CITIES = "cities";
@@ -58,6 +60,10 @@ public class GameBox {
 		fillCoins();
 		// castles
 		fillCastles();
+
+		this.rankOneCastlesPerPlayer.put(2, 4);
+		this.rankOneCastlesPerPlayer.put(3, 3);
+		this.rankOneCastlesPerPlayer.put(4, 2);
 
 	}
 
@@ -142,7 +148,7 @@ public class GameBox {
 
 	private void loadCastles(int rank, Color color, int size) {
 		if (this.castles.containsKey(rank)) {
-			this.castles.get(rank).put(color, newCastles(1, color, 4));
+			this.castles.get(rank).put(color, newCastles(rank, color, size));
 		} else {
 			final Map<Color, List<Castle>> colorCastles = Maps.newHashMap();
 			colorCastles.put(color, newCastles(rank, color, size));
@@ -171,13 +177,26 @@ public class GameBox {
 		return retCoins;
 	}
 
-	public void assignCastles(Player player, int totalPlayers) {
+	public void assignCastles(final Player player, int totalPlayers) {
 		final Color[] playerColors = player.getChosenColors();
 		for (final Color color : playerColors) {
 			for (int rank = 2; rank <= 4; rank++) {
-				
+				player.addCastle(rank, color,
+						this.castles.get(rank).remove(color));
 			}
 		}
+	}
+
+	public void assignRankOneCastles(final Player player, int totalPlayers) {
+		final Color color = player.getChosenColors()[0];
+		final List<Castle> colorCastles = this.castles.get(1).remove(color);
+		int size = colorCastles.size();
+		final List<Castle> retCastles = Lists.newArrayList();
+		for (int i = 0; i < rankOneCastlesPerPlayer.get(totalPlayers)
+				&& size >= 1; i++, size--) {
+			retCastles.add(colorCastles.remove(0));
+		}
+		player.addCastle(1, color, retCastles);
 	}
 
 	public List<Tile> getTiles(TileType type) {

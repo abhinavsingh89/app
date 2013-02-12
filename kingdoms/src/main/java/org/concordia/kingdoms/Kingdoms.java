@@ -49,7 +49,6 @@ public class Kingdoms implements Game, Presentable {
 			// when game is already in progress, resume the game but not start
 			throw new RuntimeException("Game is Already in Progress");
 		}
-
 	}
 
 	private void initBoard(List<Player> players) {
@@ -99,8 +98,12 @@ public class Kingdoms implements Game, Presentable {
 				new Color[] { Color.RED });
 		players.add(player1);
 		players.add(player2);
-		// player1.putCastle(player1.removeCastle(1, Color.BLUE), 0, 0);
 		kingdoms.start(players);
+		player1.putCastle(player1.getCastle(1, Color.BLUE), 0, 0);
+		player1.putCastle(player1.getCastle(2, Color.BLUE), 0, 1);
+//		player1.putCastle(player1.getCastle(3, Color.BLUE), 0, 2);
+//		player1.putCastle(player1.getCastle(4, Color.BLUE), 0, 3);
+		
 		kingdoms.present();
 	}
 }

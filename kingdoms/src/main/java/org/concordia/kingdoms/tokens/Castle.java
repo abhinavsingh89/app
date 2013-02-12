@@ -33,6 +33,11 @@ public class Castle implements Component, Serializable {
 		return "C(" + color.getCode() + ")";
 	}
 
+	@Override
+	public String toString() {
+		return "C:" + color.getCode() + ":" + this.getValue();
+	}
+
 	public static Castle newCastle(final int rank, Color color) {
 		return new Castle(rank, color);
 	}
