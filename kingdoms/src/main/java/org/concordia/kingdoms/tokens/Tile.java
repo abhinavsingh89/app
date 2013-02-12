@@ -3,7 +3,10 @@ package org.concordia.kingdoms.tokens;
 import java.io.Serializable;
 
 import org.concordia.kingdoms.board.Component;
+import org.pojomatic.Pojomatic;
+import org.pojomatic.annotations.AutoProperty;
 
+@AutoProperty
 public class Tile implements Component, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,8 +36,18 @@ public class Tile implements Component, Serializable {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		return Pojomatic.equals(this, o);
+	}
+
+	@Override
+	public int hashCode() {
+		return Pojomatic.hashCode(this);
+	}
+
+	@Override
 	public String toString() {
-		return this.name + "(" + this.value + ")";
+		return Pojomatic.toString(this);
 	}
 
 	public static Tile newTile(TileType type, String name, Integer value) {

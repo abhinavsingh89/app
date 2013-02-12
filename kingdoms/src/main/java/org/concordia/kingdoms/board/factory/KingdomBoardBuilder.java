@@ -28,7 +28,7 @@ public class KingdomBoardBuilder implements BoardBuilder {
 	private void initEntries(final Entry[][] entries, int rows, int columns) {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				entries[i][j] = Entry.newEntry();
+				entries[i][j] = Entry.newEntry(i, j);
 			}
 		}
 	}

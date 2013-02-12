@@ -2,8 +2,12 @@ package org.concordia.kingdoms.tokens;
 
 import java.util.List;
 
+import org.pojomatic.Pojomatic;
+import org.pojomatic.annotations.AutoProperty;
+
 import com.google.common.collect.Lists;
 
+@AutoProperty
 public class Coin {
 
 	private CoinType type;
@@ -21,6 +25,21 @@ public class Coin {
 
 	public CoinType getType() {
 		return this.type;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		return Pojomatic.equals(this, o);
+	}
+
+	@Override
+	public int hashCode() {
+		return Pojomatic.hashCode(this);
+	}
+
+	@Override
+	public String toString() {
+		return Pojomatic.toString(this);
 	}
 
 	public static List<Coin> newCoins(CoinType type, int size) {
