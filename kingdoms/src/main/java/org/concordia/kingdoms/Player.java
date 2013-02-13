@@ -95,7 +95,6 @@ public class Player {
 		return null;
 	}
 
-
 	public String getName() {
 		return name;
 	}

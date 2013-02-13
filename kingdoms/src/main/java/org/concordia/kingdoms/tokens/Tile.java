@@ -53,4 +53,5 @@ public class Tile implements Component, Serializable {
 	public static Tile newTile(TileType type, String name, Integer value) {
 		return new Tile(type, name, value);
 	}
+
 }

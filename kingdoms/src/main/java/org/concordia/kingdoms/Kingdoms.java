@@ -105,15 +105,8 @@ public class Kingdoms implements Game, Presentable {
 		player1.putCastle(player1.getCastle(2, Color.BLUE), 0, 1);
 		player1.putCastle(player1.getCastle(3, Color.BLUE), 0, 2);
 		player1.putCastle(player1.getCastle(4, Color.BLUE), 0, 3);
-		player1.putTile(
-				TileBank.getTileBank().getTile(TileType.RESOURCE,
-						NameUtils.RESOURCE_CITIES, 5), 1, 0);
-		player1.putTile(
-				TileBank.getTileBank().getTile(TileType.RESOURCE,
-						NameUtils.RESOURCE_CITIES, 5), 1, 1);
-		player1.putTile(
-				TileBank.getTileBank().getTile(TileType.RESOURCE,
-						NameUtils.RESOURCE_CITIES, 5), 1, 2);
+		player1.putTile(TileBank.getTileBank().getTile(), 1, 0);
+		player1.putTile(TileBank.getTileBank().getTile(), 1, 2);
 
 		kingdoms.present();
 	}
