@@ -199,7 +199,8 @@ public class GameBox {
 	}
 
 	public List<Tile> getTiles(TileType type) {
-		return this.tiles.remove(type);
+		//FIXME : check the tiles pulled from this gamebox should no longer be available here
+		return this.tiles.get(type);
 	}
 
 	public static GameBox getGameBox() {
