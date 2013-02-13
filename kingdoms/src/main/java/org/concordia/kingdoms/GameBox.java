@@ -1,5 +1,6 @@
 package org.concordia.kingdoms;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import com.google.common.collect.Maps;
 
 public class GameBox {
 
-	private static final GameBox GAME_BOX = new GameBox();
+	private static GameBox GAME_BOX;
 
 	private Map<TileType, List<Tile>> tiles = Maps.newHashMap();
 
@@ -37,10 +38,13 @@ public class GameBox {
 		// castles
 		fillCastles();
 
+		fillRankOneCastlesPerPlayer();
+	}
+
+	private void fillRankOneCastlesPerPlayer() {
 		this.rankOneCastlesPerPlayer.put(2, 4);
 		this.rankOneCastlesPerPlayer.put(3, 3);
 		this.rankOneCastlesPerPlayer.put(4, 2);
-
 	}
 
 	private void fillTiles() {
@@ -199,6 +203,13 @@ public class GameBox {
 	}
 
 	public static GameBox getGameBox() {
+		if (GAME_BOX == null) {
+			GAME_BOX = new GameBox();
+		}
+		return GAME_BOX;
+	}
+
+	public static GameBox reloadGameBox(File file) {
 		return GAME_BOX;
 	}
 }

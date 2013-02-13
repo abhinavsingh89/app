@@ -8,13 +8,11 @@ import org.concordia.kingdoms.board.EpochCounter;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
 import org.concordia.kingdoms.board.factory.KingdomBoardBuilder;
 import org.concordia.kingdoms.board.factory.TileBank;
-import org.concordia.kingdoms.board.ui.Presentable;
 import org.concordia.kingdoms.tokens.Color;
-import org.concordia.kingdoms.tokens.TileType;
 
 import com.google.common.collect.Lists;
 
-public class Kingdoms implements Game, Presentable {
+public class Kingdoms implements Game {
 
 	private Board board;
 
@@ -90,24 +88,4 @@ public class Kingdoms implements Game, Presentable {
 		this.board.display();
 	}
 
-	// TEST METHOD
-	public static void main(String[] args) throws IOException {
-		final Kingdoms kingdoms = new Kingdoms();
-		final List<Player> players = Lists.newArrayList();
-		final Player player1 = Player.newPlayer("sachin",
-				new Color[] { Color.BLUE });
-		final Player player2 = Player.newPlayer("dhoni",
-				new Color[] { Color.RED });
-		players.add(player1);
-		players.add(player2);
-		kingdoms.start(players);
-		player1.putCastle(player1.getCastle(1, Color.BLUE), 0, 0);
-		player1.putCastle(player1.getCastle(2, Color.BLUE), 0, 1);
-		player1.putCastle(player1.getCastle(3, Color.BLUE), 0, 2);
-		player1.putCastle(player1.getCastle(4, Color.BLUE), 0, 3);
-		player1.putTile(TileBank.getTileBank().getTile(), 1, 0);
-		player1.putTile(TileBank.getTileBank().getTile(), 1, 2);
-
-		kingdoms.present();
-	}
 }

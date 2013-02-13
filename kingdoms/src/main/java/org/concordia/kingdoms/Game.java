@@ -2,7 +2,9 @@ package org.concordia.kingdoms;
 
 import java.util.List;
 
-public interface Game {
+import org.concordia.kingdoms.board.ui.Presentable;
+
+public interface Game extends Presentable{
 
 	void start(List<Player> players);
 
