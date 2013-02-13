@@ -199,7 +199,7 @@ public class GameBox {
 	}
 
 	public List<Tile> getTiles(TileType type) {
-		return this.tiles.get(type);
+		return this.tiles.remove(type);
 	}
 
 	public static GameBox getGameBox() {
