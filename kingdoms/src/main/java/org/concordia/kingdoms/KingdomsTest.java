@@ -12,10 +12,15 @@ import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 import org.concordia.kingdoms.tokens.Color;
 import org.concordia.kingdoms.tokens.Tile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
 public class KingdomsTest {
+
+	private static final Logger log = LoggerFactory
+			.getLogger(KingdomsTest.class);
 
 	public static void main(String[] args) throws IOException, GameException {
 		final Kingdoms kingdoms = new Kingdoms();
@@ -52,7 +57,7 @@ public class KingdomsTest {
 										player.putTile(tile, row, column);
 										isValidPosition = true;
 									} catch (GameRuleException ex) {
-										System.out.println(ex.getMessage());
+										log.debug(ex.getMessage());
 									}
 
 							} else {
@@ -81,8 +86,7 @@ public class KingdomsTest {
 							isValidInput = true;
 							kingdoms.present();
 						} catch (NumberFormatException ex) {
-							System.out.println("Invalid input:"
-									+ ex.getMessage());
+							log.debug("Invalid input:" + ex.getMessage());
 						}
 					}
 				}
