@@ -78,7 +78,7 @@ public class KingdomsTest {
 												row, column);
 										isValidCastle = true;
 									} catch (GameRuleException ex) {
-										System.out.println(ex.getMessage());
+										log.debug(ex.getMessage());
 									}
 								}// castle while ending
 
@@ -101,20 +101,20 @@ public class KingdomsTest {
 	}
 
 	private static int getColumn(final BufferedReader br) throws IOException {
-		System.out.println("Enter an empty space column ");
+		log.debug("Enter an empty space column ");
 		int column = Integer.parseInt(br.readLine());
 		return column;
 	}
 
 	private static int getRow(final BufferedReader br) throws IOException {
-		System.out.println("Enter an empty space row ");
+		log.debug("Enter an empty space row ");
 		int row = Integer.parseInt(br.readLine());
 		return row;
 	}
 
 	private static void initializePlayers(BufferedReader br,
 			List<Player> players) throws NumberFormatException, IOException {
-		System.out.println("Enter number of Players");
+		log.debug("Enter number of Players");
 		final int playersCount = Integer.parseInt(br.readLine());
 
 		for (int i = 0; i < playersCount; i++) {
