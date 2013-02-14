@@ -33,7 +33,7 @@ public class Castle implements Component, Serializable {
 	}
 
 	public String getName() {
-		return "C(" + color.getCode() + ")";
+		return "CASTLE";
 	}
 
 	@Override
@@ -48,7 +48,8 @@ public class Castle implements Component, Serializable {
 
 	@Override
 	public String toString() {
-		return Pojomatic.toString(this);
+		return "C:" + this.getName().substring(0, 3) + ":" + this.getRank()
+				+ ":" + this.getColor().getCode();
 	}
 
 	public static Castle newCastle(final int rank, Color color) {

@@ -12,7 +12,7 @@ import com.google.common.collect.Lists;
 public class GameBoxTest extends TestCase {
 
 	public void testTilesInitialized() {
-		GameBox gameBox = GameBox.getGameBox();
+		GameBox gameBox = GameBox.newGameBox();
 		for (TileType type : TileType.values()) {
 			List<Tile> tiles = gameBox.getTiles(type);
 			assertEquals(tiles.isEmpty(), false);
@@ -23,7 +23,7 @@ public class GameBoxTest extends TestCase {
 	}
 
 	public void testTilesCount() {
-		GameBox gameBox = GameBox.getGameBox();
+		GameBox gameBox = GameBox.newGameBox();
 		List<Tile> allTiles = Lists.newArrayList();
 		for (TileType type : TileType.values()) {
 			List<Tile> tiles = gameBox.getTiles(type);

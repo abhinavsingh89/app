@@ -2,6 +2,7 @@ package org.concordia.kingdoms.board;
 
 import java.util.List;
 
+import org.concordia.kingdoms.GameBox;
 import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.board.factory.CoinBank;
 import org.concordia.kingdoms.board.factory.TileBank;
@@ -21,7 +22,7 @@ public class Board {
 	private List<Player> players;
 
 	private Presentable presentable;
-
+	
 	public static final int MAX_ROWS = 5;
 
 	public static final int MAX_COLUMNS = 6;

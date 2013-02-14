@@ -25,6 +25,7 @@ public class KingdomsTest {
 		kingdoms.present();
 		while (!"exit".equals(input)) {
 			for (final Player player : players) {
+				System.out.print(player.getName() + ">");
 				System.out
 						.println("Press 1 to pick a Tile any other number for Castle");
 				int tileOrCastle = Integer.parseInt(br.readLine());

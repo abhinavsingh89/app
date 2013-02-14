@@ -18,7 +18,7 @@ import com.google.common.collect.Maps;
 
 public class GameBox {
 
-	private static GameBox GAME_BOX;
+	private static GameBox INSTANCE;
 
 	private Map<TileType, List<Tile>> tiles = Maps.newHashMap();
 
@@ -199,18 +199,25 @@ public class GameBox {
 	}
 
 	public List<Tile> getTiles(TileType type) {
-		//FIXME : check the tiles pulled from this gamebox should no longer be available here
-		return this.tiles.get(type);
+		// FIXME : check the tiles pulled from this gamebox should no longer be
+		// available here
+		return this.tiles.remove(type);
 	}
 
 	public static GameBox getGameBox() {
-		if (GAME_BOX == null) {
-			GAME_BOX = new GameBox();
+		if (INSTANCE != null) {
+			return INSTANCE;
 		}
-		return GAME_BOX;
+		INSTANCE = new GameBox();
+		return INSTANCE;
+	}
+
+	public static GameBox newGameBox() {
+		return new GameBox();
 	}
 
 	public static GameBox reloadGameBox(File file) {
-		return GAME_BOX;
+		GameBox.INSTANCE = new GameBox();
+		return GameBox.INSTANCE;
 	}
 }

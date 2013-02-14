@@ -47,7 +47,8 @@ public class Tile implements Component, Serializable {
 
 	@Override
 	public String toString() {
-		return Pojomatic.toString(this);
+		return "T:" + this.getName().substring(0, 3) + ":" + this.getValue()
+				+ ":" + this.getType().toString().charAt(0);
 	}
 
 	public static Tile newTile(TileType type, String name, Integer value) {

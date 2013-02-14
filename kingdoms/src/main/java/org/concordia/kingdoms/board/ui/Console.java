@@ -13,7 +13,10 @@ public class Console implements Presentable {
 
 	public void present() {
 		for (int i = 0; i < Board.MAX_ROWS; i++) {
+			System.out
+					.println("------------------------------------------------------------");
 			for (int j = 0; j < Board.MAX_COLUMNS; j++) {
+
 				System.out.print(this.entries[i][j] + " ");
 			}
 			System.out.println();

@@ -46,9 +46,17 @@ public class Entry {
 	@Override
 	public String toString() {
 		if (this.component == null) {
-			return "X        ";
+			return "X         ";
 		}
-		return this.component.toString();
+		return getOutputStr(this.component.toString());
+	}
+
+	public String getOutputStr(String input) {
+		StringBuffer sb = new StringBuffer(input);
+		for (int i = input.length(); i < 10; i++) {
+			sb.append(" ");
+		}
+		return sb.toString();
 	}
 
 	public static Entry newEntry(int row, int column) {
