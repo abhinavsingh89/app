@@ -31,36 +31,56 @@ public class KingdomsTest {
 				&& kingdoms.getEpochCounter().isNextAvailable()) {
 			while (!kingdoms.isLevelCompleted()) {
 				for (final Player player : players) {
-					System.out
-							.println(player.getName()
-									+ ">"
-									+ "Press 1 to pick a Tile any other number for Castle");
-					int tileOrCastle = Integer.parseInt(br.readLine());
-					if (tileOrCastle == 1) {
-						int row = getRow(br);
-						int column = getColumn(br);
-						player.putTile(TileBank.getTileBank().getTile(), row,
-								column);
-					} else {
-						boolean isValid = false;
-						while (isValid) {
-							try {
-								System.out.println("Enter Castle color");
-								final Color color = stringToColor(br.readLine());
-								System.out.println("Enter Castle Rank");
-								int rank = Integer.parseInt(br.readLine());
-								int row = getRow(br);
-								int column = getColumn(br);
-								player.putCastle(player.getCastle(rank, color),
-										row, column);
-								isValid = true;
-							} catch (GameRuleException ex) {
-								isValid = false;
-							}
-						}
+					boolean isValidInput = false;
+					while (!isValidInput) {
+						try {
+							System.out
+									.println(player.getName()
+											+ ">"
+											+ "Press 1 to pick a Tile any other number for Castle");
+							int tileOrCastle = Integer.parseInt(br.readLine());
+							if (tileOrCastle == 1) {
+								boolean isValidPosition = false;
+								while (!isValidPosition)
+									try {
+										int row = getRow(br);
+										int column = getColumn(br);
+										player.putTile(TileBank.getTileBank()
+												.getTile(), row, column);
+										isValidPosition = true;
+									} catch (GameRuleException ex) {
+										System.out.println(ex.getMessage());
+									}
 
+							} else {
+								boolean isValidCastle = false;
+								while (!isValidCastle) {
+									try {
+										System.out
+												.println("Enter Castle color");
+										final Color color = stringToColor(br
+												.readLine());
+										System.out.println("Enter Castle Rank");
+										int rank = Integer.parseInt(br
+												.readLine());
+										int row = getRow(br);
+										int column = getColumn(br);
+										player.putCastle(
+												player.getCastle(rank, color),
+												row, column);
+										isValidCastle = true;
+									} catch (GameRuleException ex) {
+										System.out.println(ex.getMessage());
+									}
+								}// castle while ending
+
+							}// else ending
+							isValidInput = true;
+							kingdoms.present();
+						} catch (NumberFormatException ex) {
+							System.out.println(ex.getMessage());
+						}
 					}
-					kingdoms.present();
 				}
 			}
 			System.out.println("Level Completed!!");
