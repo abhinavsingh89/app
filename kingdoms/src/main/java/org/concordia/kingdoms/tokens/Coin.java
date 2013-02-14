@@ -6,14 +6,24 @@ import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
 import com.google.common.collect.Lists;
-
+/**
+ * 
+ * @author PVRA
+ * @version 1.0-SNAPSHOT
+ *
+ */
 @AutoProperty
 public class Coin {
 
 	private CoinType type;
 
 	private int value;
-
+	/**
+	 * Constructor for a coin
+	 * @param type -  chosen type of the coin
+	 * @param value -  value of the coin
+	 * @return coin
+	 */
 	private Coin(CoinType type, int value) {
 		this.type = type;
 		this.value = value;

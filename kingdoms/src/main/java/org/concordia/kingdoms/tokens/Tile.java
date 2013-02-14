@@ -5,7 +5,12 @@ import java.io.Serializable;
 import org.concordia.kingdoms.board.Component;
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
-
+/**
+ * This class represents different tiles used in the game
+ * @author PVRA
+ * @version 1.0-SNAPSHOT
+ *
+ */
 @AutoProperty
 public class Tile implements Component, Serializable {
 
@@ -16,7 +21,12 @@ public class Tile implements Component, Serializable {
 	private String name;
 
 	private Integer value;
-
+	/**
+	 * constructor for Tile
+	 * @param type - It represents type of tile
+	 * @param name - It represents name of tile
+	 * @param value - It represents value of tile
+	 */
 	private Tile(TileType type, String name, Integer value) {
 		this.type = type;
 		this.name = name;

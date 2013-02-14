@@ -6,6 +6,12 @@ import org.concordia.kingdoms.board.Component;
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
+/**
+ * 
+ * @author PVRA
+ * @version 1.0-SNAPSHOT
+ *
+ */
 @AutoProperty
 public class Castle implements Component, Serializable {
 
@@ -14,7 +20,12 @@ public class Castle implements Component, Serializable {
 	private int rank;
 
 	private Color color;
-
+	/**
+	 * Constructor for a castle
+	 * @param rank -  chosen rank of the castle.
+	 * @param color - chosen color of the castle
+	 * @return castle
+	 */
 	private Castle(final int rank, Color color) {
 		this.rank = rank;
 		this.color = color;
