@@ -11,6 +11,7 @@ import org.concordia.kingdoms.board.factory.TileBank;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 import org.concordia.kingdoms.tokens.Color;
+import org.concordia.kingdoms.tokens.Tile;
 
 import com.google.common.collect.Lists;
 
@@ -43,10 +44,12 @@ public class KingdomsTest {
 								boolean isValidPosition = false;
 								while (!isValidPosition)
 									try {
+										final Tile tile = TileBank
+												.getTileBank().getTile();
+										System.out.println(tile.showTile());
 										int row = getRow(br);
 										int column = getColumn(br);
-										player.putTile(TileBank.getTileBank()
-												.getTile(), row, column);
+										player.putTile(tile, row, column);
 										isValidPosition = true;
 									} catch (GameRuleException ex) {
 										System.out.println(ex.getMessage());
