@@ -2,6 +2,7 @@ package org.concordia.kingdoms.board.factory;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.concordia.kingdoms.GameBox;
 import org.concordia.kingdoms.Player;
@@ -13,6 +14,7 @@ import org.concordia.kingdoms.tokens.CoinType;
 import org.concordia.kingdoms.tokens.Color;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 public class KingdomBoardBuilder implements BoardBuilder {
 
@@ -44,6 +46,7 @@ public class KingdomBoardBuilder implements BoardBuilder {
 
 	public Board buildBoard(final int rows, final int columns,
 			final List<Player> players) throws GameException {
+		isPlayersColorUnique(players);
 		final Board board = new Board(this.buildEmptyBoard(rows, columns));
 		board.setTileBank(this.buildTileBank());
 		board.setCoinBank(this.buildCoinBank());
@@ -52,7 +55,26 @@ public class KingdomBoardBuilder implements BoardBuilder {
 		return board;
 	}
 
-	private void initPlayers(Board board, final List<Player> players) throws GameException {
+	private boolean isPlayersColorUnique(final List<Player> players)
+			throws GameException {
+		Set<Color> colors = Sets.newHashSet();
+		for (Player player : players) {
+			for (Color color : player.getChosenColors()) {
+				int sizeBefore = colors.size();
+				colors.add(color);
+				int sizeAfter = colors.size();
+				if (sizeBefore == sizeAfter) {
+					throw new GameException(
+							"Player(s) chosen same color, Each Player has to choose unique color(s)");
+				}
+			}
+
+		}
+		return true;
+	}
+
+	private void initPlayers(Board board, final List<Player> players)
+			throws GameException {
 		// each player must have the board to put component
 		for (final Player player : players) {
 			player.setBoard(board);

@@ -78,7 +78,8 @@ public class KingdomsTest {
 							isValidInput = true;
 							kingdoms.present();
 						} catch (NumberFormatException ex) {
-							System.out.println(ex.getMessage());
+							System.out.println("Invalid input:"
+									+ ex.getMessage());
 						}
 					}
 				}
@@ -118,8 +119,8 @@ public class KingdomsTest {
 			}
 			final Color[] colors = Color.values();
 			System.out.println("Choose one color: " + Arrays.toString(colors));
-			String chosenColor = br.readLine();
-			Color playerColor = stringToColor(chosenColor);
+			final String chosenColor = br.readLine();
+			final Color playerColor = stringToColor(chosenColor);
 			players.add(Player.newPlayer(name, new Color[] { playerColor }));
 		}
 		Collections.shuffle(players);
