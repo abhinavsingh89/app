@@ -7,6 +7,7 @@ import org.concordia.kingdoms.GameBox;
 import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.Entry;
+import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.tokens.Coin;
 import org.concordia.kingdoms.tokens.CoinType;
 import org.concordia.kingdoms.tokens.Color;
@@ -42,7 +43,7 @@ public class KingdomBoardBuilder implements BoardBuilder {
 	}
 
 	public Board buildBoard(final int rows, final int columns,
-			final List<Player> players) {
+			final List<Player> players) throws GameException {
 		final Board board = new Board(this.buildEmptyBoard(rows, columns));
 		board.setTileBank(this.buildTileBank());
 		board.setCoinBank(this.buildCoinBank());
@@ -51,7 +52,7 @@ public class KingdomBoardBuilder implements BoardBuilder {
 		return board;
 	}
 
-	private void initPlayers(Board board, final List<Player> players) {
+	private void initPlayers(Board board, final List<Player> players) throws GameException {
 		// each player must have the board to put component
 		for (final Player player : players) {
 			player.setBoard(board);
@@ -61,7 +62,6 @@ public class KingdomBoardBuilder implements BoardBuilder {
 			player.setCoins(coinMap);
 			GameBox.getGameBox().assignRankOneCastles(player, players.size());
 			GameBox.getGameBox().assignCastles(player, players.size());
-//			GameBox.getGameBox().assignTiles(player, players.size());
 		}
 
 	}

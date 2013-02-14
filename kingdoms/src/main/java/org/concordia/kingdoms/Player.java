@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.concordia.kingdoms.board.Board;
+import org.concordia.kingdoms.exceptions.GameRuleException;
 import org.concordia.kingdoms.tokens.Castle;
 import org.concordia.kingdoms.tokens.Coin;
 import org.concordia.kingdoms.tokens.CoinType;
@@ -37,14 +38,16 @@ public class Player {
 		this.castles = Maps.newHashMap();
 	}
 
-	public void putTile(Tile tile, int row, int column) {
+	public void putTile(Tile tile, int row, int column)
+			throws GameRuleException {
 		this.board.putComponent(tile, row, column);
 	}
 
-	public void putCastle(Castle castle, int row, int column) {
+	public void putCastle(Castle castle, int row, int column)
+			throws GameRuleException {
 		if (!this.castles.get(castle.getRank()).get(castle.getColor())
 				.contains(castle)) {
-			throw new RuntimeException("Castle " + castle
+			throw new GameRuleException("Castle " + castle
 					+ " not available with this player");
 		}
 		this.board.putComponent(castle, row, column);
@@ -69,18 +72,18 @@ public class Player {
 		}
 	}
 
-	public Castle removeCastle(int rank, Color color) {
+	public Castle removeCastle(int rank, Color color) throws GameRuleException {
 
 		if (this.castles.get(rank) != null) {
 			final List<Castle> castlesList = this.castles.get(rank).get(color);
 			if (castlesList != null && castlesList.size() > 0) {
 				return castlesList.remove(0);
 			} else {
-				throw new RuntimeException("No castle with color " + color
+				throw new GameRuleException("No castle with color " + color
 						+ " available with this player");
 			}
 		} else {
-			throw new RuntimeException("No castle with rank " + rank
+			throw new GameRuleException("No castle with rank " + rank
 					+ "available with this player");
 		}
 	}

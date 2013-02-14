@@ -1,5 +1,6 @@
 package org.concordia.kingdoms.board;
 
+import org.concordia.kingdoms.exceptions.GameRuleException;
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
@@ -22,9 +23,9 @@ public class Entry {
 		return this.component;
 	}
 
-	public void setComponent(Component component) {
+	public void setComponent(Component component) throws GameRuleException {
 		if (!isEmpty()) {
-			throw new RuntimeException("Entry is already filled");
+			throw new GameRuleException("Entry is already filled");
 		}
 		this.component = component;
 	}

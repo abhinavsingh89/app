@@ -3,6 +3,7 @@ package org.concordia.kingdoms.board;
 import java.util.Map;
 
 import org.concordia.kingdoms.Player;
+import org.concordia.kingdoms.exceptions.GameRuleException;
 
 public class EpochCounter {
 
@@ -12,20 +13,23 @@ public class EpochCounter {
 
 	private Map<Integer, Player> winners;
 
-	private static EpochCounter INSTANCE;
-
-	private EpochCounter(int totalLevels) {
+	public EpochCounter(int totalLevels) {
 		this.totalLevels = totalLevels;
 		this.currentLevel = 1;
+	}
+
+	public EpochCounter(int currentLevel, int totalLevels) {
+		this.currentLevel = currentLevel;
+		this.totalLevels = totalLevels;
 	}
 
 	public Player winner(int level) {
 		return this.winners.get(level);
 	}
 
-	public void goNextLevel() {
+	public void goNextLevel() throws GameRuleException {
 		if (!isNextAvailable()) {
-			throw new RuntimeException("Reached Last Level");
+			throw new GameRuleException("Reached Last Level");
 		}
 		this.currentLevel++;
 	}
@@ -34,11 +38,7 @@ public class EpochCounter {
 		return this.currentLevel + 1 <= this.totalLevels;
 	}
 
-	public static EpochCounter getEpochCounter(int totalLevels) {
-		if (INSTANCE != null) {
-			return new EpochCounter(totalLevels);
-		}
-		return INSTANCE;
-
+	public int getCurrentLevel() {
+		return currentLevel;
 	}
 }

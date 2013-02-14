@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.concordia.kingdoms.board.factory.ComponentFactory;
 import org.concordia.kingdoms.board.factory.KingdomComponentFactory;
+import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.tokens.Castle;
 import org.concordia.kingdoms.tokens.Coin;
 import org.concordia.kingdoms.tokens.CoinType;
@@ -163,10 +164,10 @@ public class GameBox {
 		return castles;
 	}
 
-	public List<Coin> takeCoins(CoinType type, int size) {
+	public List<Coin> takeCoins(CoinType type, int size) throws GameException {
 		final List<Coin> coinList = this.coins.get(type);
 		if (size > coinList.size()) {
-			throw new RuntimeException(size + " coins of type " + type
+			throw new GameException(size + " coins of type " + type
 					+ " are not available");
 		}
 		final List<Coin> retCoins = Lists.newArrayList();

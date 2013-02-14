@@ -5,6 +5,7 @@ import java.util.List;
 import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.Entry;
+import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.tokens.Color;
 
 public interface BoardBuilder {
@@ -17,6 +18,6 @@ public interface BoardBuilder {
 
 	Player buildPlayer(String name, Color[] chosenColors);
 
-	Board buildBoard(int rows, int columns, List<Player> players);
+	Board buildBoard(int rows, int columns, List<Player> players) throws GameException;
 
 }

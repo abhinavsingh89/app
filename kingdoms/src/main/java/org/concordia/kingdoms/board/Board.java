@@ -2,12 +2,12 @@ package org.concordia.kingdoms.board;
 
 import java.util.List;
 
-import org.concordia.kingdoms.GameBox;
 import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.board.factory.CoinBank;
 import org.concordia.kingdoms.board.factory.TileBank;
 import org.concordia.kingdoms.board.ui.Console;
 import org.concordia.kingdoms.board.ui.Presentable;
+import org.concordia.kingdoms.exceptions.GameRuleException;
 
 import com.google.common.collect.Lists;
 
@@ -22,10 +22,12 @@ public class Board {
 	private List<Player> players;
 
 	private Presentable presentable;
-	
+
 	public static final int MAX_ROWS = 5;
 
 	public static final int MAX_COLUMNS = 6;
+
+	private int componentsOnBoard;
 
 	public Board(final Entry[][] entries) {
 		this.entries = entries;
@@ -33,17 +35,20 @@ public class Board {
 		this.coinBank = null;
 		this.players = Lists.newArrayList();
 		this.presentable = new Console(entries);
+		this.componentsOnBoard = 0;
 	}
 
-	public void putComponent(Component component, int row, int column) {
+	public void putComponent(Component component, int row, int column)
+			throws GameRuleException {
 		if (!isValidPosition(row, column)) {
-			throw new RuntimeException("Invalid positon(" + row + "," + column
+			throw new GameRuleException("Invalid positon(" + row + "," + column
 					+ ")");
 		}
 		if (!this.getEntries()[row][column].isEmpty()) {
-			throw new RuntimeException("No Space available");
+			throw new GameRuleException("No Space available");
 		}
 		this.getEntries()[row][column].setComponent(component);
+		this.componentsOnBoard++;
 	}
 
 	public boolean isValidPosition(int row, int column) {
@@ -83,4 +88,7 @@ public class Board {
 		this.players = players;
 	}
 
+	public boolean hasAnyEmptySpace() {
+		return this.componentsOnBoard == MAX_ROWS * MAX_COLUMNS;
+	}
 }

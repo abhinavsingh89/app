@@ -7,12 +7,9 @@ import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.EpochCounter;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
 import org.concordia.kingdoms.board.factory.KingdomBoardBuilder;
-import org.concordia.kingdoms.board.factory.TileBank;
-import org.concordia.kingdoms.tokens.Color;
+import org.concordia.kingdoms.exceptions.GameException;
 
-import com.google.common.collect.Lists;
-
-public class Kingdoms implements Game {
+public class Kingdoms extends AbstractGame {
 
 	private Board board;
 
@@ -22,8 +19,6 @@ public class Kingdoms implements Game {
 
 	private boolean isGameInProgress = false;
 
-	private int totalLevels;
-
 	public Kingdoms() throws IOException {
 		this(KingdomBoardBuilder.newKingdomBoardBuilder(), 3);
 	}
@@ -31,15 +26,15 @@ public class Kingdoms implements Game {
 	public Kingdoms(final BoardBuilder builder, int totalLevels)
 			throws IOException {
 		this.builder = builder;
-		this.totalLevels = totalLevels;
+		this.epochCounter = new EpochCounter(totalLevels);
 	}
 
-	public void start(final List<Player> players) {
+	public void start(final List<Player> players) throws GameException {
 		// if the game is not in progress then initialize everything
-		if (!isGameInProgress) {
+		if (!this.isGameInProgress) {
 			// Game expects atleast 2 and a maximum of 4 players only
 			if (players.size() < 2 || players.size() > 4) {
-				throw new RuntimeException(
+				throw new GameException(
 						"Supports mimimum of 2 and maximum of 4 Players.");
 			} else {
 				// initialize the board with empty entries
@@ -47,16 +42,14 @@ public class Kingdoms implements Game {
 			}
 		} else {
 			// when game is already in progress, resume the game but not start
-			throw new RuntimeException("Game is Already in Progress");
+			throw new GameException("Game is Already in Progress");
 		}
 	}
 
-	private void initBoard(List<Player> players) {
+	private void initBoard(List<Player> players) throws GameException {
 		// build a mXn board for game entries
-		this.board = builder.buildBoard(Board.MAX_ROWS, Board.MAX_COLUMNS,
+		this.board = this.builder.buildBoard(Board.MAX_ROWS, Board.MAX_COLUMNS,
 				players);
-		// get new epoch counter
-		this.epochCounter = EpochCounter.getEpochCounter(this.totalLevels);
 	}
 
 	public void pause() {
@@ -84,8 +77,17 @@ public class Kingdoms implements Game {
 		return "Kingdoms descritpion";
 	}
 
+	public EpochCounter getEpochCounter() {
+		return this.epochCounter;
+	}
+
 	public void present() {
 		this.board.display();
+	}
+
+	@Override
+	public boolean isLevelCompleted() {
+		return this.board.hasAnyEmptySpace();
 	}
 
 }
