@@ -1,12 +1,28 @@
 package org.concordia.kingdoms.tokens;
+
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
+import javax.xml.bind.annotation.XmlType;
+
 /**
- * Declared Enum for all types of tiles 
- * The value of these tiles is within the range - 0 to 5
- * @author PVRA
- * @version 1.0-SNAPSHOT
- *
+ * Declared enum for all types of tiles The value of these tiles is within the
+ * range - 1 to 6
+ * 
+ * @author Team K
+ * @since 1.0
+ * @see Tile
+ * 
  */
+@XmlType
+@XmlEnum(String.class)
 public enum TileType {
 
-	RESOURCE, HAZARD, DRAGON, MOUNTAIN, GOLDMINE, WIZARD;
+	@XmlEnumValue("resource")
+	RESOURCE, @XmlEnumValue("hazard")
+	HAZARD, @XmlEnumValue("dragon")
+	DRAGON, @XmlEnumValue("mountain")
+	MOUNTAIN, @XmlEnumValue("goldmine")
+	GOLDMINE, @XmlEnumValue("wizard")
+	WIZARD;
+
 }

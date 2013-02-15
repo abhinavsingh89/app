@@ -16,7 +16,7 @@ import com.google.common.collect.Maps;
 /**
  * 
  * @author Team K
- * @version 1.0-SNAPSHOT
+ * @since 1.0
  * 
  */
 public class Player {
@@ -80,12 +80,12 @@ public class Player {
 	 */
 	public void putCastle(Castle castle, int row, int column)
 			throws GameRuleException {
-		if (!this.castles.get(castle.getRank()).contains(castle)) {
+		if (!this.castles.get(castle.getValue()).contains(castle)) {
 			throw new GameRuleException("Castle " + castle
 					+ " not available with this player");
 		}
 		this.board.putComponent(castle, row, column);
-		this.castles.get(castle.getRank()).remove(castle);
+		this.castles.get(castle.getValue()).remove(castle);
 	}
 
 	/**
