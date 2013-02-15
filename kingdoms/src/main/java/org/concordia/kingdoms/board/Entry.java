@@ -3,11 +3,13 @@ package org.concordia.kingdoms.board;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
+
 /**
- * Keeping the track of every board entry. 
+ * Keeping the track of every board entry.
+ * 
  * @author Team K
  * @since 1.0
- *
+ * 
  */
 
 @AutoProperty
@@ -18,15 +20,16 @@ public class Entry {
 	private int column;
 
 	private Component component;
+
 	/**
 	 * Constructor for entry
-	 *  
+	 * 
 	 * @param row
 	 *            - row number
 	 * @param column
 	 *            - row column
 	 * @param component
-	 * 			  
+	 * 
 	 */
 	private Entry(int row, int column, Component component) {
 		this.row = row;
@@ -81,6 +84,14 @@ public class Entry {
 
 	public static Entry newEntry(int row, int column, final Component component) {
 		return new Entry(row, column, component);
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
 	}
 
 }
