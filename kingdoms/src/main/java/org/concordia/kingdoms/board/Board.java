@@ -1,9 +1,12 @@
 package org.concordia.kingdoms.board;
-
 /**
  * Game board defining current entries into the game, tile bank, coin bank
  * players, etc. This class is basically keeping a track of board state. 
+ * @author Team K
+ * @since 1.0
+ *
  */
+
 
 import java.util.List;
 
@@ -33,7 +36,11 @@ public class Board {
 	public static final int MAX_COLUMNS = 6;
 
 	private int componentsOnBoard;
-
+	/**
+	 * 
+	 * @param entries
+	 *            - It is a 2-D array
+	 */
 	public Board(final Entry[][] entries) {
 		this.entries = entries;
 		this.tileBank = null;
@@ -42,7 +49,16 @@ public class Board {
 		this.presentable = new Console(entries);
 		this.componentsOnBoard = 0;
 	}
-
+	/**
+	 * method used to put component
+	 * 
+	 * @param component
+	 *    
+	 * @param row
+	 *            - row number
+	 * @param column
+	 *            - row column
+	 */
 	public void putComponent(Component component, int row, int column)
 			throws GameRuleException {
 		if (!isValidCoordinate(row, column)) {
@@ -55,12 +71,26 @@ public class Board {
 		this.getEntries()[row][column].setComponent(component);
 		this.componentsOnBoard++;
 	}
-
+	/**
+	 * method used to test the given coordinade are valid or not
+	 * It returns boolean value   
+	 * @param row
+	 *            - row number
+	 * @param column
+	 *            - row column
+	 */
 	public boolean isValidCoordinate(int row, int column) {
 		return row >= 0 && row < MAX_ROWS && column >= 0
 				&& column < MAX_COLUMNS;
 	}
-
+	/**
+	 * method used to test the given position is valid or not
+	 * It returns boolean value   
+	 * @param row
+	 *            - row number
+	 * @param column
+	 *            - row column
+	 */
 	public boolean isValidPosition(int row, int column) {
 		final boolean isValidCoordinate = row >= 0 && row < MAX_ROWS
 				&& column >= 0 && column < MAX_COLUMNS;
@@ -74,7 +104,14 @@ public class Board {
 		}
 		return false;
 	}
-
+	/**
+	 * method used to test the values in 2-D array entries.
+	 * It returns boolean value   
+	 * @param row
+	 *            - row number
+	 * @param column
+	 *            - row column
+	 */
 	public boolean isEntryEmpty(int row, int column) {
 		return this.getEntries()[row][column].isEmpty();
 	}

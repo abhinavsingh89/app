@@ -1,10 +1,18 @@
 package org.concordia.kingdoms.board;
-
+/**
+ * 
+ * @author Team K
+ * @since 1.0
+ *
+ */
 import java.util.Map;
 
 import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.exceptions.GameRuleException;
-
+/**
+ * 
+ * Constructor for EpochCounter
+ */
 public class EpochCounter {
 
 	private int currentLevel;
