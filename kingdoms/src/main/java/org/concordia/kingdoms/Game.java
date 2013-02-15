@@ -5,10 +5,11 @@ import java.util.List;
 import org.concordia.kingdoms.board.ui.Presentable;
 import org.concordia.kingdoms.exceptions.GameException;
 /**
- * 
+ * The user of this interface has precise control over the game. The control like starting the game, 
+ * resuming, saving and exit the game
  * @author Team K
- * @version 1.0-SNAPSHOT
- *
+ * @since 1.0
+ *	
  */
 public interface Game extends Presentable{
 

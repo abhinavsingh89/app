@@ -1,6 +1,5 @@
 package org.concordia.kingdoms;
 
-/** Initializer class for the game. */
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,9 +19,9 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 
 /**
- * 
+ * Initializer class for the game.
  * @author Team K
- * @version 1.0-SNAPSHOT
+ * @since 1.0
  * 
  */
 public class KingdomsTest {

@@ -18,9 +18,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- * 
+ * This class is useful when the game board is initialized.
+ * It consist of all the tiles, castles, coins.
  * @author Team K
- * @version 1.0-SNAPSHOT
+ * @since 1.0
  * 
  */
 public class GameBox {
@@ -38,11 +39,17 @@ public class GameBox {
 	private ComponentFactory componentFactory = new KingdomComponentFactory();
 
 	public GameBox() {
-		// tiles
+		/**
+		 * tiles
+		 */
 		fillTiles();
-		// coins
+		/**
+		 *  coins
+		 */
 		fillCoins();
-		// castles
+		/**
+		 *  castles
+		 */
 		fillCastles();
 
 		fillRankOneCastlesPerPlayer();
@@ -56,7 +63,9 @@ public class GameBox {
 
 	private void fillTiles() {
 
-		// resource tiles
+		/**
+		 *  resource tiles
+		 */
 		final List<Tile> resourceTiles = Lists.newArrayList();
 		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
 				NameUtils.RESOURCE_CITIES, 6));
@@ -87,7 +96,9 @@ public class GameBox {
 
 		this.tiles.put(TileType.RESOURCE, resourceTiles);
 
-		// hazard tiles
+		/**
+		 *  hazard tiles
+		 */
 		final List<Tile> hazardTiles = Lists.newArrayList();
 
 		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
@@ -105,7 +116,9 @@ public class GameBox {
 
 		this.tiles.put(TileType.HAZARD, hazardTiles);
 
-		// mountain tile
+		/**
+		 *  mountain tile
+		 */
 		final List<Tile> mountainTiles = Lists.newArrayList();
 
 		mountainTiles.add(this.componentFactory.createTile(TileType.MOUNTAIN,
@@ -115,15 +128,21 @@ public class GameBox {
 
 		this.tiles.put(TileType.MOUNTAIN, mountainTiles);
 
-		// dragon tile
+		/**
+		 *  dragon tile
+		 */
 		this.tiles.put(TileType.DRAGON, Lists
 				.newArrayList(this.componentFactory.createTile(TileType.DRAGON,
 						NameUtils.DRAGON_RED, 0)));
-		// goldmine tile
+		/**
+		 *  goldmine tile
+		 */
 		this.tiles.put(TileType.GOLDMINE, Lists
 				.newArrayList(this.componentFactory.createTile(
 						TileType.GOLDMINE, NameUtils.GOLDMINE, 0)));
-		// wizard tile
+		/**
+		 *  wizard tile
+		 */
 		this.tiles.put(TileType.WIZARD, Lists
 				.newArrayList(this.componentFactory.createTile(TileType.WIZARD,
 						NameUtils.WIZARD, 0)));
@@ -139,15 +158,25 @@ public class GameBox {
 	}
 
 	private void fillCastles() {
-		// 40 Plastic Castles, including
+		/**
+		 *  40 Plastic Castles, including
+		 */
 		for (final Color color : Color.values()) {
-			// 16 Rank 1 Castles (4 per color)
+			/**
+			 *  16 Rank 1 Castles (4 per color)
+			 */
 			loadCastles(1, color, 4);
-			// 12 Rank 2 Castles (3 per color)
+			/**
+			 *  12 Rank 2 Castles (3 per color)
+			 */
 			loadCastles(2, color, 3);
-			// 8 Rank 3 Castles (2 per color)
+			/**
+			 *  8 Rank 3 Castles (2 per color)
+			 */
 			loadCastles(3, color, 2);
-			// 4 Rank 4 Castles (1 per color)
+			/**
+			 *  4 Rank 4 Castles (1 per color)
+			 */
 			loadCastles(4, color, 1);
 		}
 	}
@@ -222,8 +251,10 @@ public class GameBox {
 	}
 
 	public List<Tile> getTiles(TileType type) {
-		// FIXME : check the tiles pulled from this gamebox should no longer be
-		// available here
+		/**
+		 * check the tiles pulled from this gamebox should no longer be available here
+		 */
+		
 		return this.tiles.remove(type);
 	}
 

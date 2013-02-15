@@ -1,9 +1,9 @@
 package org.concordia.kingdoms;
 
 /**
- * 
+ * All the string constant goes here.
  * @author Team K
- * @version 1.0-SNAPSHOT
+ * @since 1.0
  *
  */
 public class NameUtils {

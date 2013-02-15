@@ -9,9 +9,9 @@ import org.concordia.kingdoms.board.factory.BoardBuilder;
 import org.concordia.kingdoms.board.factory.KingdomBoardBuilder;
 import org.concordia.kingdoms.exceptions.GameException;
 /**
- * 
+ * Kingdoms is a facade. It maintains game level, start the game.
  * @author Team K
- * @version 1.0-SNAPSHOT
+ * @since 1.0
  *
  */
 public class Kingdoms extends AbstractGame {
@@ -45,23 +45,28 @@ public class Kingdoms extends AbstractGame {
 	 */
 	public void start(final List<Player> players) throws GameException {
 		// if the game is not in progress then initialize everything
+		 
 		if (!this.isGameInProgress) {
-			// Game expects atleast 2 and a maximum of 4 players only
+			//  Game expects atleast 2 and a maximum of 4 players only
+			 
 			if (players.size() < 2 || players.size() > 4) {
 				throw new GameException(
 						"Supports mimimum of 2 and maximum of 4 Players.");
 			} else {
-				// initialize the board with empty entries
+				//  initialize the board with empty entries
+				 
 				this.initBoard(players);
 			}
 		} else {
 			// when game is already in progress, resume the game but not start
+			 
 			throw new GameException("Game is Already in Progress");
 		}
 	}
 
 	private void initBoard(List<Player> players) throws GameException {
-		// build a mXn board for game entries
+		//  build a mXn board for game entries
+		 
 		this.board = this.builder.buildBoard(Board.MAX_ROWS, Board.MAX_COLUMNS,
 				players);
 	}
@@ -83,7 +88,9 @@ public class Kingdoms extends AbstractGame {
 	}
 
 	public String getName() {
-		// get from properties file
+		/**
+		 *  get from properties file
+		 */
 		return "Kingdoms";
 	}
 
