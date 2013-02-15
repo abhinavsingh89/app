@@ -10,6 +10,7 @@ package org.concordia.kingdoms.board;
 
 import java.util.List;
 
+import org.concordia.kingdoms.GameBox;
 import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.board.factory.CoinBank;
 import org.concordia.kingdoms.board.factory.TileBank;
@@ -151,4 +152,13 @@ public class Board {
 	public boolean hasAnyEmptySpace() {
 		return this.componentsOnBoard == MAX_ROWS * MAX_COLUMNS;
 	}
+	public void resetBoard() {
+		this.entries = new Entry[Board.MAX_ROWS][MAX_COLUMNS];
+		this.tileBank = null;
+		this.coinBank = null;
+		this.players = Lists.newArrayList();
+		this.presentable = new Console(this.entries);
+		this.componentsOnBoard = 0;
+		GameBox.reset();
+		}
 }

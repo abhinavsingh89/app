@@ -274,4 +274,7 @@ public class GameBox {
 		GameBox.INSTANCE = new GameBox();
 		return GameBox.INSTANCE;
 	}
+	public static void reset(){
+		INSTANCE=null;
+		}
 }
