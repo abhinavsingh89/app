@@ -42,4 +42,57 @@ public class BoardTest extends TestCase {
 		}
 		board.resetBoard();
 	}
+
+	public void testIsEntryEmpty() {
+		BoardBuilder boardBuilder = KingdomBoardBuilder
+				.newKingdomBoardBuilder();
+		Board board = null;
+
+		List<Player> players4 = Lists.newArrayList();
+		players4.add(Player.newPlayer("testPlayer1", Color.BLUE));
+		players4.add(Player.newPlayer("testPlayer2", Color.GREEN));
+		players4.add(Player.newPlayer("testPlayer3", Color.YELLOW));
+		players4.add(Player.newPlayer("testPlayer3", Color.RED));
+
+		try {
+			board = boardBuilder.buildBoard(Board.MAX_ROWS, Board.MAX_COLUMNS,
+					players4);
+			Player player2 = players4.get(1);
+			boolean isEntryEmpty = board.isEntryEmpty(0, 0);
+			assertEquals(isEntryEmpty, true);
+			players4.get(1).putCastle(player2.getCastle(2), 0, 0);
+			isEntryEmpty = board.isEntryEmpty(0, 0);
+			assertEquals(isEntryEmpty, false);
+
+		} catch (GameException e) {
+			fail();
+		}
+		board.resetBoard();
+	}
+
+	public void testIsValidPosition() {
+		List<Player> players4 = Lists.newArrayList();
+		players4.add(Player.newPlayer("testPlayer1", Color.BLUE));
+		players4.add(Player.newPlayer("testPlayer2", Color.GREEN));
+		players4.add(Player.newPlayer("testPlayer3", Color.YELLOW));
+		players4.add(Player.newPlayer("testPlayer3", Color.RED));
+
+		BoardBuilder boardBuilder = KingdomBoardBuilder
+				.newKingdomBoardBuilder();
+		Board board = null;
+		try {
+			board = boardBuilder.buildBoard(Board.MAX_ROWS, Board.MAX_COLUMNS,
+					players4);
+		} catch (GameException e) {
+			fail();
+		}
+		boolean isValidCoordinate = board.isValidCoordinate(Board.MAX_ROWS,
+				Board.MAX_COLUMNS);
+		assertEquals(isValidCoordinate, false);
+		isValidCoordinate = board.isValidCoordinate(Board.MAX_ROWS - 1,
+				Board.MAX_COLUMNS - 1);
+		assertEquals(isValidCoordinate, true);
+		board.resetBoard();
+	}
+
 }
