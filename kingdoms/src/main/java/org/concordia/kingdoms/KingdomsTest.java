@@ -1,5 +1,7 @@
 package org.concordia.kingdoms;
 
+/** Initializer class for the game. */
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

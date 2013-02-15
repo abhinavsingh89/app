@@ -4,6 +4,11 @@ import org.concordia.kingdoms.exceptions.GameRuleException;
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
+/**
+ * Keeping the track of every board entry. 
+ * @author Abhinav Singh
+ */
+
 @AutoProperty
 public class Entry {
 

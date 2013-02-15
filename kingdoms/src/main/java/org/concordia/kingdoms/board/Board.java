@@ -1,5 +1,10 @@
 package org.concordia.kingdoms.board;
 
+/**
+ * Game board defining current entries into the game, tile bank, coin bank
+ * players, etc. This class is basically keeping a track of board state. 
+ */
+
 import java.util.List;
 
 import org.concordia.kingdoms.Player;
