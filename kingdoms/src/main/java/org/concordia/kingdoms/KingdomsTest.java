@@ -46,36 +46,48 @@ public class KingdomsTest {
 											+ "Press 1 to pick a Tile any other number for Castle");
 							int tileOrCastle = Integer.parseInt(br.readLine());
 							if (tileOrCastle == 1) {
-								boolean isValidPosition = false;
-								while (!isValidPosition)
-									try {
-										final Tile tile = TileBank
-												.getTileBank().getTile();
-										System.out.println(tile.showTile());
-										int row = getRow(br);
-										int column = getColumn(br);
-										player.putTile(tile, row, column);
-										isValidPosition = true;
-									} catch (GameRuleException ex) {
-										log.debug(ex.getMessage());
-									}
+								// show the random tile picked up from
+								// the tile bank
+								final Tile tile = TileBank.getTileBank()
+										.getTile();
+								System.out.println(tile.showTile());
+								int row = getRow(br);
+								int column = getColumn(br);
 
-							} else {
+								// player must chose valid position to
+								// place the tile
+								while (!kingdoms.isValidPosition(row, column)) {
+									System.out.println("Not a Valid Position");
+									row = getRow(br);
+									column = getColumn(br);
+								}
+								player.putTile(tile, row, column);
+							}
+
+							else {
 								boolean isValidCastle = false;
 								while (!isValidCastle) {
 									try {
-										System.out
-												.println("Enter Castle color");
-										final Color color = stringToColor(br
-												.readLine());
 										System.out.println("Enter Castle Rank");
 										int rank = Integer.parseInt(br
 												.readLine());
 										int row = getRow(br);
 										int column = getColumn(br);
+
+										// player must chose valid position to
+										// place the tile
+										while (!kingdoms.isValidPosition(row,
+												column)) {
+											System.out
+													.println("Not a Valid Position");
+											row = getRow(br);
+											column = getColumn(br);
+										}
+										// get a ranked castle and put it on
+										// board
 										player.putCastle(
-												player.getCastle(rank, color),
-												row, column);
+												player.getCastle(rank), row,
+												column);
 										isValidCastle = true;
 									} catch (GameRuleException ex) {
 										log.debug(ex.getMessage());
@@ -125,20 +137,30 @@ public class KingdomsTest {
 				System.out.println("Assigned default name " + name);
 			}
 			final Color[] colors = Color.values();
-			System.out.println("Choose one color: " + Arrays.toString(colors));
-			final String chosenColor = br.readLine();
-			final Color playerColor = stringToColor(chosenColor);
-			players.add(Player.newPlayer(name, new Color[] { playerColor }));
+			boolean isValidColor = false;
+			while (!isValidColor) {
+				try {
+					System.out.println("Choose one color: "
+							+ Arrays.toString(colors));
+					final String chosenColor = br.readLine();
+					final Color playerColor = stringToColor(chosenColor);
+					players.add(Player.newPlayer(name, playerColor));
+					isValidColor = true;
+				} catch (GameException ex) {
+					log.error(ex.getMessage());
+				}
+			}
+
 		}
 		Collections.shuffle(players);
 	}
 
-	private static Color stringToColor(String chosenColor) {
+	private static Color stringToColor(String chosenColor) throws GameException {
 		for (Color color : Color.values()) {
 			if (color.toString().equalsIgnoreCase(chosenColor)) {
 				return color;
 			}
 		}
-		throw new RuntimeException("Choose valid color");
+		throw new GameException("Choose valid color");
 	}
 }

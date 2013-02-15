@@ -59,17 +59,17 @@ public class KingdomBoardBuilder implements BoardBuilder {
 			throws GameException {
 		Set<Color> colors = Sets.newHashSet();
 		for (Player player : players) {
-			for (Color color : player.getChosenColors()) {
-				int sizeBefore = colors.size();
-				colors.add(color);
-				int sizeAfter = colors.size();
-				if (sizeBefore == sizeAfter) {
-					throw new GameException(
-							"Player(s) chosen same color, Each Player has to choose unique color(s)");
-				}
-			}
 
+			Color color = player.getChosenColor();
+			int sizeBefore = colors.size();
+			colors.add(color);
+			int sizeAfter = colors.size();
+			if (sizeBefore == sizeAfter) {
+				throw new GameException(
+						"Player(s) chosen same color, Each Player has to choose unique color(s)");
+			}
 		}
+
 		return true;
 	}
 
@@ -88,12 +88,8 @@ public class KingdomBoardBuilder implements BoardBuilder {
 
 	}
 
-	public Player buildPlayer(final String name, final Color[] chosenColors) {
-		return Player.newPlayer(name, chosenColors);
-	}
-
 	public Player buildPlayer(final String name, final Color chosenColor) {
-		return Player.newPlayer(name, new Color[] { chosenColor });
+		return Player.newPlayer(name, chosenColor);
 	}
 
 	public static KingdomBoardBuilder newKingdomBoardBuilder() {

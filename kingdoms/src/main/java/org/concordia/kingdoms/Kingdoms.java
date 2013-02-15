@@ -90,4 +90,9 @@ public class Kingdoms extends AbstractGame {
 		return this.board.hasAnyEmptySpace();
 	}
 
+	@Override
+	public boolean isValidPosition(int row, int column) {
+		return this.board.isValidPosition(row, column);
+	}
+
 }

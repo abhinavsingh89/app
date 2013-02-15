@@ -40,20 +40,38 @@ public class Board {
 
 	public void putComponent(Component component, int row, int column)
 			throws GameRuleException {
-		if (!isValidPosition(row, column)) {
+		if (!isValidCoordinate(row, column)) {
 			throw new GameRuleException("Invalid positon(" + row + "," + column
 					+ ")");
 		}
-		if (!this.getEntries()[row][column].isEmpty()) {
+		if (!isEntryEmpty(row, column)) {
 			throw new GameRuleException("No Space available");
 		}
 		this.getEntries()[row][column].setComponent(component);
 		this.componentsOnBoard++;
 	}
 
-	public boolean isValidPosition(int row, int column) {
+	public boolean isValidCoordinate(int row, int column) {
 		return row >= 0 && row < MAX_ROWS && column >= 0
 				&& column < MAX_COLUMNS;
+	}
+
+	public boolean isValidPosition(int row, int column) {
+		final boolean isValidCoordinate = row >= 0 && row < MAX_ROWS
+				&& column >= 0 && column < MAX_COLUMNS;
+		if (isValidCoordinate) {
+			// check if any space is available
+			final boolean isEmpty = this.getEntries()[row][column].isEmpty();
+			if (isEmpty) {
+				return true;
+			}
+
+		}
+		return false;
+	}
+
+	public boolean isEntryEmpty(int row, int column) {
+		return this.getEntries()[row][column].isEmpty();
 	}
 
 	public void display() {

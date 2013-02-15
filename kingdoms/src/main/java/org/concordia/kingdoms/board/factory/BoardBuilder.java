@@ -16,8 +16,9 @@ public interface BoardBuilder {
 
 	CoinBank buildCoinBank();
 
-	Player buildPlayer(String name, Color[] chosenColors);
+	Player buildPlayer(String name, Color chosenColor);
 
-	Board buildBoard(int rows, int columns, List<Player> players) throws GameException;
+	Board buildBoard(int rows, int columns, List<Player> players)
+			throws GameException;
 
 }

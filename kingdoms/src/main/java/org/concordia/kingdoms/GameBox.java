@@ -177,26 +177,42 @@ public class GameBox {
 		return retCoins;
 	}
 
+	/**
+	 * @formatter:on Each player chooses a color and takes all the rank 2, 3,
+	 *               and 4 castles of his color
+	 * 
+	 * @param player
+	 * @param totalPlayers
+	 */
 	public void assignCastles(final Player player, int totalPlayers) {
-		final Color[] playerColors = player.getChosenColors();
-		for (final Color color : playerColors) {
-			for (int rank = 2; rank <= 4; rank++) {
-				player.addCastle(rank, color,
-						this.castles.get(rank).remove(color));
-			}
+		for (int rank = 2; rank <= 4; rank++) {
+			final Map<Color, List<Castle>> castlesMap = this.castles.get(rank);
+			final Color color = player.getChosenColor();
+			player.addCastle(rank, castlesMap.remove(color));
 		}
 	}
 
+	/**
+	 * @formatter:off
+	 * number of rank 1 castles determined by the number of players 
+	 * Number of Players Rank 1 Castles Rank 2, 3, & 4 Castles 
+	 * 2 					4 			all 
+	 * 3 					3 			all 
+	 * 4 					2 			all
+	 * 
+	 * @param player
+	 * @param totalPlayers
+	 */
 	public void assignRankOneCastles(final Player player, int totalPlayers) {
-		final Color color = player.getChosenColors()[0];
-		final List<Castle> colorCastles = this.castles.get(1).remove(color);
-		int size = colorCastles.size();
+		final Color color = player.getChosenColor();
+		final List<Castle> colorRankCastles = this.castles.get(1).get(color);
+		int size = colorRankCastles.size();
 		final List<Castle> retCastles = Lists.newArrayList();
 		for (int i = 0; i < rankOneCastlesPerPlayer.get(totalPlayers)
 				&& size >= 1; i++, size--) {
-			retCastles.add(colorCastles.remove(0));
+			retCastles.add(colorRankCastles.remove(0));
 		}
-		player.addCastle(1, color, retCastles);
+		player.addCastle(1, retCastles);
 	}
 
 	public List<Tile> getTiles(TileType type) {
