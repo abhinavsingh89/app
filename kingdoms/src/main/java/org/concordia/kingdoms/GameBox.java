@@ -16,11 +16,12 @@ import org.concordia.kingdoms.tokens.TileType;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
 /**
  * 
  * @author Team K
  * @version 1.0-SNAPSHOT
- *
+ * 
  */
 public class GameBox {
 
@@ -183,8 +184,8 @@ public class GameBox {
 	}
 
 	/**
-	 * @formatter:on Each player chooses a color and takes all the rank 2, 3,
-	 *               and 4 castles of his color
+	 * Each player chooses a color and takes all the rank 2, 3, and 4 castles of
+	 * his color
 	 * 
 	 * @param player
 	 * @param totalPlayers

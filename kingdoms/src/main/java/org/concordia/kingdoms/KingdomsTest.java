@@ -18,16 +18,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
+
 /**
  * 
  * @author Team K
  * @version 1.0-SNAPSHOT
- *
+ * 
  */
 public class KingdomsTest {
 
 	private static final Logger log = LoggerFactory
 			.getLogger(KingdomsTest.class);
+
 	/**
 	 * Entry point function
 	 */
@@ -99,7 +101,7 @@ public class KingdomsTest {
 												column);
 										isValidCastle = true;
 									} catch (GameRuleException ex) {
-										log.debug(ex.getMessage());
+										log.error(ex.getMessage());
 									}
 								}// castle while ending
 
@@ -107,7 +109,7 @@ public class KingdomsTest {
 							isValidInput = true;
 							kingdoms.present();
 						} catch (NumberFormatException ex) {
-							log.debug("Invalid input:" + ex.getMessage());
+							log.error("Invalid input:" + ex.getMessage());
 						}
 					}
 				}
@@ -134,33 +136,41 @@ public class KingdomsTest {
 	}
 
 	private static void initializePlayers(BufferedReader br,
-			List<Player> players) throws NumberFormatException, IOException {
+			List<Player> players) throws IOException {
 		log.debug("Enter number of Players");
-		final int playersCount = Integer.parseInt(br.readLine());
+		boolean isValidInput = false;
+		while (!isValidInput) {
+			try {
+				int playersCount = Integer.parseInt(br.readLine());
+				for (int i = 0; i < playersCount; i++) {
+					log.debug("Enter Player " + (i + 1) + " Name:");
+					String name = br.readLine();
+					if ("".equals(name)) {
+						name = "Player" + i;
+						log.debug("Assigned default name " + name);
+					}
+					final Color[] colors = Color.values();
+					boolean isValidColor = false;
+					while (!isValidColor) {
+						try {
+							log.debug("Choose one color: "
+									+ Arrays.toString(colors));
+							final String chosenColor = br.readLine();
+							final Color playerColor = stringToColor(chosenColor);
+							players.add(Player.newPlayer(name, playerColor));
+							isValidColor = true;
+						} catch (GameException ex) {
+							log.error(ex.getMessage());
+						}
+					}
 
-		for (int i = 0; i < playersCount; i++) {
-			System.out.println("Enter Player " + (i + 1) + " Name:");
-			String name = br.readLine();
-			if ("".equals(name)) {
-				name = "Player" + i;
-				System.out.println("Assigned default name " + name);
-			}
-			final Color[] colors = Color.values();
-			boolean isValidColor = false;
-			while (!isValidColor) {
-				try {
-					System.out.println("Choose one color: "
-							+ Arrays.toString(colors));
-					final String chosenColor = br.readLine();
-					final Color playerColor = stringToColor(chosenColor);
-					players.add(Player.newPlayer(name, playerColor));
-					isValidColor = true;
-				} catch (GameException ex) {
-					log.error(ex.getMessage());
 				}
+				isValidInput = true;
+			} catch (NumberFormatException ex) {
+				log.error(ex.getMessage());
 			}
-
 		}
+
 		Collections.shuffle(players);
 	}
 
