@@ -8,7 +8,69 @@
 	<packaging>jar</packaging>
 
 	<name>kingdoms</name>
-	<url>http://maven.apache.org</url>
+	<url>http://www.concordia.ca/</url>
+
+	<organization>
+		<name>Concordia Students MACS</name>
+		<url>http://www.concordia.ca/</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>6743536</id>
+			<name>Pavan</name>
+			<email>p_fnu@encs.concordia.com</email>
+			<url>http://www.concordia.ca/</url>
+			<organization>Concordia</organization>
+			<organizationUrl>http://www.concordia.ca/</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>-6</timezone>
+			<!-- <properties> <picUrl></picUrl> </properties> -->
+		</developer>
+		<developer>
+			<id>6743537</id>
+			<name>Ravindra</name>
+			<email>ravindra@encs.concordia.com</email>
+			<url>http://www.concordia.ca/</url>
+			<organization>Concordia</organization>
+			<organizationUrl>http://www.concordia.ca/</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>-6</timezone>
+			<!-- <properties> <picUrl></picUrl> </properties> -->
+		</developer>
+		<developer>
+			<id>6743538</id>
+			<name>Vikram</name>
+			<email>vikram@encs.concordia.com</email>
+			<url>http://www.concordia.ca/</url>
+			<organization>Concordia</organization>
+			<organizationUrl>http://www.concordia.ca/</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>-6</timezone>
+			<!-- <properties> <picUrl></picUrl> </properties> -->
+		</developer>
+		<developer>
+			<id>6743539</id>
+			<name>Abhinav</name>
+			<email>abhinav@encs.concordia.com</email>
+			<url>http://www.concordia.ca/</url>
+			<organization>Concordia</organization>
+			<organizationUrl>http://www.concordia.ca/</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>-6</timezone>
+			<!-- <properties> <picUrl></picUrl> </properties> -->
+		</developer>
+	</developers>
+
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
