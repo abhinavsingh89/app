@@ -12,7 +12,12 @@ import org.concordia.kingdoms.tokens.Color;
 import org.concordia.kingdoms.tokens.Tile;
 
 import com.google.common.collect.Maps;
-
+/**
+ * 
+ * @author Team K
+ * @version 1.0-SNAPSHOT
+ *
+ */
 public class Player {
 
 	private String name;
@@ -28,7 +33,12 @@ public class Player {
 	private Map<Integer, Map<Color, List<Castle>>> castles;
 
 	private Board board;
-
+	/**
+	 * Constructor for player
+	 * @param name- Name of the player
+	 * @param chosenColors - Different colors chosen by player
+	 * 
+	 */
 	private Player(String name, final Color[] chosenColors) {
 		this.name = name;
 		this.chosenColors = chosenColors;
@@ -37,12 +47,22 @@ public class Player {
 		this.coins = Maps.newHashMap();
 		this.castles = Maps.newHashMap();
 	}
-
+	/**
+	 * method used to put tile
+	 * @param tile - which type of tile player want to put
+	 * @param row - row number
+	 * @param column - row column
+	 */
 	public void putTile(Tile tile, int row, int column)
 			throws GameRuleException {
 		this.board.putComponent(tile, row, column);
 	}
-
+	/**
+	 * method used to put castle
+	 * @param castle - which type of castle player want to put
+	 * @param row - row number
+	 * @param column - row column
+	 */
 	public void putCastle(Castle castle, int row, int column)
 			throws GameRuleException {
 		if (!this.castles.get(castle.getRank()).get(castle.getColor())

@@ -16,7 +16,12 @@ import org.concordia.kingdoms.tokens.TileType;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
+/**
+ * 
+ * @author Team K
+ * @version 1.0-SNAPSHOT
+ *
+ */
 public class GameBox {
 
 	private static GameBox INSTANCE;
