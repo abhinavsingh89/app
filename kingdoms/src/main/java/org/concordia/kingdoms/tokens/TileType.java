@@ -2,7 +2,6 @@ package org.concordia.kingdoms.tokens;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  * Declared enum for all types of tiles The value of these tiles is within the
@@ -13,7 +12,6 @@ import javax.xml.bind.annotation.XmlType;
  * @see Tile
  * 
  */
-@XmlType
 @XmlEnum(String.class)
 public enum TileType {
 
