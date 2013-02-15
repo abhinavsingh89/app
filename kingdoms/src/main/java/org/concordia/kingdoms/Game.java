@@ -4,7 +4,12 @@ import java.util.List;
 
 import org.concordia.kingdoms.board.ui.Presentable;
 import org.concordia.kingdoms.exceptions.GameException;
-
+/**
+ * 
+ * @author Team K
+ * @version 1.0-SNAPSHOT
+ *
+ */
 public interface Game extends Presentable{
 
 	void start(List<Player> players) throws GameException;

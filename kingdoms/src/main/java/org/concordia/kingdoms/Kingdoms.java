@@ -8,7 +8,12 @@ import org.concordia.kingdoms.board.EpochCounter;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
 import org.concordia.kingdoms.board.factory.KingdomBoardBuilder;
 import org.concordia.kingdoms.exceptions.GameException;
-
+/**
+ * 
+ * @author Team K
+ * @version 1.0-SNAPSHOT
+ *
+ */
 public class Kingdoms extends AbstractGame {
 
 	private Board board;
@@ -18,17 +23,26 @@ public class Kingdoms extends AbstractGame {
 	private BoardBuilder builder;
 
 	private boolean isGameInProgress = false;
-
+	
 	public Kingdoms() throws IOException {
 		this(KingdomBoardBuilder.newKingdomBoardBuilder(), 3);
 	}
-
+	/**
+	 * Constructor for a kingdom
+	 * @param builder
+	 * @param totalLevels 
+	 * 
+	 */
 	public Kingdoms(final BoardBuilder builder, int totalLevels)
 			throws IOException {
 		this.builder = builder;
 		this.epochCounter = new EpochCounter(totalLevels);
 	}
-
+	/**
+	 * This method is used to start the game
+	 * @param players- Number of players
+	 * 
+	 */
 	public void start(final List<Player> players) throws GameException {
 		// if the game is not in progress then initialize everything
 		if (!this.isGameInProgress) {

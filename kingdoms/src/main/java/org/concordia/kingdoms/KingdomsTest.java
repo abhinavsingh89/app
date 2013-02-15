@@ -1,5 +1,7 @@
 package org.concordia.kingdoms;
 
+/** Initializer class for the game. */
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,12 +18,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
-
+/**
+ * 
+ * @author Team K
+ * @version 1.0-SNAPSHOT
+ *
+ */
 public class KingdomsTest {
 
 	private static final Logger log = LoggerFactory
 			.getLogger(KingdomsTest.class);
-
+	/**
+	 * Entry point function
+	 */
 	public static void main(String[] args) throws IOException, GameException {
 		final Kingdoms kingdoms = new Kingdoms();
 		final List<Player> players = Lists.newArrayList();

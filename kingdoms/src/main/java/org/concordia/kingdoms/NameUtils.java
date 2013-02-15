@@ -1,5 +1,11 @@
 package org.concordia.kingdoms;
 
+/**
+ * 
+ * @author Team K
+ * @version 1.0-SNAPSHOT
+ *
+ */
 public class NameUtils {
 
 	public static final String RESOURCE_CITIES = "cities";
