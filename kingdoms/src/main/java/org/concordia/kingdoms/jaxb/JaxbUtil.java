@@ -24,7 +24,7 @@ public class JaxbUtil {
 
 	public static final JaxbUtil INSTANCE = new JaxbUtil();
 
-	private static final String GAME_STATE_XML = "/kingdoms-jaxb.xml";
+	private static final String GAME_STATE_XML = "kingdoms-jaxb.xml";
 
 	public void save(GameState gameState) throws JAXBException {
 		if (context == null) {
