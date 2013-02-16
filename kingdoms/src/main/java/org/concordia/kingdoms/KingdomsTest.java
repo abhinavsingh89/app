@@ -1,6 +1,7 @@
 package org.concordia.kingdoms;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
@@ -36,8 +37,22 @@ public class KingdomsTest {
 		final Kingdoms kingdoms = new Kingdoms();
 		final List<Player> players = Lists.newArrayList();
 		String input = "";
+		System.out.println("1.Resume the saved game - Press 1");
+		System.out.println("2.New Game - Press any key to continue");
+		System.out.println("3.Exit- Press 3");
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
 				System.in));
+		String reply = br.readLine();
+		if ("3".equals(reply)) {
+			System.exit(0);
+		}
+		if ("1".equals(reply)) {
+			System.out
+					.println("Give Absolute path to the file you saved the xml");
+			String filePath = br.readLine();
+			kingdoms.resume(new File(filePath));
+		}
+
 		initializePlayers(br, players);
 		kingdoms.start(players);
 		System.out.println("Current Level: "

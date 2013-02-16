@@ -27,7 +27,7 @@ public class Console implements Presentable {
 					.println("------------------------------------------------------------");
 			for (int j = 0; j < Board.MAX_COLUMNS; j++) {
 
-				System.out.print(this.entries[i][j] + " ");
+				System.out.print(this.entries[i][j]);
 			}
 			System.out.println();
 		}

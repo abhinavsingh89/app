@@ -90,7 +90,7 @@ public class Entry {
 	@Override
 	public String toString() {
 		if (this.component == null) {
-			return "X         ";
+			return "X          ";
 		}
 		return getOutputStr(this.component.toString());
 	}
@@ -102,7 +102,7 @@ public class Entry {
 	 */
 	public String getOutputStr(String input) {
 		StringBuffer sb = new StringBuffer(input);
-		for (int i = input.length(); i < 10; i++) {
+		for (int i = input.length(); i < 11; i++) {
 			sb.append(" ");
 		}
 		return sb.toString();

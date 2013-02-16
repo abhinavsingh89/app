@@ -84,6 +84,7 @@ public class EntriesAdapter implements
 		final Map<Integer, Map<Integer, org.concordia.kingdoms.jaxb.Entry>> entriesMap = Maps
 				.newHashMap();
 		for (org.concordia.kingdoms.jaxb.Entry jaxbEntry : jaxbEntries) {
+			// when no entry is available for the row
 			if (entriesMap.get(jaxbEntry.getRow()) == null) {
 				Map<Integer, org.concordia.kingdoms.jaxb.Entry> entryMap = Maps
 						.newHashMap();
@@ -92,31 +93,45 @@ public class EntriesAdapter implements
 			} else {
 				Map<Integer, org.concordia.kingdoms.jaxb.Entry> entryMap = Maps
 						.newHashMap();
-				entryMap.put(jaxbEntry.getColumn(), jaxbEntry);
-				entriesMap.put(jaxbEntry.getRow(), entryMap);
+				entriesMap.get(jaxbEntry.getRow()).put(jaxbEntry.getColumn(),
+						jaxbEntry);
 			}
 		}
 		for (int i = 0; i < Board.MAX_ROWS; i++) {
 			for (int j = 0; j < Board.MAX_COLUMNS; j++) {
-				org.concordia.kingdoms.jaxb.Entry entry = entriesMap.get(i)
-						.get(j);
+				// if the row has no entries before
+				if (entriesMap.get(i) != null) {
+					org.concordia.kingdoms.jaxb.Entry entry = entriesMap.get(i)
+							.get(j);
+					// if the particular column has no entry
+					if (entry != null) {
+						int column = entry.getColumn();
+						int row = entry.getRow();
 
-				int column = entry.getColumn();
-				int row = entry.getRow();
-
-				org.concordia.kingdoms.jaxb.Castle jaxbCastle = entry
-						.getCastle();
-				org.concordia.kingdoms.jaxb.Tile jaxbTile = entry.getTile();
-				if (jaxbCastle == null) {
-					entries[i][j] = Entry.newEntry(row, column,
-							newTile(jaxbTile));
+						org.concordia.kingdoms.jaxb.Castle jaxbCastle = entry
+								.getCastle();
+						org.concordia.kingdoms.jaxb.Tile jaxbTile = entry
+								.getTile();
+						if (jaxbCastle == null) {
+							// new entry with a tile
+							entries[i][j] = Entry.newEntry(row, column,
+									newTile(jaxbTile));
+						} else {
+							// new entry with a castle
+							entries[i][j] = Entry.newEntry(row, column,
+									newCastle(jaxbCastle));
+						}
+					} else {
+						// new entry
+						entries[i][j] = Entry.newEntry(i, j, null);
+					}
 				} else {
-					entries[i][j] = Entry.newEntry(row, column,
-							newCastle(jaxbCastle));
+					// new entry
+					entries[i][j] = Entry.newEntry(i, j, null);
 				}
 			}
 		}
-		return null;
+		return entries;
 	}
 
 	private Tile newTile(org.concordia.kingdoms.jaxb.Tile jaxbTile) {

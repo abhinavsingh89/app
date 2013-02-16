@@ -1,8 +1,8 @@
 package org.concordia.kingdoms.jaxb;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -20,41 +20,23 @@ public class JaxbUtil {
 
 	private static final Logger log = LoggerFactory.getLogger(JaxbUtil.class);
 
+	private static JAXBContext context = null;
+
 	public static final JaxbUtil INSTANCE = new JaxbUtil();
 
 	private static final String GAME_STATE_XML = "/kingdoms-jaxb.xml";
 
 	public void save(GameState gameState) throws JAXBException {
-		JAXBContext context = JAXBContext.newInstance(GameState.class);
+		if (context == null) {
+			this.context = JAXBContext.newInstance(GameState.class);
+		}
+
 		Marshaller m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		// Write to System.out
 		m.marshal(gameState, System.out);
 		// Write to File
 		m.marshal(gameState, new File(GAME_STATE_XML));
-	}
-
-	public void save() throws JAXBException, FileNotFoundException {
-		// create JAXB context and instantiate marshaller
-		JAXBContext context = JAXBContext.newInstance(GameState.class);
-		Marshaller m = context.createMarshaller();
-		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
-		final GameState gameState = getGameState();
-		testData(gameState);
-		// Write to System.out
-		m.marshal(gameState, System.out);
-
-		// Write to File
-		m.marshal(gameState, new File(GAME_STATE_XML));
-
-		// get variables from our xml file, created before
-		System.out.println();
-		System.out.println("Output from our XML File: ");
-		Unmarshaller um = context.createUnmarshaller();
-		GameState gameState2 = (GameState) um.unmarshal(new FileReader(
-				GAME_STATE_XML));
-		System.out.println(gameState2);
 	}
 
 	public void testData(GameState gameState) {
@@ -93,12 +75,14 @@ public class JaxbUtil {
 		return gameState;
 	}
 
-	public void load() {
-		// TODO:ADD IMPL
+	public GameState load(File file) throws JAXBException, IOException {
+		if (this.context == null) {
+			this.context = JAXBContext.newInstance(GameState.class);
+		}
+		Unmarshaller um = context.createUnmarshaller();
+		final GameState gameState = (GameState) um.unmarshal(new FileReader(
+				file));
+		return gameState;
 	}
 
-	public static void main(String[] args) throws JAXBException,
-			FileNotFoundException {
-		INSTANCE.save();
-	}
 }

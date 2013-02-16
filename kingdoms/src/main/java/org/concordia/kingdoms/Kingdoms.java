@@ -1,5 +1,6 @@
 package org.concordia.kingdoms;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.EpochCounter;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
 import org.concordia.kingdoms.board.factory.KingdomBoardBuilder;
+import org.concordia.kingdoms.board.ui.Console;
+import org.concordia.kingdoms.board.ui.Presentable;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.jaxb.GameState;
 import org.concordia.kingdoms.jaxb.JaxbUtil;
@@ -107,8 +110,21 @@ public class Kingdoms extends AbstractGame {
 		}
 	}
 
-	public void resume() {
-
+	public void resume(File file) throws GameException {
+		try {
+			final GameState gameState = JaxbUtil.INSTANCE.load(file);
+			IAdapter<Entry[][], List<org.concordia.kingdoms.jaxb.Entry>> entriesAdapter = new EntriesAdapter();
+			final Entry[][] entries = entriesAdapter.convertFrom(gameState
+					.getEntries());
+			Presentable presentable = new Console(entries);
+			presentable.present();
+		} catch (JAXBException e) {
+			log.error(e.getMessage());
+			throw new GameException(e.getMessage());
+		} catch (IOException e) {
+			log.error(e.getMessage());
+			throw new GameException(e.getMessage());
+		}
 	}
 
 	public void exit() {
