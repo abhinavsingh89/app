@@ -1,5 +1,7 @@
 package org.concordia.kingdoms;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -175,5 +177,22 @@ public class Player {
 
 	public static Player newPlayer(String name, final Color chosenColor) {
 		return new Player(name, chosenColor);
+	}
+
+	/**
+	 * castles associated with tihs player
+	 * 
+	 * @return unmodifiable map this includes even the list of castles are also
+	 *         not modifiable
+	 */
+	public Map<Integer, List<Castle>> getCastles() {
+		Iterator<Integer> rankItr = this.castles.keySet().iterator();
+		Map<Integer, List<Castle>> retMap = Maps.newHashMap();
+		while (rankItr.hasNext()) {
+			Integer rank = rankItr.next();
+			retMap.put(rank,
+					Collections.unmodifiableList(this.castles.get(rank)));
+		}
+		return Collections.unmodifiableMap(retMap);
 	}
 }

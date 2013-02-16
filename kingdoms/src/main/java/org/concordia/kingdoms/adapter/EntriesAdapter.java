@@ -26,7 +26,9 @@ public class EntriesAdapter implements
 		if (domainEntries == null) {
 			return jaxbEntries;
 		}
+		// find the rows length
 		int rows = domainEntries.length;
+		// find the rows length
 		int columns = domainEntries[0].length;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
@@ -34,48 +36,38 @@ public class EntriesAdapter implements
 				int row = entry.getRow();
 				int column = entry.getColumn();
 				final Component component = entry.getComponent();
-
+				// the component can be either Tile or Castle
 				if (component instanceof Tile) {
 					final Tile tile = (Tile) component;
 					String tileName = tile.getName();
 					TileType tileType = tile.getType();
 					Integer value = tile.getValue();
-
+					// prepare a new Jaxb Tile
 					org.concordia.kingdoms.jaxb.Tile jaxbTile = new org.concordia.kingdoms.jaxb.Tile();
 					jaxbTile.setName(tileName);
 					jaxbTile.setValue(value);
 					jaxbTile.setType(org.concordia.kingdoms.jaxb.TileType
 							.valueOf(tileType.name()));
-					jaxbEntries.add(newJaxbEntry(row, column, jaxbTile, null));
+					jaxbEntries.add(AdapterUtil.newJaxbEntry(row, column,
+							jaxbTile, null));
 				}
 				if (component instanceof Castle) {
 					final Castle castle = (Castle) component;
 					final String castleName = castle.getName();
 					final Color color = castle.getColor();
 					final Integer castleRank = castle.getValue();
-
+					// prepare a new Jaxb Tile
 					org.concordia.kingdoms.jaxb.Castle jaxbCastle = new org.concordia.kingdoms.jaxb.Castle();
 					jaxbCastle.setName(castleName);
 					jaxbCastle.setRank(castleRank);
 					jaxbCastle.setColor(org.concordia.kingdoms.jaxb.Color
 							.valueOf(color.toString()));
-					jaxbEntries
-							.add(newJaxbEntry(row, column, null, jaxbCastle));
+					jaxbEntries.add(AdapterUtil.newJaxbEntry(row, column, null,
+							jaxbCastle));
 				}
 			}
 		}
 		return jaxbEntries;
-	}
-
-	public org.concordia.kingdoms.jaxb.Entry newJaxbEntry(int row, int column,
-			org.concordia.kingdoms.jaxb.Tile tile,
-			org.concordia.kingdoms.jaxb.Castle castle) {
-		org.concordia.kingdoms.jaxb.Entry jaxbEntry = new org.concordia.kingdoms.jaxb.Entry();
-		jaxbEntry.setRow(row);
-		jaxbEntry.setColumn(column);
-		jaxbEntry.setTile(tile);
-		jaxbEntry.setCastle(castle);
-		return jaxbEntry;
 	}
 
 	public Entry[][] convertFrom(
@@ -115,11 +107,11 @@ public class EntriesAdapter implements
 						if (jaxbCastle == null) {
 							// new entry with a tile
 							entries[i][j] = Entry.newEntry(row, column,
-									newTile(jaxbTile));
+									AdapterUtil.newTile(jaxbTile));
 						} else {
 							// new entry with a castle
 							entries[i][j] = Entry.newEntry(row, column,
-									newCastle(jaxbCastle));
+									AdapterUtil.newCastle(jaxbCastle));
 						}
 					} else {
 						// new entry
@@ -132,26 +124,5 @@ public class EntriesAdapter implements
 			}
 		}
 		return entries;
-	}
-
-	private Tile newTile(org.concordia.kingdoms.jaxb.Tile jaxbTile) {
-		if (jaxbTile == null) {
-			return null;
-		}
-		String tileName = jaxbTile.getName();
-		TileType tileType = TileType.valueOf(jaxbTile.getType().name());
-		Integer value = jaxbTile.getValue();
-		final Tile tile = Tile.newTile(tileType, tileName, value);
-		return tile;
-	}
-
-	private Castle newCastle(org.concordia.kingdoms.jaxb.Castle jaxbCastle) {
-		if (jaxbCastle == null) {
-			return null;
-		}
-		Integer rank = jaxbCastle.getRank();
-		Color color = Color.valueOf(jaxbCastle.getColor().name());
-		final Castle castle = Castle.newCastle(rank, color);
-		return castle;
 	}
 }

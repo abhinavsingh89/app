@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 
 import org.concordia.kingdoms.adapter.EntriesAdapter;
 import org.concordia.kingdoms.adapter.IAdapter;
+import org.concordia.kingdoms.adapter.PlayersAdapter;
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.EpochCounter;
@@ -99,8 +100,10 @@ public class Kingdoms extends AbstractGame {
 	public void save() throws GameException {
 		GameState gameState = new GameState();
 		IAdapter<Entry[][], List<org.concordia.kingdoms.jaxb.Entry>> entriesAdapter = new EntriesAdapter();
+		IAdapter<List<Player>, List<org.concordia.kingdoms.jaxb.Player>> playersAdapter = new PlayersAdapter();
 		gameState.setComponentsOnBoard(this.board.getComponentsOnBoard());
 		gameState.setEntries(entriesAdapter.convertTo(this.board.getEntries()));
+		gameState.setPlayers(playersAdapter.convertTo(this.board.getPlayers()));
 		try {
 			JaxbUtil.INSTANCE.save(gameState);
 		} catch (JAXBException ex) {
