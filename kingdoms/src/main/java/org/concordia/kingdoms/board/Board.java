@@ -117,41 +117,80 @@ public class Board {
 		return this.getEntries()[row][column].isEmpty();
 	}
 
+	/**
+	 * method used for display
+	 */
 	public void display() {
 		this.presentable.present();
 	}
 
+	/**
+	 * method used for returning board entries
+	 * @return entries
+	 */
 	public Entry[][] getEntries() {
 		return this.entries;
 	}
 
+	/**
+	 * method used for returning tile bank
+	 * @return tileBank
+	 */
 	public TileBank getTileBank() {
 		return this.tileBank;
 	}
 
+	/**
+	 * method to set the tilebank
+	 * @param tileBank
+	 */
 	public void setTileBank(TileBank tileBank) {
 		this.tileBank = tileBank;
 	}
 
+	/**
+	 * method for returning coin bank
+	 * @return coinBank
+	 */
 	public CoinBank getCoinBank() {
 		return this.coinBank;
 	}
 
+	/**
+	 * sets the coin bank
+	 * @param coinBank
+	 */
 	public void setCoinBank(CoinBank coinBank) {
 		this.coinBank = coinBank;
 	}
 
+	/**
+	 * method used for returning the players list
+	 * @return players
+	 */
 	public List<Player> getPlayers() {
 		return this.players;
 	}
 
+	/**
+	 * method used to set the players
+	 * @param players
+	 */
 	public void setPlayers(final List<Player> players) {
 		this.players = players;
 	}
 
+	/**
+	 * method used to check if there is any empty space on the board
+	 * @return true/false
+	 */
 	public boolean hasAnyEmptySpace() {
 		return this.componentsOnBoard == MAX_ROWS * MAX_COLUMNS;
 	}
+	
+	/**
+	 *  method used to reset the board to initial stage
+	 */
 	public void resetBoard() {
 		this.entries = new Entry[Board.MAX_ROWS][MAX_COLUMNS];
 		this.tileBank = null;
