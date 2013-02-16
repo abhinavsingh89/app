@@ -93,7 +93,7 @@ public class Tile implements Component, Serializable {
 	 * @return full representation of the Tile including its type,name and value
 	 *         using org.pojomatic.Pojomatic's way of format
 	 */
-	public String showTile() {
+	public String show() {
 		return Pojomatic.toString(this);
 	}
 

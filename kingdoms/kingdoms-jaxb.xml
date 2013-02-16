@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:kingdoms xmlns:ns2="org.concordia.kingdoms">
+    <rows>0</rows>
+    <columns>0</columns>
+    <tokensCount>1</tokensCount>
+    <entries>
+        <entry column="0" row="0">
+            <tile type="hazard">
+                <name>VULTURE</name>
+                <value>-2</value>
+            </tile>
+        </entry>
+    </entries>
+    <players>
+        <player>
+            <name>kumar</name>
+            <score>0</score>
+        </player>
+        <player>
+            <name>naveen</name>
+            <score>0</score>
+        </player>
+        <player>
+            <name>pavan</name>
+            <score>0</score>
+        </player>
+    </players>
+</ns2:kingdoms>

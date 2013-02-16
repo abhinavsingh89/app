@@ -36,17 +36,19 @@ public class TileBank {
 	}
 
 	/**
-	 * method to get the tile
+	 * method to pick a tile from tilebank
+	 * 
 	 * @return tile
 	 */
-	public Tile getTile() {
+	public Tile pickTile() {
 		// get a random tile
 		int randomindex = new Random().nextInt(tiles.size());
-		return tiles.get(randomindex);
+		return tiles.remove(randomindex);
 	}
 
 	/**
 	 * method used to return the tilebank instance
+	 * 
 	 * @return instance
 	 */
 	public static TileBank getTileBank() {

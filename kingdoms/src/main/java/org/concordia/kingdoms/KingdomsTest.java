@@ -59,9 +59,20 @@ public class KingdomsTest {
 				+ kingdoms.getEpochCounter().getCurrentLevel());
 		kingdoms.present();
 
-		while (!"exit".equals(input) && !kingdoms.isLevelCompleted()
+		while (!kingdoms.isLevelCompleted()
 				&& kingdoms.getEpochCounter().isNextAvailable()) {
 			for (final Player player : players) {
+
+				if (player.getStartingTile() == null) {
+					System.out.println(player.getName() + ">"
+							+ "Press any key to pick a Starting Tile");
+					br.readLine();
+
+					Tile startingTile = TileBank.getTileBank().pickTile();
+					player.setStartingTile(startingTile);
+					System.out.println(startingTile.show());
+				}
+
 				boolean isValidInput = false;
 				while (!isValidInput) {
 					try {
@@ -71,57 +82,14 @@ public class KingdomsTest {
 										+ "Press 1 to pick a Tile any other number for Castle");
 						String data = br.readLine();
 						if ("save".equals(data)) {
-							log.debug("Game Saved successfully");
-							kingdoms.save();
+							saveMyGame(kingdoms);
 							continue;
 						}
 						int tileOrCastle = Integer.parseInt(data);
 						if (tileOrCastle == 1) {
-							// show the random tile picked up from
-							// the tile bank
-							final Tile tile = TileBank.getTileBank().getTile();
-							System.out.println(tile.showTile());
-							int row = getRow(br);
-							int column = getColumn(br);
-
-							// player must chose valid position to
-							// place the tile
-							while (!kingdoms.isValidPosition(row, column)) {
-								System.out.println("Not a Valid Position");
-								row = getRow(br);
-								column = getColumn(br);
-							}
-							player.putTile(tile, row, column);
-						}
-
-						else {
-							boolean isValidCastle = false;
-							while (!isValidCastle) {
-								try {
-									System.out.println("Enter Castle Rank");
-									int rank = Integer.parseInt(br.readLine());
-									int row = getRow(br);
-									int column = getColumn(br);
-
-									// player must chose valid position to
-									// place the tile
-									while (!kingdoms.isValidPosition(row,
-											column)) {
-										System.out
-												.println("Not a Valid Position");
-										row = getRow(br);
-										column = getColumn(br);
-									}
-									// get a ranked castle and put it on
-									// board
-									player.putCastle(player.getCastle(rank),
-											row, column);
-									isValidCastle = true;
-								} catch (GameRuleException ex) {
-									log.error(ex.getMessage());
-								}
-							}// castle while ending
-
+							placeTile(kingdoms, br, player);
+						} else {
+							placeCastle(kingdoms, br, player);
 						}// else ending
 						isValidInput = true;
 						kingdoms.present();
@@ -137,6 +105,59 @@ public class KingdomsTest {
 		if ("exit".equals(input)) {
 			System.out.println("--Game Exit--");
 		}
+	}
+
+	private static void placeCastle(final Kingdoms kingdoms,
+			final BufferedReader br, final Player player) throws IOException {
+		boolean isValidCastle = false;
+		while (!isValidCastle) {
+			try {
+				System.out.println("Enter Castle Rank");
+				int rank = Integer.parseInt(br.readLine());
+				int row = getRow(br);
+				int column = getColumn(br);
+
+				// player must chose valid position to
+				// place the tile
+				while (!kingdoms.isValidPosition(row, column)) {
+					System.out.println("Not a Valid Position");
+					row = getRow(br);
+					column = getColumn(br);
+				}
+				// get a ranked castle and put it on
+				// board
+				player.putCastle(player.getCastle(rank), row, column);
+				isValidCastle = true;
+			} catch (GameRuleException ex) {
+				log.error(ex.getMessage());
+			}
+		}// castle while ending
+	}
+
+	private static void placeTile(final Kingdoms kingdoms,
+			final BufferedReader br, final Player player) throws IOException,
+			GameRuleException {
+		// show the random tile picked up from
+		// the tile bank
+		final Tile tile = TileBank.getTileBank().pickTile();
+		System.out.println(tile.show());
+		int row = getRow(br);
+		int column = getColumn(br);
+
+		// player must chose valid position to
+		// place the tile
+		while (!kingdoms.isValidPosition(row, column)) {
+			System.out.println("Not a Valid Position");
+			row = getRow(br);
+			column = getColumn(br);
+		}
+		player.putTile(tile, row, column);
+	}
+
+	private static void saveMyGame(final Kingdoms kingdoms)
+			throws GameException {
+		log.debug("Game Saved successfully");
+		kingdoms.save();
 	}
 
 	private static int getColumn(final BufferedReader br) throws IOException {
