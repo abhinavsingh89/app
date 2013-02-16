@@ -1,3 +1,8 @@
+/**
+ * class for maintaining 
+ * @author Team K
+ * @since 1.0
+ */
 package org.concordia.kingdoms.board.factory;
 
 import java.util.List;
@@ -14,14 +19,25 @@ public class CoinBank {
 
 	private Map<CoinType, List<Coin>> coins;
 
+	/**
+	 * initializes the coin bank
+	 */
 	private CoinBank() {
 		this.coins = Maps.newHashMap();
 	}
 
+	/**
+	 * method used for returning the coin map
+	 * @return coins
+	 */
 	public Map<CoinType, List<Coin>> getCoins() {
 		return this.coins;
 	}
 
+	/**
+	 * method used for returning the coinbank instance
+	 * @return instance
+	 */
 	public static CoinBank getCoinBank() {
 		if (INSTANCE == null) {
 			INSTANCE = new CoinBank();

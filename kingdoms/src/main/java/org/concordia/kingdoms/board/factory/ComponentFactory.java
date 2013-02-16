@@ -1,3 +1,8 @@
+/**
+ * interface class ComponentFactory
+ * @author Team K
+ * @since 1.0
+ */
 package org.concordia.kingdoms.board.factory;
 
 import org.concordia.kingdoms.tokens.Castle;

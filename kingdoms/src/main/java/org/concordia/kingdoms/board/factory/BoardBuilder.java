@@ -1,3 +1,8 @@
+/**
+ * class used for initializing the board
+ * @author Team K
+ * @since 1.0
+ */
 package org.concordia.kingdoms.board.factory;
 
 import java.util.List;
