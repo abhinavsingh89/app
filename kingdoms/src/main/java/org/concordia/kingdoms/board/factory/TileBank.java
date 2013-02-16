@@ -1,3 +1,8 @@
+/**
+ * class used for maintaining the tile bank
+ * @author Team K
+ * @since 1.0
+ */
 package org.concordia.kingdoms.board.factory;
 
 import java.util.Collections;
@@ -16,6 +21,9 @@ public class TileBank {
 
 	private List<Tile> tiles;
 
+	/**
+	 * private method used for initializing the tile bank
+	 */
 	private TileBank() {
 		final List<TileType> tileTypes = Lists.newArrayList(TileType.DRAGON,
 				TileType.GOLDMINE, TileType.HAZARD, TileType.MOUNTAIN,
@@ -27,12 +35,20 @@ public class TileBank {
 		Collections.shuffle(this.tiles);
 	}
 
+	/**
+	 * method to get the tile
+	 * @return tile
+	 */
 	public Tile getTile() {
 		// get a random tile
 		int randomindex = new Random().nextInt(tiles.size());
 		return tiles.get(randomindex);
 	}
 
+	/**
+	 * method used to return the tilebank instance
+	 * @return instance
+	 */
 	public static TileBank getTileBank() {
 		if (INSTANCE == null) {
 			INSTANCE = new TileBank();
