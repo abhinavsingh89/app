@@ -19,7 +19,7 @@ public interface Game extends Presentable{
 
 	void pause();
 
-	void save();
+	void save() throws GameException;
 
 	void exit();
 

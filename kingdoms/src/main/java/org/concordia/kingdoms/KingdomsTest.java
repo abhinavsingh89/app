@@ -1,6 +1,5 @@
 package org.concordia.kingdoms;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,6 +19,7 @@ import com.google.common.collect.Lists;
 
 /**
  * Initializer class for the game.
+ * 
  * @author Team K
  * @since 1.0
  * 
@@ -43,82 +43,84 @@ public class KingdomsTest {
 		System.out.println("Current Level: "
 				+ kingdoms.getEpochCounter().getCurrentLevel());
 		kingdoms.present();
-		while (!"exit".equals(input)
+
+		while (!"exit".equals(input) && !kingdoms.isLevelCompleted()
 				&& kingdoms.getEpochCounter().isNextAvailable()) {
-			while (!kingdoms.isLevelCompleted()) {
-				for (final Player player : players) {
-					boolean isValidInput = false;
-					while (!isValidInput) {
-						try {
-							System.out
-									.println(player.getName()
-											+ ">"
-											+ "Press 1 to pick a Tile any other number for Castle");
-							int tileOrCastle = Integer.parseInt(br.readLine());
-							if (tileOrCastle == 1) {
-								// show the random tile picked up from
-								// the tile bank
-								final Tile tile = TileBank.getTileBank()
-										.getTile();
-								System.out.println(tile.showTile());
-								int row = getRow(br);
-								int column = getColumn(br);
-
-								// player must chose valid position to
-								// place the tile
-								while (!kingdoms.isValidPosition(row, column)) {
-									System.out.println("Not a Valid Position");
-									row = getRow(br);
-									column = getColumn(br);
-								}
-								player.putTile(tile, row, column);
-							}
-
-							else {
-								boolean isValidCastle = false;
-								while (!isValidCastle) {
-									try {
-										System.out.println("Enter Castle Rank");
-										int rank = Integer.parseInt(br
-												.readLine());
-										int row = getRow(br);
-										int column = getColumn(br);
-
-										// player must chose valid position to
-										// place the tile
-										while (!kingdoms.isValidPosition(row,
-												column)) {
-											System.out
-													.println("Not a Valid Position");
-											row = getRow(br);
-											column = getColumn(br);
-										}
-										// get a ranked castle and put it on
-										// board
-										player.putCastle(
-												player.getCastle(rank), row,
-												column);
-										isValidCastle = true;
-									} catch (GameRuleException ex) {
-										log.error(ex.getMessage());
-									}
-								}// castle while ending
-
-							}// else ending
-							isValidInput = true;
-							kingdoms.present();
-						} catch (NumberFormatException ex) {
-							log.error("Invalid input:" + ex.getMessage());
+			for (final Player player : players) {
+				boolean isValidInput = false;
+				while (!isValidInput) {
+					try {
+						System.out
+								.println(player.getName()
+										+ ">"
+										+ "Press 1 to pick a Tile any other number for Castle");
+						String data = br.readLine();
+						if ("save".equals(data)) {
+							log.debug("Game Saved successfully");
+							kingdoms.save();
+							continue;
 						}
+						int tileOrCastle = Integer.parseInt(data);
+						if (tileOrCastle == 1) {
+							// show the random tile picked up from
+							// the tile bank
+							final Tile tile = TileBank.getTileBank().getTile();
+							System.out.println(tile.showTile());
+							int row = getRow(br);
+							int column = getColumn(br);
+
+							// player must chose valid position to
+							// place the tile
+							while (!kingdoms.isValidPosition(row, column)) {
+								System.out.println("Not a Valid Position");
+								row = getRow(br);
+								column = getColumn(br);
+							}
+							player.putTile(tile, row, column);
+						}
+
+						else {
+							boolean isValidCastle = false;
+							while (!isValidCastle) {
+								try {
+									System.out.println("Enter Castle Rank");
+									int rank = Integer.parseInt(br.readLine());
+									int row = getRow(br);
+									int column = getColumn(br);
+
+									// player must chose valid position to
+									// place the tile
+									while (!kingdoms.isValidPosition(row,
+											column)) {
+										System.out
+												.println("Not a Valid Position");
+										row = getRow(br);
+										column = getColumn(br);
+									}
+									// get a ranked castle and put it on
+									// board
+									player.putCastle(player.getCastle(rank),
+											row, column);
+									isValidCastle = true;
+								} catch (GameRuleException ex) {
+									log.error(ex.getMessage());
+								}
+							}// castle while ending
+
+						}// else ending
+						isValidInput = true;
+						kingdoms.present();
+					} catch (NumberFormatException ex) {
+						log.error("Invalid input:" + ex.getMessage());
 					}
 				}
 			}
-			System.out.println("Level Completed!!");
-			// TODO:rearrange players according to winners
-			kingdoms.getEpochCounter().goNextLevel();
 		}
+		System.out.println("Level Completed!!");
+		// TODO:rearrange players according to winners
+		kingdoms.getEpochCounter().goNextLevel();
 		if ("exit".equals(input)) {
-			System.out.println("--Game Over--");
+			System.out.println("--Game Exit--");
 		}
 	}
 

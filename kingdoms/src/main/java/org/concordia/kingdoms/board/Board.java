@@ -1,4 +1,5 @@
 package org.concordia.kingdoms.board;
+
 /**
  * Game board defining current entries into the game, tile bank, coin bank
  * players, etc. This class is basically keeping a track of board state. 
@@ -6,7 +7,6 @@ package org.concordia.kingdoms.board;
  * @since 1.0
  *
  */
-
 
 import java.util.List;
 
@@ -37,6 +37,7 @@ public class Board {
 	public static final int MAX_COLUMNS = 6;
 
 	private int componentsOnBoard;
+
 	/**
 	 * 
 	 * @param entries
@@ -50,11 +51,12 @@ public class Board {
 		this.presentable = new Console(entries);
 		this.componentsOnBoard = 0;
 	}
+
 	/**
 	 * method used to put component
 	 * 
 	 * @param component
-	 *    
+	 * 
 	 * @param row
 	 *            - row number
 	 * @param column
@@ -72,9 +74,11 @@ public class Board {
 		this.getEntries()[row][column].setComponent(component);
 		this.componentsOnBoard++;
 	}
+
 	/**
-	 * method used to test the given coordinade are valid or not
-	 * It returns boolean value   
+	 * method used to test the given coordinade are valid or not It returns
+	 * boolean value
+	 * 
 	 * @param row
 	 *            - row number
 	 * @param column
@@ -84,9 +88,11 @@ public class Board {
 		return row >= 0 && row < MAX_ROWS && column >= 0
 				&& column < MAX_COLUMNS;
 	}
+
 	/**
-	 * method used to test the given position is valid or not
-	 * It returns boolean value   
+	 * method used to test the given position is valid or not It returns boolean
+	 * value
+	 * 
 	 * @param row
 	 *            - row number
 	 * @param column
@@ -105,9 +111,11 @@ public class Board {
 		}
 		return false;
 	}
+
 	/**
-	 * method used to test the values in 2-D array entries.
-	 * It returns boolean value   
+	 * method used to test the values in 2-D array entries. It returns boolean
+	 * value
+	 * 
 	 * @param row
 	 *            - row number
 	 * @param column
@@ -126,6 +134,7 @@ public class Board {
 
 	/**
 	 * method used for returning board entries
+	 * 
 	 * @return entries
 	 */
 	public Entry[][] getEntries() {
@@ -134,6 +143,7 @@ public class Board {
 
 	/**
 	 * method used for returning tile bank
+	 * 
 	 * @return tileBank
 	 */
 	public TileBank getTileBank() {
@@ -142,6 +152,7 @@ public class Board {
 
 	/**
 	 * method to set the tilebank
+	 * 
 	 * @param tileBank
 	 */
 	public void setTileBank(TileBank tileBank) {
@@ -150,6 +161,7 @@ public class Board {
 
 	/**
 	 * method for returning coin bank
+	 * 
 	 * @return coinBank
 	 */
 	public CoinBank getCoinBank() {
@@ -158,6 +170,7 @@ public class Board {
 
 	/**
 	 * sets the coin bank
+	 * 
 	 * @param coinBank
 	 */
 	public void setCoinBank(CoinBank coinBank) {
@@ -166,6 +179,7 @@ public class Board {
 
 	/**
 	 * method used for returning the players list
+	 * 
 	 * @return players
 	 */
 	public List<Player> getPlayers() {
@@ -174,6 +188,7 @@ public class Board {
 
 	/**
 	 * method used to set the players
+	 * 
 	 * @param players
 	 */
 	public void setPlayers(final List<Player> players) {
@@ -182,14 +197,15 @@ public class Board {
 
 	/**
 	 * method used to check if there is any empty space on the board
+	 * 
 	 * @return true/false
 	 */
 	public boolean hasAnyEmptySpace() {
 		return this.componentsOnBoard == MAX_ROWS * MAX_COLUMNS;
 	}
-	
+
 	/**
-	 *  method used to reset the board to initial stage
+	 * method used to reset the board to initial stage
 	 */
 	public void resetBoard() {
 		this.entries = new Entry[Board.MAX_ROWS][MAX_COLUMNS];
@@ -199,5 +215,9 @@ public class Board {
 		this.presentable = new Console(this.entries);
 		this.componentsOnBoard = 0;
 		GameBox.reset();
-		}
+	}
+
+	public int getComponentsOnBoard() {
+		return componentsOnBoard;
+	}
 }
