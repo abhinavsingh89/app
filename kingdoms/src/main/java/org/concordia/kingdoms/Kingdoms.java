@@ -89,6 +89,11 @@ public class Kingdoms extends AbstractGame {
 		}
 	}
 
+	/**
+	 * Public method for initializing the board with players.
+	 * @param players
+	 * @throws GameException
+	 */
 	private void initBoard(List<Player> players) throws GameException {
 		// build a mXn board for game entries
 
@@ -96,6 +101,9 @@ public class Kingdoms extends AbstractGame {
 				players);
 	}
 
+	/**
+	 * public method for pausing 
+	 */
 	public void pause() {
 		//
 	}

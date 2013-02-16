@@ -258,6 +258,10 @@ public class GameBox {
 		return this.tiles.remove(type);
 	}
 
+	/**
+	 * public method for returning the instance of gamebox
+	 * @return INSTANCE
+	 */
 	public static GameBox getGameBox() {
 		if (INSTANCE != null) {
 			return INSTANCE;
@@ -266,14 +270,26 @@ public class GameBox {
 		return INSTANCE;
 	}
 
+	/**
+	 * public method for creating new object for game box
+	 * @return GameBox
+	 */
 	public static GameBox newGameBox() {
 		return new GameBox();
 	}
 
+	/**
+	 * public method for reloading the game from previous instance
+	 * @param file
+	 * @return GameBox.INSTANCE
+	 */
 	public static GameBox reloadGameBox(File file) {
 		GameBox.INSTANCE = new GameBox();
 		return GameBox.INSTANCE;
 	}
+	/**
+	 * public method for resetting the game state. 
+	 */
 	public static void reset(){
 		INSTANCE=null;
 		}
