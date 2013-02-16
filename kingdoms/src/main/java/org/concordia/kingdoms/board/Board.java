@@ -8,6 +8,7 @@ package org.concordia.kingdoms.board;
  *
  */
 
+import java.util.Collections;
 import java.util.List;
 
 import org.concordia.kingdoms.GameBox;
@@ -180,10 +181,10 @@ public class Board {
 	/**
 	 * method used for returning the players list
 	 * 
-	 * @return players
+	 * @return unmodifiable players list
 	 */
 	public List<Player> getPlayers() {
-		return this.players;
+		return Collections.unmodifiableList(this.players);
 	}
 
 	/**

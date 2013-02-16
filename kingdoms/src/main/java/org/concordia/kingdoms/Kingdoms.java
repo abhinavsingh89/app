@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
+import org.concordia.kingdoms.adapter.AdapterUtil;
 import org.concordia.kingdoms.adapter.EntriesAdapter;
 import org.concordia.kingdoms.adapter.IAdapter;
 import org.concordia.kingdoms.adapter.PlayersAdapter;
@@ -14,11 +15,13 @@ import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.EpochCounter;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
 import org.concordia.kingdoms.board.factory.KingdomBoardBuilder;
+import org.concordia.kingdoms.board.factory.TileBank;
 import org.concordia.kingdoms.board.ui.Console;
 import org.concordia.kingdoms.board.ui.Presentable;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.jaxb.GameState;
 import org.concordia.kingdoms.jaxb.JaxbUtil;
+import org.concordia.kingdoms.tokens.Tile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -104,6 +107,8 @@ public class Kingdoms extends AbstractGame {
 		gameState.setComponentsOnBoard(this.board.getComponentsOnBoard());
 		gameState.setEntries(entriesAdapter.convertTo(this.board.getEntries()));
 		gameState.setPlayers(playersAdapter.convertTo(this.board.getPlayers()));
+		gameState.setTileBank(AdapterUtil.newJaxbTiles(TileBank.getTileBank()
+				.getTiles()));
 		try {
 			JaxbUtil.INSTANCE.save(gameState);
 		} catch (JAXBException ex) {
@@ -117,8 +122,22 @@ public class Kingdoms extends AbstractGame {
 		try {
 			final GameState gameState = JaxbUtil.INSTANCE.load(file);
 			IAdapter<Entry[][], List<org.concordia.kingdoms.jaxb.Entry>> entriesAdapter = new EntriesAdapter();
+			IAdapter<List<Player>, List<org.concordia.kingdoms.jaxb.Player>> playersAdapter = new PlayersAdapter();
 			final Entry[][] entries = entriesAdapter.convertFrom(gameState
 					.getEntries());
+			List<Player> players = playersAdapter.convertFrom(gameState
+					.getPlayers());
+			for (Player player : players) {
+				System.out.println("Reloaded Players");
+				System.out.println(player.getName() + ">" + player.getScore()
+						+ ">" + player.getChosenColor());
+			}
+			List<Tile> tilebank = AdapterUtil.newTiles(gameState.getTileBank());
+			for (Tile tile : tilebank) {
+				System.out.println("Reloaded tiles from Tilebank");
+				System.out.println(tile.getName() + ">" + tile.getValue() + ">"
+						+ tile.getType());
+			}
 			Presentable presentable = new Console(entries);
 			presentable.present();
 		} catch (JAXBException e) {

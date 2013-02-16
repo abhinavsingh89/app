@@ -57,4 +57,13 @@ public class TileBank {
 		}
 		return INSTANCE;
 	}
+
+	/**
+	 * return Unmodifiable list of tiles being held with this tilebank
+	 * 
+	 * @return Unmodifiable list
+	 */
+	public List<Tile> getTiles() {
+		return Collections.unmodifiableList(this.tiles);
+	}
 }

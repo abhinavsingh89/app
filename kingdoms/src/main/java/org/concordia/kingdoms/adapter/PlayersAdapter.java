@@ -25,10 +25,13 @@ public class PlayersAdapter implements
 			Tile startTile = player.getStartingTile();
 			Map<CoinType, List<Coin>> coins = player.getCoins();
 			Map<Integer, List<Castle>> castles = player.getCastles();
+			Color color = player.getChosenColor();
 
 			org.concordia.kingdoms.jaxb.Player jaxbPlayer = new org.concordia.kingdoms.jaxb.Player();
 			jaxbPlayer.setName(name);
 			jaxbPlayer.setScore(score);
+			jaxbPlayer.setChosenColor(org.concordia.kingdoms.jaxb.Color
+					.valueOf(color.name()));
 
 			jaxbPlayers.add(jaxbPlayer);
 		}

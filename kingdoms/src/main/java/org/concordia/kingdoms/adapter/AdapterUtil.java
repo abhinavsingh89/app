@@ -1,9 +1,13 @@
 package org.concordia.kingdoms.adapter;
 
+import java.util.List;
+
 import org.concordia.kingdoms.tokens.Castle;
 import org.concordia.kingdoms.tokens.Color;
 import org.concordia.kingdoms.tokens.Tile;
 import org.concordia.kingdoms.tokens.TileType;
+
+import com.google.common.collect.Lists;
 
 /**
  * Simple utility to convert the basic token objects to and from Jaxb to domain
@@ -71,6 +75,73 @@ public class AdapterUtil {
 		jaxbEntry.setTile(tile);
 		jaxbEntry.setCastle(castle);
 		return jaxbEntry;
+	}
+
+	/**
+	 * builds list of new Tile objects from Jaxb Tile list
+	 * 
+	 * @param - list of jaxb Tile object
+	 * @return A new List of new Tile objects
+	 */
+
+	public static List<Tile> newTiles(
+			List<org.concordia.kingdoms.jaxb.Tile> jaxbTiles) {
+		if (jaxbTiles == null) {
+			return null;
+		}
+		List<Tile> tiles = Lists.newArrayList();
+		for (org.concordia.kingdoms.jaxb.Tile jaxbTile : jaxbTiles) {
+			tiles.add(newTile(jaxbTile));
+		}
+		return tiles;
+	}
+
+	/**
+	 * builds list of new Jaxb Tile objects from Tile list
+	 * 
+	 * @param - list of Tile object
+	 * @return A new List of new Jaxb Tile objects
+	 */
+
+	public static List<org.concordia.kingdoms.jaxb.Tile> newJaxbTiles(
+			List<Tile> tiles) {
+		if (tiles == null) {
+			return null;
+		}
+		List<org.concordia.kingdoms.jaxb.Tile> jaxbTiles = Lists.newArrayList();
+
+		for (Tile tile : tiles) {
+			jaxbTiles.add(newJaxbTile(tile));
+		}
+
+		return jaxbTiles;
+	}
+
+	public static org.concordia.kingdoms.jaxb.Castle newJaxbCastle(
+			final Castle castle) {
+		final String castleName = castle.getName();
+		final Color color = castle.getColor();
+		final Integer castleRank = castle.getValue();
+		// prepare a new Jaxb Tile
+		org.concordia.kingdoms.jaxb.Castle jaxbCastle = new org.concordia.kingdoms.jaxb.Castle();
+		jaxbCastle.setName(castleName);
+		jaxbCastle.setRank(castleRank);
+		jaxbCastle.setColor(org.concordia.kingdoms.jaxb.Color.valueOf(color
+				.toString()));
+		return jaxbCastle;
+	}
+
+	public static org.concordia.kingdoms.jaxb.Tile newJaxbTile(final Tile tile) {
+		String tileName = tile.getName();
+		TileType tileType = tile.getType();
+		Integer value = tile.getValue();
+		// prepare a new Jaxb Tile
+		org.concordia.kingdoms.jaxb.Tile jaxbTile = new org.concordia.kingdoms.jaxb.Tile();
+		jaxbTile.setName(tileName);
+		jaxbTile.setValue(value);
+		jaxbTile.setType(org.concordia.kingdoms.jaxb.TileType.valueOf(tileType
+				.name()));
+		return jaxbTile;
 	}
 
 }

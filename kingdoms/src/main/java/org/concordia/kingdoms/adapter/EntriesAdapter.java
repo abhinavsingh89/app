@@ -7,9 +7,7 @@ import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.Component;
 import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.tokens.Castle;
-import org.concordia.kingdoms.tokens.Color;
 import org.concordia.kingdoms.tokens.Tile;
-import org.concordia.kingdoms.tokens.TileType;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -39,29 +37,15 @@ public class EntriesAdapter implements
 				// the component can be either Tile or Castle
 				if (component instanceof Tile) {
 					final Tile tile = (Tile) component;
-					String tileName = tile.getName();
-					TileType tileType = tile.getType();
-					Integer value = tile.getValue();
-					// prepare a new Jaxb Tile
-					org.concordia.kingdoms.jaxb.Tile jaxbTile = new org.concordia.kingdoms.jaxb.Tile();
-					jaxbTile.setName(tileName);
-					jaxbTile.setValue(value);
-					jaxbTile.setType(org.concordia.kingdoms.jaxb.TileType
-							.valueOf(tileType.name()));
+					org.concordia.kingdoms.jaxb.Tile jaxbTile = AdapterUtil
+							.newJaxbTile(tile);
 					jaxbEntries.add(AdapterUtil.newJaxbEntry(row, column,
 							jaxbTile, null));
 				}
 				if (component instanceof Castle) {
 					final Castle castle = (Castle) component;
-					final String castleName = castle.getName();
-					final Color color = castle.getColor();
-					final Integer castleRank = castle.getValue();
-					// prepare a new Jaxb Tile
-					org.concordia.kingdoms.jaxb.Castle jaxbCastle = new org.concordia.kingdoms.jaxb.Castle();
-					jaxbCastle.setName(castleName);
-					jaxbCastle.setRank(castleRank);
-					jaxbCastle.setColor(org.concordia.kingdoms.jaxb.Color
-							.valueOf(color.toString()));
+					org.concordia.kingdoms.jaxb.Castle jaxbCastle = AdapterUtil
+							.newJaxbCastle(castle);
 					jaxbEntries.add(AdapterUtil.newJaxbEntry(row, column, null,
 							jaxbCastle));
 				}
