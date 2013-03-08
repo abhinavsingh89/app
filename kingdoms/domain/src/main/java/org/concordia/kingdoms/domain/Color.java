@@ -13,12 +13,6 @@ public enum Color {
 
 	private String code;
 
-	/**
-	 * constructor for color
-	 * 
-	 * @param code
-	 *            - color code
-	 */
 	private Color(String code) {
 		this.code = code;
 	}

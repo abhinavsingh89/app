@@ -13,11 +13,6 @@ public enum CoinType {
 
 	private int value;
 
-	/**
-	 * constructor for CoinType
-	 * 
-	 * @param value
-	 */
 	private CoinType(int value) {
 		this.value = value;
 	}

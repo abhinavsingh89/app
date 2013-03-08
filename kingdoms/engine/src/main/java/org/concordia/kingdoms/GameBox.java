@@ -18,8 +18,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- * This class is useful when the game board is initialized.
- * It consist of all the tiles, castles, coins.
+ * This class is useful when the game board is initialized. It consist of all
+ * the tiles, castles, coins.
+ * 
  * @author Team K
  * @since 1.0
  * 
@@ -39,22 +40,24 @@ public class GameBox {
 	private ComponentFactory componentFactory = new KingdomComponentFactory();
 
 	public GameBox() {
-		/**
-		 * tiles
-		 */
+
 		fillTiles();
-		/**
-		 *  coins
-		 */
+
 		fillCoins();
-		/**
-		 *  castles
-		 */
+
 		fillCastles();
 
 		fillRankOneCastlesPerPlayer();
 	}
 
+	/**
+	 * @formatter:off
+	 * number of rank 1 castles determined by the number of players 
+	 * Number of Players Rank 1 Castles 
+	 * 2 					4 			 
+	 * 3 					3 			 
+	 * 4 					2 			
+	 */
 	private void fillRankOneCastlesPerPlayer() {
 		this.rankOneCastlesPerPlayer.put(2, 4);
 		this.rankOneCastlesPerPlayer.put(3, 3);
@@ -64,7 +67,7 @@ public class GameBox {
 	private void fillTiles() {
 
 		/**
-		 *  resource tiles
+		 * resource tiles
 		 */
 		final List<Tile> resourceTiles = Lists.newArrayList();
 		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
@@ -96,9 +99,7 @@ public class GameBox {
 
 		this.tiles.put(TileType.RESOURCE, resourceTiles);
 
-		/**
-		 *  hazard tiles
-		 */
+		//hazard tiles
 		final List<Tile> hazardTiles = Lists.newArrayList();
 
 		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
@@ -116,9 +117,7 @@ public class GameBox {
 
 		this.tiles.put(TileType.HAZARD, hazardTiles);
 
-		/**
-		 *  mountain tile
-		 */
+		//mountain tile
 		final List<Tile> mountainTiles = Lists.newArrayList();
 
 		mountainTiles.add(this.componentFactory.createTile(TileType.MOUNTAIN,
@@ -128,26 +127,29 @@ public class GameBox {
 
 		this.tiles.put(TileType.MOUNTAIN, mountainTiles);
 
-		/**
-		 *  dragon tile
-		 */
+		//dragon tile
 		this.tiles.put(TileType.DRAGON, Lists
 				.newArrayList(this.componentFactory.createTile(TileType.DRAGON,
 						NameUtils.DRAGON_RED, 0)));
-		/**
-		 *  goldmine tile
-		 */
+		//goldmine tile
 		this.tiles.put(TileType.GOLDMINE, Lists
 				.newArrayList(this.componentFactory.createTile(
 						TileType.GOLDMINE, NameUtils.GOLDMINE, 0)));
-		/**
-		 *  wizard tile
-		 */
+		//wizard tile
 		this.tiles.put(TileType.WIZARD, Lists
 				.newArrayList(this.componentFactory.createTile(TileType.WIZARD,
 						NameUtils.WIZARD, 0)));
 	}
 
+	/**
+	 * @formatter:off
+	 * 64 Cardboard Tokens, includes:
+		19 Copper Coins with a value of 1
+		12 Copper Coins with a value of 5
+		20 Silver Coins with a value of 10
+		8 Gold Coins with a value of 50
+		4 Gold Coins with a value of 100
+	 */
 	private void fillCoins() {
 		this.coins.put(CoinType.COPPER_1, Coin.newCoins(CoinType.COPPER_1, 19));
 		this.coins.put(CoinType.COPPER_5, Coin.newCoins(CoinType.COPPER_5, 12));
@@ -157,32 +159,40 @@ public class GameBox {
 		this.coins.put(CoinType.GOLD_100, Coin.newCoins(CoinType.GOLD_100, 4));
 	}
 
+	/**
+	 * @formatter:off
+	 * 40 Plastic Castles, includes:
+		16 Rank 1 Castles (4 per color)
+		12 Rank 2 Castles (3 per color)
+		8 Rank 3 Castles (2 per color)
+		4 Rank 4 Castles (1 per color)
+	 */
 	private void fillCastles() {
-		/**
-		 *  40 Plastic Castles, including
-		 */
+
 		for (final Color color : Color.values()) {
-			/**
-			 *  16 Rank 1 Castles (4 per color)
+			/*
+			 * 16 Rank 1 Castles (4 per color)
 			 */
 			loadCastles(1, color, 4);
-			/**
-			 *  12 Rank 2 Castles (3 per color)
+			/*
+			 * 12 Rank 2 Castles (3 per color)
 			 */
 			loadCastles(2, color, 3);
-			/**
-			 *  8 Rank 3 Castles (2 per color)
+			/*
+			 * 8 Rank 3 Castles (2 per color)
 			 */
 			loadCastles(3, color, 2);
-			/**
-			 *  4 Rank 4 Castles (1 per color)
+			/*
+			 * 4 Rank 4 Castles (1 per color)
 			 */
 			loadCastles(4, color, 1);
 		}
 	}
 
+	//filling the castles map
 	private void loadCastles(int rank, Color color, int size) {
 		if (this.castles.containsKey(rank)) {
+			//in case previous castles for a color, available in the map then they are overridden with the new ones 
 			this.castles.get(rank).put(color, newCastles(rank, color, size));
 		} else {
 			final Map<Color, List<Castle>> colorCastles = Maps.newHashMap();
@@ -191,6 +201,7 @@ public class GameBox {
 		}
 	}
 
+	//create 'size' number of new castles with given properties of castle 
 	private List<Castle> newCastles(int rank, Color color, int size) {
 		final List<Castle> castles = Lists.newArrayList();
 		for (int i = 0; i < size; i++) {
@@ -199,6 +210,10 @@ public class GameBox {
 		return castles;
 	}
 
+	/**
+	 * method allows to take coins from the gamebox, this actaully removes coins from the game box, 
+	 * so make sure you use it appropriately
+	 */
 	public List<Coin> takeCoins(CoinType type, int size) throws GameException {
 		final List<Coin> coinList = this.coins.get(type);
 		if (size > coinList.size()) {

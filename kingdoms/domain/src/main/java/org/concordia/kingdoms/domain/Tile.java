@@ -27,9 +27,7 @@ public class Tile implements Component, Serializable {
 	 * default constructor
 	 */
 	private Tile() {
-		this.type = null;
-		this.name = null;
-		this.value = null;
+		this(null, null, null);
 	}
 
 	/**
