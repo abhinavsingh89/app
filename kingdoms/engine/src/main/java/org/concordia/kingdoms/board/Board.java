@@ -12,10 +12,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.concordia.kingdoms.GameBox;
+import org.concordia.kingdoms.CoinBank;
 import org.concordia.kingdoms.Player;
-import org.concordia.kingdoms.board.factory.CoinBank;
-import org.concordia.kingdoms.board.factory.TileBank;
+import org.concordia.kingdoms.TileBank;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 
@@ -170,19 +169,6 @@ public class Board<T extends ICoordinate> {
 
 	public Iterator<Entry<T>> getEntries() {
 		return this.matrix.getEntries();
-	}
-
-	/**
-	 * method used to reset the board to initial stage
-	 */
-	public void resetBoard() {
-		// fix me
-		this.matrix = (IMatrix<T>) new TDMatrix(MAX_ROWS, MAX_COLUMNS);
-		this.tileBank = null;
-		this.coinBank = null;
-		this.players = Lists.newArrayList();
-		this.componentsOnBoard = 0;
-		GameBox.reset();
 	}
 
 	public int getComponentsOnBoard() {

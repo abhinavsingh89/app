@@ -1,9 +1,9 @@
 /**
- * class for maintaining 
+ * coin reserve
  * @author Team K
  * @since 1.0
  */
-package org.concordia.kingdoms.board.factory;
+package org.concordia.kingdoms;
 
 import java.util.List;
 import java.util.Map;
@@ -15,8 +15,6 @@ import com.google.common.collect.Maps;
 
 public class CoinBank {
 
-	private static CoinBank INSTANCE;
-
 	private Map<CoinType, List<Coin>> coins;
 
 	/**
@@ -27,21 +25,11 @@ public class CoinBank {
 	}
 
 	/**
-	 * method used for returning the coin map
+	 * method for returning the coin map
+	 * 
 	 * @return coins
 	 */
 	public Map<CoinType, List<Coin>> getCoins() {
 		return this.coins;
-	}
-
-	/**
-	 * method used for returning the coinbank instance
-	 * @return instance
-	 */
-	public static CoinBank getCoinBank() {
-		if (INSTANCE == null) {
-			INSTANCE = new CoinBank();
-		}
-		return INSTANCE;
 	}
 }

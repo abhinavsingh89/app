@@ -1,11 +1,8 @@
 package org.concordia.kingdoms;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import org.concordia.kingdoms.board.factory.ComponentFactory;
-import org.concordia.kingdoms.board.factory.KingdomComponentFactory;
 import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Coin;
 import org.concordia.kingdoms.domain.CoinType;
@@ -37,182 +34,28 @@ public class GameBox {
 
 	private Map<Integer, Map<Color, List<Castle>>> castles = Maps.newHashMap();
 
-	private ComponentFactory componentFactory = new KingdomComponentFactory();
-
-	public GameBox() {
-
-		fillTiles();
-
-		fillCoins();
-
-		fillCastles();
-
-		fillRankOneCastlesPerPlayer();
+	public GameBox(Map<TileType, List<Tile>> tiles,
+			Map<CoinType, List<Coin>> coins,
+			Map<Integer, Integer> rankOneCastlesPerPlayer,
+			Map<Integer, Map<Color, List<Castle>>> castles) {
+		this.tiles = tiles;
+		this.coins = coins;
+		this.rankOneCastlesPerPlayer = rankOneCastlesPerPlayer;
+		this.castles = castles;
 	}
 
-	/**
-	 * @formatter:off
-	 * number of rank 1 castles determined by the number of players 
-	 * Number of Players Rank 1 Castles 
-	 * 2 					4 			 
-	 * 3 					3 			 
-	 * 4 					2 			
-	 */
-	private void fillRankOneCastlesPerPlayer() {
-		this.rankOneCastlesPerPlayer.put(2, 4);
-		this.rankOneCastlesPerPlayer.put(3, 3);
-		this.rankOneCastlesPerPlayer.put(4, 2);
-	}
-
-	private void fillTiles() {
-
-		/**
-		 * resource tiles
-		 */
-		final List<Tile> resourceTiles = Lists.newArrayList();
-		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
-				NameUtils.RESOURCE_CITIES, 6));
-		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
-				NameUtils.RESOURCE_CITIES, 5));
-		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
-				NameUtils.RESOURCE_CITIES, 4));
-		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
-				NameUtils.RESOURCE_CITIES, 5));
-
-		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
-				NameUtils.RESOURCE_VILLAGES, 6));
-		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
-				NameUtils.RESOURCE_VILLAGES, 5));
-		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
-				NameUtils.RESOURCE_VILLAGES, 1));
-		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
-				NameUtils.RESOURCE_VILLAGES, 2));
-
-		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
-				NameUtils.RESOURCE_FARMS, 3));
-		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
-				NameUtils.RESOURCE_FARMS, 2));
-		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
-				NameUtils.RESOURCE_FARMS, 1));
-		resourceTiles.add(this.componentFactory.createTile(TileType.RESOURCE,
-				NameUtils.RESOURCE_FARMS, 5));
-
-		this.tiles.put(TileType.RESOURCE, resourceTiles);
-
-		//hazard tiles
-		final List<Tile> hazardTiles = Lists.newArrayList();
-
-		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
-				NameUtils.HAZARD_BEAR, -6));
-		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
-				NameUtils.HAZARD_HYNA, -5));
-		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
-				NameUtils.HAZARD_LION, -4));
-		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
-				NameUtils.HAZARD_TIGER, -3));
-		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
-				NameUtils.HAZARD_VULTURE, -2));
-		hazardTiles.add(this.componentFactory.createTile(TileType.HAZARD,
-				NameUtils.HAZARD_THUNDER, -1));
-
-		this.tiles.put(TileType.HAZARD, hazardTiles);
-
-		//mountain tile
-		final List<Tile> mountainTiles = Lists.newArrayList();
-
-		mountainTiles.add(this.componentFactory.createTile(TileType.MOUNTAIN,
-				NameUtils.MOUNTAIN_EVEREST, 0));
-		mountainTiles.add(this.componentFactory.createTile(TileType.MOUNTAIN,
-				NameUtils.MOUNTAIN_ALPES, 0));
-
-		this.tiles.put(TileType.MOUNTAIN, mountainTiles);
-
-		//dragon tile
-		this.tiles.put(TileType.DRAGON, Lists
-				.newArrayList(this.componentFactory.createTile(TileType.DRAGON,
-						NameUtils.DRAGON_RED, 0)));
-		//goldmine tile
-		this.tiles.put(TileType.GOLDMINE, Lists
-				.newArrayList(this.componentFactory.createTile(
-						TileType.GOLDMINE, NameUtils.GOLDMINE, 0)));
-		//wizard tile
-		this.tiles.put(TileType.WIZARD, Lists
-				.newArrayList(this.componentFactory.createTile(TileType.WIZARD,
-						NameUtils.WIZARD, 0)));
-	}
-
-	/**
-	 * @formatter:off
-	 * 64 Cardboard Tokens, includes:
-		19 Copper Coins with a value of 1
-		12 Copper Coins with a value of 5
-		20 Silver Coins with a value of 10
-		8 Gold Coins with a value of 50
-		4 Gold Coins with a value of 100
-	 */
-	private void fillCoins() {
-		this.coins.put(CoinType.COPPER_1, Coin.newCoins(CoinType.COPPER_1, 19));
-		this.coins.put(CoinType.COPPER_5, Coin.newCoins(CoinType.COPPER_5, 12));
-		this.coins.put(CoinType.SILVER_10,
-				Coin.newCoins(CoinType.SILVER_10, 20));
-		this.coins.put(CoinType.GOLD_50, Coin.newCoins(CoinType.GOLD_50, 8));
-		this.coins.put(CoinType.GOLD_100, Coin.newCoins(CoinType.GOLD_100, 4));
-	}
-
-	/**
-	 * @formatter:off
-	 * 40 Plastic Castles, includes:
-		16 Rank 1 Castles (4 per color)
-		12 Rank 2 Castles (3 per color)
-		8 Rank 3 Castles (2 per color)
-		4 Rank 4 Castles (1 per color)
-	 */
-	private void fillCastles() {
-
-		for (final Color color : Color.values()) {
-			/*
-			 * 16 Rank 1 Castles (4 per color)
-			 */
-			loadCastles(1, color, 4);
-			/*
-			 * 12 Rank 2 Castles (3 per color)
-			 */
-			loadCastles(2, color, 3);
-			/*
-			 * 8 Rank 3 Castles (2 per color)
-			 */
-			loadCastles(3, color, 2);
-			/*
-			 * 4 Rank 4 Castles (1 per color)
-			 */
-			loadCastles(4, color, 1);
-		}
-	}
-
-	//filling the castles map
-	private void loadCastles(int rank, Color color, int size) {
-		if (this.castles.containsKey(rank)) {
-			//in case previous castles for a color, available in the map then they are overridden with the new ones 
-			this.castles.get(rank).put(color, newCastles(rank, color, size));
-		} else {
-			final Map<Color, List<Castle>> colorCastles = Maps.newHashMap();
-			colorCastles.put(color, newCastles(rank, color, size));
-			this.castles.put(rank, colorCastles);
-		}
-	}
-
-	//create 'size' number of new castles with given properties of castle 
-	private List<Castle> newCastles(int rank, Color color, int size) {
+	// create 'size' number of new castles with given properties of castle
+	public static List<Castle> newCastles(int rank, Color color, int size) {
 		final List<Castle> castles = Lists.newArrayList();
 		for (int i = 0; i < size; i++) {
-			castles.add(this.componentFactory.createCastle(rank, color));
+			castles.add(Castle.newCastle(rank, color));
 		}
 		return castles;
 	}
 
 	/**
-	 * method allows to take coins from the gamebox, this actaully removes coins from the game box, 
-	 * so make sure you use it appropriately
+	 * method allows to take coins from the gamebox, this actaully removes coins
+	 * from the game box, so make sure you use it appropriately
 	 */
 	public List<Coin> takeCoins(CoinType type, int size) throws GameException {
 		final List<Coin> coinList = this.coins.get(type);
@@ -265,47 +108,13 @@ public class GameBox {
 		player.addCastle(1, retCastles);
 	}
 
-	public List<Tile> getTiles(TileType type) {
-		/**
-		 * check the tiles pulled from this gamebox should no longer be available here
+	public void assignTiles(TileBank tileBank) {
+		/*
+		 * the tiles pulled from this gamebox should no longer be available here
 		 */
-		
-		return this.tiles.remove(type);
-	}
-
-	/**
-	 * public method for returning the instance of gamebox
-	 * @return INSTANCE
-	 */
-	public static GameBox getGameBox() {
-		if (INSTANCE != null) {
-			return INSTANCE;
+		for(TileType tileType: TileBank.TILE_TYPES){
+			tileBank.addTiles(this.tiles.remove(tileType));
 		}
-		INSTANCE = new GameBox();
-		return INSTANCE;
 	}
 
-	/**
-	 * public method for creating new object for game box
-	 * @return GameBox
-	 */
-	public static GameBox newGameBox() {
-		return new GameBox();
-	}
-
-	/**
-	 * public method for reloading the game from previous instance
-	 * @param file
-	 * @return GameBox.INSTANCE
-	 */
-	public static GameBox reloadGameBox(File file) {
-		GameBox.INSTANCE = new GameBox();
-		return GameBox.INSTANCE;
-	}
-	/**
-	 * public method for resetting the game state. 
-	 */
-	public static void reset(){
-		INSTANCE=null;
-		}
 }

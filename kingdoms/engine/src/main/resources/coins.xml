@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<import resource="cointypes.xml" />
+
+	<util:map id="coins">
+		<entry>
+			<key>
+				<ref bean="COPPER_1" />
+			</key>
+			<ref bean="copper1Coins" />
+		</entry>
+		<entry>
+			<key>
+				<ref bean="COPPER_5" />
+			</key>
+			<ref bean="copper5Coins" />
+		</entry>
+		<entry>
+			<key>
+				<ref bean="SILVER_10" />
+			</key>
+			<ref bean="silver10Coins" />
+		</entry>
+		<entry>
+			<key>
+				<ref bean="GOLD_50" />
+			</key>
+			<ref bean="gold50Coins" />
+		</entry>
+		<entry>
+			<key>
+				<ref bean="GOLD_100" />
+			</key>
+			<ref bean="gold100Coins" />
+		</entry>
+	</util:map>
+
+	<util:list id="copper1Coins">
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_1" />
+		</bean>
+	</util:list>
+
+
+	<util:list id="copper5Coins">
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_5" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_5" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_5" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_5" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_5" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_5" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_5" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_5" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_5" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_5" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_5" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="COPPER_5" />
+		</bean>
+	</util:list>
+
+	<util:list id="silver10Coins">
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="SILVER_10" />
+		</bean>
+	</util:list>
+
+
+	<util:list id="gold50Coins">
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="GOLD_50" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="GOLD_50" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="GOLD_50" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="GOLD_50" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="GOLD_50" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="GOLD_50" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="GOLD_50" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="GOLD_50" />
+		</bean>
+	</util:list>
+
+	<util:list id="gold100Coins">
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="GOLD_100" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="GOLD_100" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="GOLD_100" />
+		</bean>
+		<bean class="org.concordia.kingdoms.domain.Coin" factory-method="newCoin">
+			<constructor-arg type="org.concordia.kingdoms.domain.CoinType"
+				value="GOLD_100" />
+		</bean>
+	</util:list>
+</beans>

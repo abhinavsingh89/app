@@ -8,17 +8,17 @@ import org.concordia.kingdoms.domain.Tile;
 
 public class GameState<T extends ICoordinate> {
 
-	int MAX_ROWS;
+	private int MAX_ROWS;
 
-	int MAX_COLUMNS;
+	private int MAX_COLUMNS;
 
-	int componentsOnBoard;
+	private int componentsOnBoard;
 
-	List<Entry<T>> entries;
+	private List<Entry<T>> entries;
 
-	List<Tile> tileBank;
+	private List<Tile> tileBank;
 
-	List<Player<T>> players;
+	private List<Player<T>> players;
 
 	public GameState() {
 	}

@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.concordia.kingdoms.CoinBank;
 import org.concordia.kingdoms.GameBox;
 import org.concordia.kingdoms.Player;
+import org.concordia.kingdoms.TileBank;
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.ICoordinate;
 import org.concordia.kingdoms.board.IMatrix;
@@ -20,6 +22,7 @@ import org.concordia.kingdoms.domain.Coin;
 import org.concordia.kingdoms.domain.CoinType;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.exceptions.GameException;
+import org.concordia.kingdoms.spring.SpringContainer;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -38,16 +41,19 @@ public class TDBoardBuilder implements BoardBuilder<TDCoordinate> {
 	 * @return tilebank
 	 */
 	public TileBank buildTileBank() {
-		return TileBank.getTileBank();
+		final TileBank tileBank = SpringContainer.INSTANCE.getBean("tileBank",
+				TileBank.class);
+		tileBank.init();
+		return tileBank;
 	}
 
 	/**
-	 * method used for returning tilebank
+	 * method used for returning coinbank
 	 * 
 	 * @return coinbank
 	 */
 	public CoinBank buildCoinBank() {
-		return CoinBank.getCoinBank();
+		return SpringContainer.INSTANCE.getBean(CoinBank.class);
 	}
 
 	public Player<TDCoordinate> buildPlayer(final String name,
@@ -104,11 +110,13 @@ public class TDBoardBuilder implements BoardBuilder<TDCoordinate> {
 		for (final Player<TDCoordinate> player : players) {
 			player.setBoard(board);
 			final Map<CoinType, List<Coin>> coinMap = Maps.newHashMap();
+			final GameBox gameBox = SpringContainer.INSTANCE
+					.getBean(GameBox.class);
 			coinMap.put(CoinType.GOLD_50,
-					GameBox.getGameBox().takeCoins(CoinType.GOLD_50, 1));
+					gameBox.takeCoins(CoinType.GOLD_50, 1));
 			player.setCoins(coinMap);
-			GameBox.getGameBox().assignRankOneCastles(player, players.size());
-			GameBox.getGameBox().assignCastles(player, players.size());
+			gameBox.assignRankOneCastles(player, players.size());
+			gameBox.assignCastles(player, players.size());
 		}
 
 	}

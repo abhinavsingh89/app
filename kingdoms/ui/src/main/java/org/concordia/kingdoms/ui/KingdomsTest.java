@@ -10,13 +10,14 @@ import java.util.List;
 
 import org.concordia.kingdoms.Kingdoms;
 import org.concordia.kingdoms.Player;
+import org.concordia.kingdoms.TileBank;
 import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.board.factory.TDBoardBuilder;
-import org.concordia.kingdoms.board.factory.TileBank;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.exceptions.GameRuleException;
+import org.concordia.kingdoms.spring.SpringContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,7 +76,8 @@ public class KingdomsTest {
 							+ "Press any key to pick a Starting Tile");
 					br.readLine();
 
-					Tile startingTile = TileBank.getTileBank().pickTile();
+					Tile startingTile = SpringContainer.INSTANCE.getBean(
+							"tileBank", TileBank.class).pickTile();
 					player.setStartingTile(startingTile);
 					System.out.println(startingTile.show());
 				}
@@ -149,7 +151,8 @@ public class KingdomsTest {
 			throws IOException, GameRuleException {
 		// show the random tile picked up from
 		// the tile bank
-		final Tile tile = TileBank.getTileBank().pickTile();
+		final Tile tile = SpringContainer.INSTANCE.getBean("tileBank",
+				TileBank.class).pickTile();
 		System.out.println(tile.show());
 		int row = getRow(br);
 		int column = getColumn(br);

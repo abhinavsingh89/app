@@ -14,11 +14,11 @@ import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.EpochCounter;
 import org.concordia.kingdoms.board.ICoordinate;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
-import org.concordia.kingdoms.board.factory.TileBank;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.jaxb.GameState;
 import org.concordia.kingdoms.jaxb.JaxbUtil;
+import org.concordia.kingdoms.spring.SpringContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -111,7 +111,8 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 		List<Entry<T>> entries = Lists.newArrayList(this.board.getEntries());
 		gameState.setEntries(entries);
 		gameState.setPlayers(this.board.getPlayers());
-		gameState.setTileBank(TileBank.getTileBank().getTiles());
+		gameState.setTileBank(SpringContainer.INSTANCE.getBean("tileBank",
+				TileBank.class).getTiles());
 		this.save(gameState);
 	}
 

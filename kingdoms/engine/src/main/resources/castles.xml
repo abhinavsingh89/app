@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<import resource="colors.xml" />
+
+	<util:map id="castles">
+		<entry key="1" value-ref="rankOne"></entry>
+		<entry key="2" value-ref="rankTwo"></entry>
+		<entry key="3" value-ref="rankThree"></entry>
+		<entry key="4" value-ref="rankFour"></entry>
+	</util:map>
+
+	<util:map id="rankOne">
+		<entry key-ref="RED" value-ref="rankOneRedCastles" />
+		<entry key-ref="BLUE" value-ref="rankOneBlueCastles" />
+		<entry key-ref="GREEN" value-ref="rankOneGreenCastles" />
+		<entry key-ref="YELLOW" value-ref="rankOneYellowCastles" />
+	</util:map>
+
+	<util:map id="rankTwo">
+		<entry key-ref="RED" value-ref="rankTwoRedCastles" />
+		<entry key-ref="BLUE" value-ref="rankTwoBlueCastles" />
+		<entry key-ref="GREEN" value-ref="rankTwoGreenCastles" />
+		<entry key-ref="YELLOW" value-ref="rankTwoYellowCastles" />
+	</util:map>
+
+	<util:map id="rankThree">
+		<entry key-ref="RED" value-ref="rankThreeRedCastles" />
+		<entry key-ref="BLUE" value-ref="rankThreeBlueCastles" />
+		<entry key-ref="GREEN" value-ref="rankThreeGreenCastles" />
+		<entry key-ref="YELLOW" value-ref="rankThreeYellowCastles" />
+	</util:map>
+
+	<util:map id="rankFour">
+		<entry key-ref="RED" value-ref="rankFourRedCastles" />
+		<entry key-ref="BLUE" value-ref="rankFourBlueCastles" />
+		<entry key-ref="GREEN" value-ref="rankFourGreenCastles" />
+		<entry key-ref="YELLOW" value-ref="rankFourYellowCastles" />
+	</util:map>
+
+	<bean name="rankOneRedCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="1" />
+		<constructor-arg>
+			<ref bean="RED" />
+		</constructor-arg>
+		<constructor-arg value="4" />
+	</bean>
+
+	<bean name="rankOneBlueCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="1" />
+		<constructor-arg>
+			<ref bean="BLUE" />
+		</constructor-arg>
+		<constructor-arg value="4" />
+	</bean>
+
+	<bean name="rankOneGreenCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="1" />
+		<constructor-arg>
+			<ref bean="GREEN" />
+		</constructor-arg>
+		<constructor-arg value="4" />
+	</bean>
+
+	<bean name="rankOneYellowCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="1" />
+		<constructor-arg>
+			<ref bean="YELLOW" />
+		</constructor-arg>
+		<constructor-arg value="4" />
+	</bean>
+
+	<bean name="rankTwoRedCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="2" />
+		<constructor-arg>
+			<ref bean="RED" />
+		</constructor-arg>
+		<constructor-arg value="3" />
+	</bean>
+
+	<bean name="rankTwoBlueCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="2" />
+		<constructor-arg>
+			<ref bean="BLUE" />
+		</constructor-arg>
+		<constructor-arg value="3" />
+	</bean>
+
+	<bean name="rankTwoGreenCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="2" />
+		<constructor-arg>
+			<ref bean="GREEN" />
+		</constructor-arg>
+		<constructor-arg value="3" />
+	</bean>
+
+	<bean name="rankTwoYellowCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="2" />
+		<constructor-arg>
+			<ref bean="YELLOW" />
+		</constructor-arg>
+		<constructor-arg value="3" />
+	</bean>
+
+
+	<bean name="rankThreeRedCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="3" />
+		<constructor-arg>
+			<ref bean="RED" />
+		</constructor-arg>
+		<constructor-arg value="2" />
+	</bean>
+
+	<bean name="rankThreeBlueCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="3" />
+		<constructor-arg>
+			<ref bean="BLUE" />
+		</constructor-arg>
+		<constructor-arg value="2" />
+	</bean>
+
+	<bean name="rankThreeGreenCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="3" />
+		<constructor-arg>
+			<ref bean="GREEN" />
+		</constructor-arg>
+		<constructor-arg value="2" />
+	</bean>
+
+	<bean name="rankThreeYellowCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="3" />
+		<constructor-arg>
+			<ref bean="YELLOW" />
+		</constructor-arg>
+		<constructor-arg value="2" />
+	</bean>
+
+
+	<bean name="rankFourRedCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="4" />
+		<constructor-arg>
+			<ref bean="RED" />
+		</constructor-arg>
+		<constructor-arg value="1" />
+	</bean>
+
+	<bean name="rankFourBlueCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="4" />
+		<constructor-arg>
+			<ref bean="BLUE" />
+		</constructor-arg>
+		<constructor-arg value="1" />
+	</bean>
+
+	<bean name="rankFourGreenCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="4" />
+		<constructor-arg>
+			<ref bean="GREEN" />
+		</constructor-arg>
+		<constructor-arg value="1" />
+	</bean>
+
+	<bean name="rankFourYellowCastles" class="org.concordia.kingdoms.GameBox"
+		factory-method="newCastles">
+		<constructor-arg value="4" />
+		<constructor-arg>
+			<ref bean="YELLOW" />
+		</constructor-arg>
+		<constructor-arg value="1" />
+	</bean>
+
+</beans>

@@ -3,36 +3,43 @@
  * @author Team K
  * @since 1.0
  */
-package org.concordia.kingdoms.board.factory;
+package org.concordia.kingdoms;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import org.concordia.kingdoms.GameBox;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.domain.TileType;
+import org.concordia.kingdoms.spring.SpringContainer;
 
 import com.google.common.collect.Lists;
 
 public class TileBank {
 
-	private static TileBank INSTANCE;
-
 	private List<Tile> tiles;
+	public static final List<TileType> TILE_TYPES = Lists.newArrayList(
+			TileType.DRAGON, TileType.GOLDMINE, TileType.HAZARD,
+			TileType.MOUNTAIN, TileType.RESOURCE, TileType.WIZARD);
 
 	/**
 	 * private method used for initializing the tile bank
 	 */
-	private TileBank() {
-		final List<TileType> tileTypes = Lists.newArrayList(TileType.DRAGON,
-				TileType.GOLDMINE, TileType.HAZARD, TileType.MOUNTAIN,
-				TileType.RESOURCE, TileType.WIZARD);
+	public TileBank() {
 		this.tiles = Lists.newArrayList();
-		for (final TileType type : tileTypes) {
-			this.tiles.addAll((GameBox.getGameBox().getTiles(type)));
-		}
+	}
+
+	public void init() {
+
+		final GameBox gameBox = SpringContainer.INSTANCE.getBean(GameBox.class);
+		gameBox.assignTiles(this);
 		Collections.shuffle(this.tiles);
+	}
+
+	void addTiles(List<Tile> tiles) {
+		if (tiles != null && !tiles.isEmpty()) {
+			this.tiles.addAll(tiles);
+		}
 	}
 
 	/**
@@ -44,18 +51,6 @@ public class TileBank {
 		// get a random tile
 		int randomindex = new Random().nextInt(tiles.size());
 		return tiles.remove(randomindex);
-	}
-
-	/**
-	 * method used to return the tilebank instance
-	 * 
-	 * @return instance
-	 */
-	public static TileBank getTileBank() {
-		if (INSTANCE == null) {
-			INSTANCE = new TileBank();
-		}
-		return INSTANCE;
 	}
 
 	/**

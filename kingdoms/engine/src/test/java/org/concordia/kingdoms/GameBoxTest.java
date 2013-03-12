@@ -1,57 +1,81 @@
 package org.concordia.kingdoms;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.domain.TileType;
+import org.concordia.kingdoms.spring.SpringContainer;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 public class GameBoxTest extends TestCase {
 
 	public void testTilesInitialized() {
-		GameBox gameBox = GameBox.newGameBox();
-		for (TileType type : TileType.values()) {
-			List<Tile> tiles = gameBox.getTiles(type);
-			assertEquals(tiles.isEmpty(), false);
-			for (Tile tile : tiles) {
-				assertNotNull(tile.getType());
-			}
+
+		GameBox gameBox = SpringContainer.INSTANCE.getBean("gameBox",
+				GameBox.class);
+		TileBank tileBank = SpringContainer.INSTANCE.getBean("tileBank",
+				TileBank.class);
+		tileBank.init();
+		gameBox.assignTiles(tileBank);
+		Iterator<Tile> itr = tileBank.getTiles().iterator();
+		while (itr.hasNext()) {
+			Tile tile = itr.next();
+			assertNotNull(tile);
 		}
 	}
 
 	public void testTilesCount() {
-		GameBox gameBox = GameBox.newGameBox();
-		List<Tile> allTiles = Lists.newArrayList();
+		GameBox gameBox = SpringContainer.INSTANCE.getBean("gameBox",
+				GameBox.class);
+		TileBank tileBank = SpringContainer.INSTANCE.getBean("tileBank",
+				TileBank.class);
+		tileBank.init();
+		gameBox.assignTiles(tileBank);
+		List<Tile> tiles = tileBank.getTiles();
+
+		Map<TileType, List<Tile>> tilesMap = Maps.newHashMap();
+
+		Iterator<Tile> itr = tiles.iterator();
+
+		while (itr.hasNext()) {
+			Tile tile = itr.next();
+			if (tilesMap.containsKey(tile.getType())) {
+				tilesMap.get(tile.getType()).add(tile);
+			} else {
+				tilesMap.put(tile.getType(), Lists.newArrayList(tile));
+			}
+		}
+
 		for (TileType type : TileType.values()) {
-			List<Tile> tiles = gameBox.getTiles(type);
+			int count = tilesMap.get(type).size();
 			switch (type) {
 			case RESOURCE:
-				assertEquals(tiles.size(), 12);
+				assertEquals(count, 12);
 				break;
 			case DRAGON:
-				assertEquals(tiles.size(), 1);
+				assertEquals(count, 1);
 				break;
 			case GOLDMINE:
-				assertEquals(tiles.size(), 1);
+				assertEquals(count, 1);
 				break;
 			case HAZARD:
-				assertEquals(tiles.size(), 6);
+				assertEquals(count, 6);
 				break;
 			case MOUNTAIN:
-				assertEquals(tiles.size(), 2);
+				assertEquals(count, 2);
 				break;
 			case WIZARD:
-				assertEquals(tiles.size(), 1);
+				assertEquals(count, 1);
 				break;
 			default:
 				fail();
 			}
-			allTiles.addAll(tiles);
 		}
-		assertEquals(allTiles.size(), 23);
 	}
-
 }

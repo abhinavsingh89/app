@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<import resource="tiletypes.xml" />
+
+	<util:map id="allTiles">
+		<entry key-ref="RESOURCE">
+			<ref bean="resourceTiles" />
+		</entry>
+		<entry key-ref="HAZARD">
+			<ref bean="hazardTiles" />
+		</entry>
+		<entry key-ref="DRAGON">
+			<ref bean="dragonTiles" />
+		</entry>
+		<entry key-ref="MOUNTAIN">
+			<ref bean="mountainTiles" />
+		</entry>
+		<entry key-ref="GOLDMINE">
+			<ref bean="goldmineTiles" />
+		</entry>
+		<entry key-ref="WIZARD">
+			<ref bean="wizardTiles" />
+		</entry>
+	</util:map>
+
+	<util:list id="resourceTiles">
+		<ref bean="citiesTile3" />
+		<ref bean="citiesTile4" />
+		<ref bean="citiesTile5" />
+		<ref bean="citiesTile6" />
+
+		<ref bean="villageTile1" />
+		<ref bean="villageTile2" />
+		<ref bean="villageTile5" />
+		<ref bean="villageTile6" />
+
+		<ref bean="farmsTile1" />
+		<ref bean="farmsTile2" />
+		<ref bean="farmsTile3" />
+		<ref bean="farmsTile5" />
+	</util:list>
+
+	<util:list id="hazardTiles">
+		<ref bean="hazardTileBear" />
+		<ref bean="hazardTileHyna" />
+		<ref bean="hazardTileLion" />
+		<ref bean="hazardTileThunder" />
+		<ref bean="hazardTileTiger" />
+		<ref bean="hazardTileVulture" />
+	</util:list>
+
+	<util:list id="mountainTiles">
+		<ref bean="mountainTileALPES" />
+		<ref bean="mountainTileEverest" />
+	</util:list>
+
+	<util:list id="dragonTiles">
+		<ref bean="dragonTileRed" />
+	</util:list>
+
+	<util:list id="goldmineTiles">
+		<ref bean="goldMineTile" />
+	</util:list>
+
+	<util:list id="wizardTiles">
+		<ref bean="wizardTile" />
+	</util:list>
+
+	<!-- RESOURCE TILE : CITIES -->
+	<bean name="citiesTile6" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="RESOURCE" />
+		<constructor-arg value="cities" />
+		<constructor-arg value="6" />
+	</bean>
+
+	<bean name="citiesTile5" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="RESOURCE" />
+		<constructor-arg value="cities" />
+		<constructor-arg value="5" />
+	</bean>
+
+	<bean name="citiesTile4" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="RESOURCE" />
+		<constructor-arg value="cities" />
+		<constructor-arg value="4" />
+	</bean>
+
+	<bean name="citiesTile3" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="RESOURCE" />
+		<constructor-arg value="cities" />
+		<constructor-arg value="3" />
+	</bean>
+
+	<!-- RESOURCE TILE : VILLAGE -->
+
+	<bean name="villageTile6" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="RESOURCE" />
+		<constructor-arg value="village" />
+		<constructor-arg value="6" />
+	</bean>
+
+	<bean name="villageTile5" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="RESOURCE" />
+		<constructor-arg value="village" />
+		<constructor-arg value="5" />
+	</bean>
+
+	<bean name="villageTile1" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="RESOURCE" />
+		<constructor-arg value="village" />
+		<constructor-arg value="1" />
+	</bean>
+
+	<bean name="villageTile2" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="RESOURCE" />
+		<constructor-arg value="village" />
+		<constructor-arg value="2" />
+	</bean>
+
+	<!-- RESOURCE TILE : FARMS -->
+	<bean name="farmsTile3" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="RESOURCE" />
+		<constructor-arg value="farms" />
+		<constructor-arg value="3" />
+	</bean>
+
+	<bean name="farmsTile2" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="RESOURCE" />
+		<constructor-arg value="farms" />
+		<constructor-arg value="2" />
+	</bean>
+
+	<bean name="farmsTile1" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="RESOURCE" />
+		<constructor-arg value="farms" />
+		<constructor-arg value="1" />
+	</bean>
+
+	<bean name="farmsTile5" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="RESOURCE" />
+		<constructor-arg value="farms" />
+		<constructor-arg value="5" />
+	</bean>
+
+	<!-- HAZARD TILES -->
+
+	<bean name="hazardTileBear" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="HAZARD" />
+		<constructor-arg value="BEAR" />
+		<constructor-arg value="-6" />
+	</bean>
+
+	<bean name="hazardTileHyna" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="HAZARD" />
+		<constructor-arg value="HYNA" />
+		<constructor-arg value="-5" />
+	</bean>
+
+	<bean name="hazardTileLion" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="HAZARD" />
+		<constructor-arg value="LION" />
+		<constructor-arg value="-4" />
+	</bean>
+
+	<bean name="hazardTileTiger" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="HAZARD" />
+		<constructor-arg value="TIGER" />
+		<constructor-arg value="-3" />
+	</bean>
+
+	<bean name="hazardTileVulture" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="HAZARD" />
+		<constructor-arg value="VULTURE" />
+		<constructor-arg value="-2" />
+	</bean>
+
+	<bean name="hazardTileThunder" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="HAZARD" />
+		<constructor-arg value="THUNDER" />
+		<constructor-arg value="-1" />
+	</bean>
+
+	<!-- MOUNTAIN TILE -->
+
+	<bean name="mountainTileEverest" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="MOUNTAIN" />
+		<constructor-arg value="EVEREST" />
+		<constructor-arg>
+			<null />
+		</constructor-arg>
+	</bean>
+
+	<bean name="mountainTileALPES" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="MOUNTAIN" />
+		<constructor-arg value="ALPES" />
+		<constructor-arg>
+			<null />
+		</constructor-arg>
+	</bean>
+
+	<!-- DRAGON TILE -->
+
+	<bean name="dragonTileRed" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="DRAGON" />
+		<constructor-arg value="RED_DRAGON" />
+		<constructor-arg>
+			<null />
+		</constructor-arg>
+	</bean>
+
+	<!-- GOLDMINE TILE -->
+
+	<bean name="goldMineTile" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="GOLDMINE" />
+		<constructor-arg value="GOLDMINE" />
+		<constructor-arg>
+			<null />
+		</constructor-arg>
+	</bean>
+
+	<!-- WIZARD TILE -->
+
+	<bean name="wizardTile" class="org.concordia.kingdoms.domain.Tile"
+		factory-method="newTile">
+		<constructor-arg type="org.concordia.kingdoms.domain.TileType"
+			value="WIZARD" />
+		<constructor-arg value="WIZARD" />
+		<constructor-arg>
+			<null />
+		</constructor-arg>
+	</bean>
+
+</beans>

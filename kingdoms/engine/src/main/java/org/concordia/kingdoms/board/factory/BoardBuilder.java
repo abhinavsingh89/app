@@ -7,7 +7,9 @@ package org.concordia.kingdoms.board.factory;
 
 import java.util.List;
 
+import org.concordia.kingdoms.CoinBank;
 import org.concordia.kingdoms.Player;
+import org.concordia.kingdoms.TileBank;
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.ICoordinate;
 import org.concordia.kingdoms.board.IMatrix;
