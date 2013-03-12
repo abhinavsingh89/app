@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 
 import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.TDCoordinate;
-import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.domain.TileType;
 import org.concordia.kingdoms.exceptions.GameRuleException;

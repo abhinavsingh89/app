@@ -5,8 +5,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-	<import resource="gameBox.xml" />
-	<import resource="coinBank.xml" />
-	<import resource="tileBank.xml" />
-	<import resource="adapters.xml" />
+
+	<bean name="entriesAdapter" class="org.concordia.kingdoms.adapter.EntriesAdapter" />
+	<bean name="playersAdapter" class="org.concordia.kingdoms.adapter.PlayersAdapter" />
 </beans>

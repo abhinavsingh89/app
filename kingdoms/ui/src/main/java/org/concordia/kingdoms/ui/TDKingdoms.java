@@ -1,25 +1,22 @@
 package org.concordia.kingdoms.ui;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 
 import org.concordia.kingdoms.GameState;
 import org.concordia.kingdoms.Kingdoms;
 import org.concordia.kingdoms.adapter.AdapterUtil;
 import org.concordia.kingdoms.adapter.EntriesAdapter;
-import org.concordia.kingdoms.adapter.IAdapter;
 import org.concordia.kingdoms.adapter.PlayersAdapter;
 import org.concordia.kingdoms.board.Board;
-import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
 import org.concordia.kingdoms.board.factory.TDBoardBuilder;
 import org.concordia.kingdoms.exceptions.GameException;
-import org.concordia.kingdoms.jaxb.Player;
 import org.concordia.kingdoms.persistence.JaxbPersitenceManager;
 import org.concordia.kingdoms.persistence.PersistenceException;
 import org.concordia.kingdoms.persistence.PerstistenceManager;
+import org.concordia.kingdoms.spring.SpringContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,22 +37,14 @@ public class TDKingdoms extends Kingdoms<TDCoordinate> {
 		return TDCoordinate.newInstance(Board.MAX_ROWS, Board.MAX_COLUMNS);
 	}
 
-	@Override
-	protected IAdapter<Iterator<Entry<TDCoordinate>>, List<org.concordia.kingdoms.jaxb.Entry>> newEntriesAdapter() {
-		return new EntriesAdapter();
-	}
-
-	@Override
-	protected IAdapter<List<org.concordia.kingdoms.Player<TDCoordinate>>, List<Player>> newPlayersAdapter() {
-		return new PlayersAdapter();
-	}
-
 	public void save(GameState<TDCoordinate> gameState) throws GameException {
 		org.concordia.kingdoms.jaxb.GameState jaxbGameState = new org.concordia.kingdoms.jaxb.GameState();
 		jaxbGameState.setComponentsOnBoard(gameState.getComponentsOnBoard());
-		jaxbGameState.setEntries(newEntriesAdapter().convertTo(
+		jaxbGameState.setEntries(SpringContainer.INSTANCE.getBean(
+				"entriesAdapter", EntriesAdapter.class).convertTo(
 				gameState.getEntries().iterator()));
-		jaxbGameState.setPlayers(newPlayersAdapter().convertTo(
+		jaxbGameState.setPlayers(SpringContainer.INSTANCE.getBean(
+				"playersAdapter", PlayersAdapter.class).convertTo(
 				gameState.getPlayers()));
 		jaxbGameState.setTileBank(AdapterUtil.newJaxbTiles(gameState
 				.getTileBank()));
@@ -64,5 +53,18 @@ public class TDKingdoms extends Kingdoms<TDCoordinate> {
 		} catch (PersistenceException e) {
 			throw new GameException(e.getMessage());
 		}
+	}
+
+	@Override
+	public GameState<TDCoordinate> loadGameState(File file)
+			throws GameException {
+		try {
+			org.concordia.kingdoms.jaxb.GameState jaxbGameState = this.perstistenceManager
+					.load(file);
+
+		} catch (PersistenceException e) {
+			log.error(e.getMessage());
+		}
+		return null;
 	}
 }

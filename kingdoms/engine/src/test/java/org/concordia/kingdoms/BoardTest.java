@@ -11,7 +11,6 @@ import org.concordia.kingdoms.board.factory.TDBoardBuilder;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.exceptions.GameRuleException;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
