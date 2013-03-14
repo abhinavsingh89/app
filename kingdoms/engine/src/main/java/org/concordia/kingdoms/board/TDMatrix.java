@@ -165,6 +165,9 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 
 	public void getScore(int start, int end, int rowOrColumnNumber,
 			boolean isRow, List<Integer> scores) {
+		if (start == end) {
+			return;
+		}
 		int mountainAt = mountainAt(start, end, rowOrColumnNumber, isRow);
 		if (mountainAt == -1) {
 
@@ -188,13 +191,6 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 						scores.add(columnScore(start, end, rowOrColumnNumber,
 								dragonDecorator));
 					}
-				}
-				if (isRow) {
-					scores.add(rowScore(start, end, rowOrColumnNumber,
-							dragonDecorator));
-				} else {
-					scores.add(columnScore(start, end, rowOrColumnNumber,
-							dragonDecorator));
 				}
 
 			} else {
@@ -293,8 +289,9 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 	private void calcRowScore(int start, int end, int row) {
 		for (int column = start; column < end; column++) {
 			final Entry<TDCoordinate> entry = getEntry(row, column);
-			Component component = entry.getComponent();
+			final Component component = entry.getComponent();
 			// if(component)
+
 		}
 	}
 
