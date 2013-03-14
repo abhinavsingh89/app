@@ -1,6 +1,7 @@
 package org.concordia.kingdoms;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -190,5 +191,26 @@ public class Player<T extends ICoordinate> {
 					Collections.unmodifiableList(this.castles.get(rank)));
 		}
 		return Collections.unmodifiableMap(retMap);
+	}
+
+	public void addNewScore(Score newScore) {
+		this.scores.add(newScore);
+	}
+
+	public int getTotalScore() {
+		int total = 0;
+		for (Score score : scores) {
+			total += score.score();
+		}
+		return total;
+	}
+
+	public static class PlayerComparator implements Comparator<Player<?>> {
+
+		public static final PlayerComparator INSTANCE = new PlayerComparator();
+
+		public int compare(Player<?> o1, Player<?> o2) {
+			return o1.getTotalScore() - o2.getTotalScore();
+		}
 	}
 }

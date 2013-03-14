@@ -1,10 +1,20 @@
 package org.concordia.kingdoms.board;
 
+import java.util.Comparator;
+
+import org.concordia.kingdoms.domain.Color;
+
 public class Score {
 
 	private int rowScore;
 
 	private int columnScore;
+
+	private Color color;
+
+	public Score(Color color) {
+		this.color = color;
+	}
 
 	Score incrementRowScoreBy(int score) {
 		this.rowScore += score;
@@ -26,5 +36,19 @@ public class Score {
 
 	public int getColumnScore() {
 		return columnScore;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public static class ScoreComparator implements Comparator<Score> {
+
+		public static final ScoreComparator INSTANCE = new ScoreComparator();
+
+		public int compare(Score o1, Score o2) {
+			return o1.score() - o2.score();
+		}
+
 	}
 }

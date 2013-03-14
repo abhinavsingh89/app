@@ -4,13 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import org.concordia.kingdoms.adapter.IAdapter;
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.EpochCounter;
 import org.concordia.kingdoms.board.ICoordinate;
+import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
+import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.spring.SpringContainer;
 import org.slf4j.Logger;
@@ -143,7 +145,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 
 	@Override
 	public boolean isLevelCompleted() {
-		return this.board.isEmpty();
+		return !this.board.isEmpty();
 	}
 
 	public boolean isValidPosition(T coordinate) {
@@ -154,4 +156,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 		return this.board.getEntries();
 	}
 
+	public Map<Color, Score> score() {
+		return this.board.score();
+	}
 }

@@ -7,10 +7,12 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.concordia.kingdoms.Kingdoms;
 import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.TileBank;
+import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.board.factory.TDBoardBuilder;
 import org.concordia.kingdoms.domain.Color;
@@ -67,52 +69,64 @@ public class KingdomsTest {
 				+ kingdoms.getEpochCounter().getCurrentLevel());
 		presentable.present();
 
-		while (!kingdoms.isLevelCompleted()
-				&& kingdoms.getEpochCounter().isNextAvailable()) {
-			for (final Player player : players) {
+		while (kingdoms.getEpochCounter().isNextAvailable()) {
+			while (!kingdoms.isLevelCompleted()) {
+				for (final Player<TDCoordinate> player : players) {
 
-				if (player.getStartingTile() == null) {
-					System.out.println(player.getName() + ">"
-							+ "Press any key to pick a Starting Tile");
-					br.readLine();
+					if (player.getStartingTile() == null) {
+						System.out.println(player.getName() + ">"
+								+ "Press any key to pick a Starting Tile");
+						br.readLine();
 
-					Tile startingTile = SpringContainer.INSTANCE.getBean(
-							"tileBank", TileBank.class).pickTile();
-					player.setStartingTile(startingTile);
-					System.out.println(startingTile.show());
-				}
+						Tile startingTile = SpringContainer.INSTANCE.getBean(
+								"tileBank", TileBank.class).pickTile();
+						player.setStartingTile(startingTile);
+						System.out.println(startingTile.show());
+					}
 
-				boolean isValidInput = false;
-				while (!isValidInput) {
-					try {
-						System.out
-								.println(player.getName()
-										+ ">"
-										+ "Press 1 to pick a Tile any other number for Castle");
-						String data = br.readLine();
-						if ("save".equals(data)) {
-							saveMyGame(kingdoms);
-							continue;
+					boolean isValidInput = false;
+					while (!isValidInput) {
+						try {
+							System.out
+									.println(player.getName()
+											+ ">"
+											+ "Press 1 to pick a Tile any other number for Castle");
+							String data = br.readLine();
+							if ("save".equals(data)) {
+								saveMyGame(kingdoms);
+								continue;
+							}
+							int tileOrCastle = Integer.parseInt(data);
+							if (tileOrCastle == 1) {
+								placeTile(kingdoms, br, player);
+							} else {
+								placeCastle(kingdoms, br, player);
+							}// else ending
+							isValidInput = true;
+							presentable.present();
+						} catch (NumberFormatException ex) {
+							log.error("Invalid input:" + ex.getMessage());
 						}
-						int tileOrCastle = Integer.parseInt(data);
-						if (tileOrCastle == 1) {
-							placeTile(kingdoms, br, player);
-						} else {
-							placeCastle(kingdoms, br, player);
-						}// else ending
-						isValidInput = true;
-						presentable.present();
-					} catch (NumberFormatException ex) {
-						log.error("Invalid input:" + ex.getMessage());
 					}
 				}
 			}
+			System.out.println("Level Completed!!");
+			Map<Color, Score> scoreCard = kingdoms.score();
+			assignScore(players, scoreCard);
+			Collections.sort(players, Player.PlayerComparator.INSTANCE);
 		}
-		System.out.println("Level Completed!!");
+
 		// TODO:rearrange players according to winners
 		kingdoms.getEpochCounter().goNextLevel();
 		if ("exit".equals(input)) {
 			System.out.println("--Game Exit--");
+		}
+	}
+
+	private static void assignScore(final List<Player<TDCoordinate>> players,
+			Map<Color, Score> scoreCard) {
+		for (Player<?> player : players) {
+			player.addNewScore(scoreCard.get(player.getChosenColor()));
 		}
 	}
 
@@ -213,7 +227,6 @@ public class KingdomsTest {
 							log.error(ex.getMessage());
 						}
 					}
-
 				}
 				isValidInput = true;
 			} catch (NumberFormatException ex) {

@@ -6,10 +6,17 @@ package org.concordia.kingdoms.board;
  * @since 1.0
  *
  */
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.concordia.kingdoms.Player;
+import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.exceptions.GameRuleException;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 public class EpochCounter {
 
@@ -17,7 +24,7 @@ public class EpochCounter {
 
 	private int totalLevels;
 
-	private Map<Integer, Player> winners;
+	private List<ScoreCard> scoreCards;
 
 	/**
 	 * initialization for number of levels i.e. setting totalLevels
@@ -38,16 +45,6 @@ public class EpochCounter {
 	public EpochCounter(int currentLevel, int totalLevels) {
 		this.currentLevel = currentLevel;
 		this.totalLevels = totalLevels;
-	}
-
-	/**
-	 * method used for returning the winner of the level
-	 * 
-	 * @param level
-	 * @return winner
-	 */
-	public Player winner(int level) {
-		return this.winners.get(level);
 	}
 
 	/**
@@ -79,4 +76,24 @@ public class EpochCounter {
 	public int getCurrentLevel() {
 		return currentLevel;
 	}
+
+	public void addNewScore(Player<?> players, Map<Color, Score> newScore) {
+		Iterator<Color> itr = newScore.keySet().iterator();
+		final List<Score> scores = Lists.newArrayList();
+		while (itr.hasNext()) {
+			Color color = itr.next();
+			Score score = newScore.get(color);
+			scores.add(score);
+		}
+		Collections.sort(scores, Score.ScoreComparator.INSTANCE);
+		Map<Color, Score> sortedScores = Maps.newHashMap();
+
+		for (Score score : scores) {
+			sortedScores.put(score.getColor(), score);
+		}
+		ScoreCard newScoreCard = new ScoreCard(this.scoreCards.size() + 1,
+				scores);
+		this.scoreCards.add(newScoreCard);
+	}
+
 }

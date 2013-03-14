@@ -11,10 +11,12 @@ package org.concordia.kingdoms.board;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.concordia.kingdoms.CoinBank;
 import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.TileBank;
+import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 
@@ -165,5 +167,9 @@ public class Board<T extends ICoordinate> {
 
 	public boolean isEmpty() {
 		return this.matrix.isEmpty();
+	}
+
+	public Map<Color, Score> score() {
+		return this.matrix.score();
 	}
 }

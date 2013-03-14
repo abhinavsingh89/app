@@ -2,73 +2,55 @@
 <ns2:kingdoms xmlns:ns2="org.concordia.kingdoms">
     <rows>0</rows>
     <columns>0</columns>
-    <tokensCount>0</tokensCount>
+    <tokensCount>2</tokensCount>
     <entries>
-        <entry column="2" row="0">
-            <castle color="YELLOW">
-                <name>CASTLE</name>
-                <rank>3</rank>
-            </castle>
-        </entry>
-        <entry column="3" row="1">
-            <tile type="goldmine">
-                <name>GOLDMINE</name>
-                <value>0</value>
+        <entry column="0" row="0">
+            <tile type="resource">
+                <name>cities</name>
+                <value>4</value>
             </tile>
+        </entry>
+        <entry column="1" row="0">
+            <castle color="RED">
+                <name>CASTLE</name>
+                <rank>1</rank>
+            </castle>
         </entry>
     </entries>
     <tilesBank>
-        <tile type="mountain">
-            <name>ALPES</name>
-            <value>0</value>
-        </tile>
-        <tile type="resource">
-            <name>village</name>
-            <value>2</value>
-        </tile>
-        <tile type="mountain">
-            <name>EVEREST</name>
-            <value>0</value>
-        </tile>
-        <tile type="resource">
-            <name>village</name>
-            <value>1</value>
+        <tile type="hazard">
+            <name>THUNDER</name>
+            <value>-1</value>
         </tile>
         <tile type="wizard">
             <name>WIZARD</name>
-            <value>0</value>
-        </tile>
-        <tile type="hazard">
-            <name>BEAR</name>
-            <value>-6</value>
-        </tile>
-        <tile type="dragon">
-            <name>RED_DRAGON</name>
-            <value>0</value>
-        </tile>
-        <tile type="hazard">
-            <name>TIGER</name>
-            <value>-3</value>
         </tile>
         <tile type="resource">
             <name>farms</name>
-            <value>5</value>
-        </tile>
-        <tile type="resource">
-            <name>cities</name>
-            <value>4</value>
+            <value>1</value>
         </tile>
         <tile type="resource">
             <name>farms</name>
             <value>3</value>
         </tile>
         <tile type="hazard">
-            <name>THUNDER</name>
-            <value>-1</value>
+            <name>VULTURE</name>
+            <value>-2</value>
+        </tile>
+        <tile type="mountain">
+            <name>EVEREST</name>
         </tile>
         <tile type="resource">
             <name>village</name>
-            <value>5</value>
+            <value>1</value>
+        </tile>
+        <tile type="resource">
+            <name>cities</name>
+            <value>6</value>
+        </tile>
+        <tile type="hazard">
+            <name>LION</name>
+            <value>-4</value>
         </tile>
         <tile type="resource">
             <name>cities</name>
@@ -76,11 +58,21 @@
         </tile>
         <tile type="resource">
             <name>farms</name>
+            <value>5</value>
+        </tile>
+        <tile type="dragon">
+            <name>RED_DRAGON</name>
+        </tile>
+        <tile type="resource">
+            <name>farms</name>
             <value>2</value>
         </tile>
         <tile type="resource">
-            <name>cities</name>
-            <value>6</value>
+            <name>village</name>
+            <value>2</value>
+        </tile>
+        <tile type="goldmine">
+            <name>GOLDMINE</name>
         </tile>
         <tile type="hazard">
             <name>HYNA</name>
@@ -90,24 +82,28 @@
             <name>village</name>
             <value>6</value>
         </tile>
+        <tile type="hazard">
+            <name>BEAR</name>
+            <value>-6</value>
+        </tile>
         <tile type="resource">
             <name>cities</name>
-            <value>5</value>
+            <value>3</value>
         </tile>
         <tile type="hazard">
-            <name>VULTURE</name>
-            <value>-2</value>
+            <name>TIGER</name>
+            <value>-3</value>
         </tile>
     </tilesBank>
     <players>
         <player>
-            <name>a</name>
-            <chosenColor>RED</chosenColor>
+            <name>b</name>
+            <chosenColor>BLUE</chosenColor>
             <score>0</score>
         </player>
         <player>
-            <name>b</name>
-            <chosenColor>YELLOW</chosenColor>
+            <name>a</name>
+            <chosenColor>RED</chosenColor>
             <score>0</score>
         </player>
     </players>

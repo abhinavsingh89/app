@@ -16,8 +16,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-public class TDMatrix implements IMatrix<TDCoordinate>,
-		ScoreService<TDCoordinate> {
+public class TDMatrix implements IMatrix<TDCoordinate> {
 
 	private List<List<Entry<TDCoordinate>>> entries;
 
@@ -114,7 +113,7 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 	 * @return true/false
 	 */
 	public boolean isEmpty() {
-		return this.componentsOnBoard == MAX_ROWS * MAX_COLUMNS;
+		return this.componentsOnBoard < MAX_ROWS * MAX_COLUMNS;
 	}
 
 	public boolean isEmpty(final TDCoordinate coordinate) {
@@ -142,6 +141,10 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 
 		List<List<Map<Color, Integer>>> rowsRanks = Lists.newArrayList();
 
+		rowsScores = Lists.newArrayList();
+
+		columnsScores = Lists.newArrayList();
+
 		for (int row = 0; row < MAX_ROWS; row++) {
 			final List<Integer> scores = Lists.newArrayList();
 			getScore(0, MAX_COLUMNS, row, true, scores);
@@ -154,6 +157,7 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 		List<List<Map<Color, Integer>>> columnsRanks = Lists.newArrayList();
 
 		for (int column = 0; column < MAX_COLUMNS; column++) {
+
 			final List<Integer> scores = Lists.newArrayList();
 			getScore(0, MAX_ROWS, column, false, scores);
 			this.columnsScores.add(scores);
@@ -185,6 +189,7 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 			System.out.print(score.getColumnScore() + " ");
 			System.out.println(score.score());
 		}
+
 	}
 
 	private void extractFinalScore(
@@ -210,7 +215,7 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 							finalScore.get(color).incrementRowScoreBy(
 									finalRowScore);
 						} else {
-							finalScore.put(color, new Score()
+							finalScore.put(color, new Score(color)
 									.incrementRowScoreBy(finalRowScore));
 						}
 					} else {
@@ -218,7 +223,7 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 							finalScore.get(color).incrementColumnScoreBy(
 									finalRowScore);
 						} else {
-							finalScore.put(color, new Score()
+							finalScore.put(color, new Score(color)
 									.incrementColumnScoreBy(finalRowScore));
 						}
 					}
@@ -283,7 +288,6 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 			getScore(start, mountainAt, rowOrColumnNumber, isRow, scores);
 			getScore(mountainAt + 1, end, rowOrColumnNumber, isRow, scores);
 		}
-
 	}
 
 	private int mountainAt(int start, int end, int rowOrColumnNumber,
