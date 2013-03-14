@@ -567,7 +567,7 @@ public class TDMatrixTest extends TestCase {
 
 		try {
 
-			// 0th row
+			// 0th row 
 
 			matrix.putComponent(Tile.newTile(TileType.RESOURCE, "resource", 3),
 
