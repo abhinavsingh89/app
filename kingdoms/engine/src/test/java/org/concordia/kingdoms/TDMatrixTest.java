@@ -29,7 +29,8 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(0, 3));
 			matrix.putComponent(Tile.newTile(TileType.HAZARD, "hazard", -5),
 					TDCoordinate.newInstance(0, 4));
-			matrix.putComponent(Tile.newTile(TileType.DRAGON, "hazard", null),
+			matrix.putComponent(
+					Tile.newTile(TileType.GOLDMINE, "goldmine", null),
 					TDCoordinate.newInstance(0, 5));
 
 			List<Integer> scores = Lists.newArrayList();

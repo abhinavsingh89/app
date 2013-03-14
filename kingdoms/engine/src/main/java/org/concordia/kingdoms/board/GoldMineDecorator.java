@@ -18,7 +18,8 @@ public class GoldMineDecorator implements IDecorator {
 		}
 		if (this.component instanceof Tile) {
 			final Tile tile = (Tile) this.component;
-			if (tile.getType().equals(TileType.RESOURCE)) {
+			if (tile.getType().equals(TileType.RESOURCE)
+					|| tile.getType().equals(TileType.HAZARD)) {
 				return 2 * this.component.getValue();
 			}
 		}
