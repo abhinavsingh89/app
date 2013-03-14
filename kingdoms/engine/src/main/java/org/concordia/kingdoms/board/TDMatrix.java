@@ -3,9 +3,11 @@ package org.concordia.kingdoms.board;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.concordia.kingdoms.Player;
+import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.TileType;
 import org.concordia.kingdoms.exceptions.GameRuleException;
@@ -24,9 +26,11 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 
 	private int componentsOnBoard;
 
-	private List<Score> rowScores;
+	private List<List<Integer>> rowScores;
 
-	private List<Score> columnScores;
+	private List<List<Integer>> columnScores;
+
+	private Map<Integer, Map<Color, Score>> scores;
 
 	private TileFinder tileFinder;
 
@@ -36,6 +40,8 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 
 	private IDecorator doNothingDecorator;
 
+	private IDecorator dragonGoldMineDecorator;
+
 	public TDMatrix(int rows, int columns) {
 		this.MAX_ROWS = rows;
 		this.MAX_COLUMNS = columns;
@@ -44,10 +50,14 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 		tileTypes.add(TileType.MOUNTAIN);
 		tileTypes.add(TileType.DRAGON);
 		tileTypes.add(TileType.GOLDMINE);
+		tileTypes.add(TileType.WIZARD);
 		this.tileFinder = new TileFinder(tileTypes);
 		this.dragonDecorator = new DragonDecorator(null);
 		this.goldmineDecorator = new GoldMineDecorator(null);
 		this.doNothingDecorator = new DoNothingDecorator(null);
+		this.dragonGoldMineDecorator = new DragonGoldMineDecorator();
+		this.rowScores = Lists.newArrayList();
+		this.columnScores = Lists.newArrayList();
 		this.initEntries();
 	}
 
@@ -99,6 +109,15 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 		return isValid;
 	}
 
+	/**
+	 * method used to check if there is any empty space on the board
+	 * 
+	 * @return true/false
+	 */
+	public boolean isEmpty() {
+		return this.componentsOnBoard == MAX_ROWS * MAX_COLUMNS;
+	}
+
 	public boolean isEmpty(final TDCoordinate coordinate) {
 
 		final int row = coordinate.getRow();
@@ -111,6 +130,7 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 	public Iterator<Entry<TDCoordinate>> getEntries() {
 
 		final List<Entry<TDCoordinate>> entriesList = Lists.newArrayList();
+
 		for (final List<Entry<TDCoordinate>> row : this.entries) {
 			for (final Entry<TDCoordinate> column : row) {
 				entriesList.add(column);
@@ -120,6 +140,26 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 	}
 
 	public int score(Player<TDCoordinate>... players) {
+
+		for (int row = 0; row < MAX_ROWS; row++) {
+			final List<Integer> scores = Lists.newArrayList();
+			getScore(0, MAX_COLUMNS, row, true, scores);
+			this.rowScores.add(scores);
+		}
+
+		for (int column = 0; column < MAX_COLUMNS; column++) {
+			final List<Integer> scores = Lists.newArrayList();
+			getScore(0, MAX_ROWS, column, false, scores);
+			this.columnScores.add(scores);
+		}
+
+		for (List<Integer> scores : this.rowScores) {
+			System.out.println(scores);
+		}
+
+		for (List<Integer> scores : columnScores) {
+			System.out.println(scores);
+		}
 		return 0;
 	}
 
@@ -127,8 +167,28 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 			boolean isRow, List<Integer> scores) {
 		int mountainAt = mountainAt(start, end, rowOrColumnNumber, isRow);
 		if (mountainAt == -1) {
+
 			if (hasDragon(start, end, rowOrColumnNumber, isRow)) {
 				// dragon decorator
+				if (hasGoldMine(start, end, rowOrColumnNumber, isRow)) {
+					// goldmine decorator
+					if (isRow) {
+						scores.add(rowScore(start, end, rowOrColumnNumber,
+								dragonGoldMineDecorator));
+					} else {
+						scores.add(columnScore(start, end, rowOrColumnNumber,
+								dragonGoldMineDecorator));
+					}
+
+				} else {
+					if (isRow) {
+						scores.add(rowScore(start, end, rowOrColumnNumber,
+								dragonDecorator));
+					} else {
+						scores.add(columnScore(start, end, rowOrColumnNumber,
+								dragonDecorator));
+					}
+				}
 				if (isRow) {
 					scores.add(rowScore(start, end, rowOrColumnNumber,
 							dragonDecorator));
@@ -206,7 +266,8 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 	private int getEntryValue(int row, int column, IDecorator decorator) {
 		int totalValue = 0;
 		final Entry<TDCoordinate> entry = getEntry(row, column);
-		Integer value = decorator.setComponent(entry.getComponent()).getValue();
+		final Integer value = decorator.setComponent(entry.getComponent())
+				.getValue();
 		if (value != null) {
 			totalValue += value.intValue();
 		}
@@ -215,5 +276,29 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 
 	private Entry<TDCoordinate> getEntry(int row, int column) {
 		return this.entries.get(row).get(column);
+	}
+
+	private void updateScores(int start, int end, int rowOrColumnNumber,
+			boolean isRow, List<Integer> scores) {
+
+		int mountainAt = mountainAt(start, end, rowOrColumnNumber, isRow);
+		if (mountainAt == -1) {
+
+		} else {
+			getScore(start, mountainAt, rowOrColumnNumber, isRow, scores);
+			getScore(mountainAt + 1, end, rowOrColumnNumber, isRow, scores);
+		}
+	}
+
+	private void calcRowScore(int start, int end, int row) {
+		for (int column = start; column < end; column++) {
+			final Entry<TDCoordinate> entry = getEntry(row, column);
+			Component component = entry.getComponent();
+			// if(component)
+		}
+	}
+
+	public int getTotalComponents() {
+		return this.componentsOnBoard;
 	}
 }
