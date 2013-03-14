@@ -19,4 +19,12 @@ public class Score {
 	public int score() {
 		return rowScore + columnScore;
 	}
+
+	public int getRowScore() {
+		return rowScore;
+	}
+
+	public int getColumnScore() {
+		return columnScore;
+	}
 }

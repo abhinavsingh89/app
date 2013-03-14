@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Component;
@@ -28,11 +27,9 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 
 	private int componentsOnBoard;
 
-	private List<List<Integer>> rowScores;
+	private List<List<Integer>> rowsScores;
 
-	private List<List<Integer>> columnScores;
-
-	private Map<Integer, Map<Color, Score>> scores;
+	private List<List<Integer>> columnsScores;
 
 	private TileFinder tileFinder;
 
@@ -58,8 +55,8 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 		this.goldmineDecorator = new GoldMineDecorator(null);
 		this.doNothingDecorator = new SimpleTileDecorator(null);
 		this.dragonGoldMineDecorator = new DragonGoldMineDecorator();
-		this.rowScores = Lists.newArrayList();
-		this.columnScores = Lists.newArrayList();
+		this.rowsScores = Lists.newArrayList();
+		this.columnsScores = Lists.newArrayList();
 		this.initEntries();
 	}
 
@@ -141,57 +138,93 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 		return Collections.unmodifiableList(entriesList).iterator();
 	}
 
-	public int score() {
+	public Map<Color, Score> score() {
 
-		List<Map<Color, Integer>> rowRanks = Lists.newArrayList();
+		List<List<Map<Color, Integer>>> rowsRanks = Lists.newArrayList();
 
 		for (int row = 0; row < MAX_ROWS; row++) {
 			final List<Integer> scores = Lists.newArrayList();
 			getScore(0, MAX_COLUMNS, row, true, scores);
-			this.rowScores.add(scores);
+			this.rowsScores.add(scores);
+			List<Map<Color, Integer>> rowRanks = Lists.newArrayList();
+			rowsRanks.add(rowRanks);
 			this.calculateScore(0, MAX_COLUMNS, row, true, rowRanks);
 		}
 
-		List<Map<Color, Integer>> columnRanks = Lists.newArrayList();
+		List<List<Map<Color, Integer>>> columnsRanks = Lists.newArrayList();
 
 		for (int column = 0; column < MAX_COLUMNS; column++) {
 			final List<Integer> scores = Lists.newArrayList();
 			getScore(0, MAX_ROWS, column, false, scores);
-			calculateScore(0, MAX_ROWS, column, false, columnRanks);
-			this.columnScores.add(scores);
-		}
-		System.out.println("---------------------------------------------");
-		for (List<Integer> scores : this.rowScores) {
-			System.out.println(scores);
-		}
-		System.out.println("---------------------------------------------");
-		for (List<Integer> scores : columnScores) {
-			System.out.println(scores);
+			this.columnsScores.add(scores);
+			List<Map<Color, Integer>> columnRanks = Lists.newArrayList();
+			columnsRanks.add(columnRanks);
+			this.calculateScore(0, MAX_ROWS, column, false, columnRanks);
+
 		}
 
-		System.out.println("---------------------------------------------");
-		int i = 0;
-		for (Map<Color, Integer> colorMap : rowRanks) {
-			System.out.print(i++ + ")");
-			Iterator<Color> itr = colorMap.keySet().iterator();
-			while (itr.hasNext()) {
-				Color color = itr.next();
-				System.out.println(color + " " + colorMap.get(color));
+		Map<Color, Score> finalScore = Maps.newHashMap();
+
+		extractFinalScore(rowsRanks, finalScore, true, rowsScores);
+		extractFinalScore(columnsRanks, finalScore, false, columnsScores);
+
+		return finalScore;
+	}
+
+	public void printFinalScore(Map<Color, Score> finalScore) {
+		if (finalScore == null) {
+			System.out.println("No Entry Found");
+			return;
+		}
+		Iterator<Color> itr = finalScore.keySet().iterator();
+		while (itr.hasNext()) {
+			Color color = itr.next();
+			Score score = finalScore.get(color);
+			System.out.print(color + " ");
+			System.out.print(score.getRowScore() + " ");
+			System.out.print(score.getColumnScore() + " ");
+			System.out.println(score.score());
+		}
+	}
+
+	private void extractFinalScore(
+			List<List<Map<Color, Integer>>> rowsOrColumnsRanks,
+			Map<Color, Score> finalScore, boolean isRow,
+			List<List<Integer>> rowsOrColumnsScores) {
+		for (int i = 0; i < rowsOrColumnsRanks.size(); i++) {
+			List<Map<Color, Integer>> rowOrColumnRanks = rowsOrColumnsRanks
+					.get(i);
+			for (int j = 0; j < rowOrColumnRanks.size(); j++) {
+				Map<Color, Integer> colorRanks = rowOrColumnRanks.get(j);
+				if (colorRanks.keySet().isEmpty()) {
+					continue;
+				}
+				Iterator<Color> colorItr = colorRanks.keySet().iterator();
+				while (colorItr.hasNext()) {
+					Color color = colorItr.next();
+					Integer finalRank = colorRanks.get(color);
+					int finalRowScore = finalRank
+							* rowsOrColumnsScores.get(i).get(j);
+					if (isRow) {
+						if (finalScore.get(color) != null) {
+							finalScore.get(color).incrementRowScoreBy(
+									finalRowScore);
+						} else {
+							finalScore.put(color, new Score()
+									.incrementRowScoreBy(finalRowScore));
+						}
+					} else {
+						if (finalScore.get(color) != null) {
+							finalScore.get(color).incrementColumnScoreBy(
+									finalRowScore);
+						} else {
+							finalScore.put(color, new Score()
+									.incrementColumnScoreBy(finalRowScore));
+						}
+					}
+				}
 			}
 		}
-
-		System.out.println("---------------------------------------------");
-		i = 0;
-		for (Map<Color, Integer> colorMap : columnRanks) {
-			System.out.print(i++ + ")");
-			Iterator<Color> itr = colorMap.keySet().iterator();
-			while (itr.hasNext()) {
-				Color color = itr.next();
-				System.out.println(color + " " + colorMap.get(color));
-			}
-		}
-
-		return 0;
 	}
 
 	public void getScore(int start, int end, int rowOrColumnNumber,
@@ -306,24 +339,26 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 	}
 
 	private void calculateScore(int start, int end, int rowOrColumnNumber,
-			boolean isRow, List<Map<Color, Integer>> scores) {
+			boolean isRow, List<Map<Color, Integer>> rowRanks) {
 		if (start == end) {
 			return;
 		}
 		int mountainAt = mountainAt(start, end, rowOrColumnNumber, isRow);
 
 		if (mountainAt == -1) {
-			Map<Color, Integer> rankMap = Maps.newHashMap();
-			scores.add(rankMap);
+
+			Map<Color, Integer> map = Maps.newHashMap();
+			rowRanks.add(map);
 			if (isRow) {
-				calcRowScore(start, end, rowOrColumnNumber, rankMap);
+				calcRowScore(start, end, rowOrColumnNumber, map);
 			} else {
-				calcColumnScore(start, end, rowOrColumnNumber, rankMap);
+				calcColumnScore(start, end, rowOrColumnNumber, map);
 			}
 		} else {
-			calculateScore(start, mountainAt, rowOrColumnNumber, isRow, scores);
+			calculateScore(start, mountainAt, rowOrColumnNumber, isRow,
+					rowRanks);
 			calculateScore(mountainAt + 1, end, rowOrColumnNumber, isRow,
-					scores);
+					rowRanks);
 		}
 	}
 
