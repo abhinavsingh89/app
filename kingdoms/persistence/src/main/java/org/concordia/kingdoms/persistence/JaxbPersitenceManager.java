@@ -9,12 +9,19 @@ import org.concordia.kingdoms.jaxb.GameState;
 import org.concordia.kingdoms.jaxb.JaxbUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ * This class is used to save and load the Game state.
+ * @author Team K
+ * @since 1.1
+ */
 public class JaxbPersitenceManager implements PerstistenceManager {
 
 	private static final Logger log = LoggerFactory
 			.getLogger(JaxbPersitenceManager.class);
-
+	/**
+	 * This method is used to save the Game state.
+	 * 
+	 */
 	public void save(GameState gameState) throws PersistenceException {
 		try {
 			JaxbUtil.INSTANCE.save(gameState);
@@ -24,7 +31,10 @@ public class JaxbPersitenceManager implements PerstistenceManager {
 			throw new PersistenceException(ex.getMessage());
 		}
 	}
-
+	/**
+	 * This method is used to load the Game state.
+	 * 
+	 */
 	public GameState load(File file) throws PersistenceException {
 
 		try {

@@ -19,7 +19,11 @@ import org.concordia.kingdoms.persistence.PerstistenceManager;
 import org.concordia.kingdoms.spring.SpringContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ * The class is a 2D kingdoms
+ * @author Team K
+ * @since 1.1
+ */
 public class TDKingdoms extends Kingdoms<TDCoordinate> {
 
 	private static final Logger log = LoggerFactory.getLogger(TDKingdoms.class);
