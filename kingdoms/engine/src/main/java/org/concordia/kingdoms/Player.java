@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.ICoordinate;
+import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Coin;
@@ -16,6 +17,7 @@ import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -30,7 +32,7 @@ public class Player<T extends ICoordinate> {
 
 	private Color chosenColor;
 
-	private int score;
+	private List<Score> scores;
 
 	private Tile startingTile;
 
@@ -52,7 +54,7 @@ public class Player<T extends ICoordinate> {
 	private Player(String name, final Color chosenColor) {
 		this.name = name;
 		this.chosenColor = chosenColor;
-		this.score = 0;
+		this.scores = Lists.newArrayList();
 		this.startingTile = null;
 		this.coins = Maps.newHashMap();
 		this.castles = Maps.newHashMap();
@@ -142,14 +144,6 @@ public class Player<T extends ICoordinate> {
 
 	public Color getChosenColor() {
 		return this.chosenColor;
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
 	}
 
 	public Tile getStartingTile() {

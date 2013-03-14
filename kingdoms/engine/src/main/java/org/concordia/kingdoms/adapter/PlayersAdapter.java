@@ -23,7 +23,7 @@ public class PlayersAdapter
 				.newArrayList();
 		for (final Player<TDCoordinate> player : players) {
 			String name = player.getName();
-			int score = player.getScore();
+//			int score = player.getScore();
 			Tile startTile = player.getStartingTile();
 			Map<CoinType, List<Coin>> coins = player.getCoins();
 			Map<Integer, List<Castle>> castles = player.getCastles();
@@ -31,7 +31,7 @@ public class PlayersAdapter
 
 			org.concordia.kingdoms.jaxb.Player jaxbPlayer = new org.concordia.kingdoms.jaxb.Player();
 			jaxbPlayer.setName(name);
-			jaxbPlayer.setScore(score);
+//			jaxbPlayer.setScore(score);
 			jaxbPlayer.setChosenColor(org.concordia.kingdoms.jaxb.Color
 					.valueOf(color.name()));
 
@@ -56,7 +56,7 @@ public class PlayersAdapter
 					.getCastles();
 			Player<TDCoordinate> player = Player.newPlayer(name,
 					Color.valueOf(jaxbColor.name()));
-			player.setScore(score);
+//			player.setScore(score);
 
 			players.add(player);
 		}

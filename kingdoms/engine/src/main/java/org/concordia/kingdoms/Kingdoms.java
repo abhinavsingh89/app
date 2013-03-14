@@ -143,7 +143,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 
 	@Override
 	public boolean isLevelCompleted() {
-		return this.board.hasAnyEmptySpace();
+		return this.board.isEmpty();
 	}
 
 	public boolean isValidPosition(T coordinate) {

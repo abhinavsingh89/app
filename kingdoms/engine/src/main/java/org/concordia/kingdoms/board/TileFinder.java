@@ -85,4 +85,33 @@ public class TileFinder {
 		}
 		return -1;
 	}
+
+	public boolean hasWizardOrthogonal(TDCoordinate coordinate) {
+		final List<TDCoordinate> coordinates = tileAt.get(TileType.WIZARD);
+		if (coordinates == null || coordinates.isEmpty()) {
+			return false;
+		}
+		for (TDCoordinate koordinate : coordinates) {
+
+			int kRow = koordinate.getRow();
+			int kColumn = koordinate.getColumn();
+
+			int row = coordinate.getRow();
+			int column = coordinate.getColumn();
+
+			if (row == kRow && column == kColumn + 1) {
+				return true;
+			}
+			if (row == kRow && column - 1 == kColumn) {
+				return true;
+			}
+			if (row + 1 == kRow && column == kColumn) {
+				return true;
+			}
+			if (row - 1 == kRow && column == kColumn) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

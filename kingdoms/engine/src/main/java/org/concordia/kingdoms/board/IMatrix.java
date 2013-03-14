@@ -12,7 +12,11 @@ public interface IMatrix<T extends ICoordinate> {
 
 	boolean isValidPosition(T coordinate);
 
+	boolean isEmpty();
+
 	boolean isEmpty(T coordinate);
+
+	int getTotalComponents();
 
 	Iterator<Entry<T>> getEntries();
 

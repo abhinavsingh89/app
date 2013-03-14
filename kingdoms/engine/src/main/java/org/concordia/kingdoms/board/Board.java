@@ -34,8 +34,6 @@ public class Board<T extends ICoordinate> {
 
 	public static final int MAX_COLUMNS = 6;
 
-	private int componentsOnBoard;
-
 	/**
 	 * 
 	 * @param entries
@@ -46,7 +44,6 @@ public class Board<T extends ICoordinate> {
 		this.tileBank = null;
 		this.coinBank = null;
 		this.players = Lists.newArrayList();
-		this.componentsOnBoard = 0;
 	}
 
 	/**
@@ -158,20 +155,15 @@ public class Board<T extends ICoordinate> {
 		this.players = players;
 	}
 
-	/**
-	 * method used to check if there is any empty space on the board
-	 * 
-	 * @return true/false
-	 */
-	public boolean hasAnyEmptySpace() {
-		return this.componentsOnBoard == MAX_ROWS * MAX_COLUMNS;
-	}
-
 	public Iterator<Entry<T>> getEntries() {
 		return this.matrix.getEntries();
 	}
 
 	public int getComponentsOnBoard() {
-		return this.componentsOnBoard;
+		return matrix.getTotalComponents();
+	}
+
+	public boolean isEmpty() {
+		return this.matrix.isEmpty();
 	}
 }

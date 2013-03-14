@@ -7,12 +7,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.concordia.kingdoms.Player;
+import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.TileType;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 public class TDMatrix implements IMatrix<TDCoordinate>,
@@ -54,7 +56,7 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 		this.tileFinder = new TileFinder(tileTypes);
 		this.dragonDecorator = new DragonDecorator(null);
 		this.goldmineDecorator = new GoldMineDecorator(null);
-		this.doNothingDecorator = new DoNothingDecorator(null);
+		this.doNothingDecorator = new SimpleTileDecorator(null);
 		this.dragonGoldMineDecorator = new DragonGoldMineDecorator();
 		this.rowScores = Lists.newArrayList();
 		this.columnScores = Lists.newArrayList();
@@ -139,27 +141,56 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 		return Collections.unmodifiableList(entriesList).iterator();
 	}
 
-	public int score(Player<TDCoordinate>... players) {
+	public int score() {
+
+		List<Map<Color, Integer>> rowRanks = Lists.newArrayList();
 
 		for (int row = 0; row < MAX_ROWS; row++) {
 			final List<Integer> scores = Lists.newArrayList();
 			getScore(0, MAX_COLUMNS, row, true, scores);
 			this.rowScores.add(scores);
+			this.calculateScore(0, MAX_COLUMNS, row, true, rowRanks);
 		}
+
+		List<Map<Color, Integer>> columnRanks = Lists.newArrayList();
 
 		for (int column = 0; column < MAX_COLUMNS; column++) {
 			final List<Integer> scores = Lists.newArrayList();
 			getScore(0, MAX_ROWS, column, false, scores);
+			calculateScore(0, MAX_ROWS, column, false, columnRanks);
 			this.columnScores.add(scores);
 		}
-
+		System.out.println("---------------------------------------------");
 		for (List<Integer> scores : this.rowScores) {
 			System.out.println(scores);
 		}
-
+		System.out.println("---------------------------------------------");
 		for (List<Integer> scores : columnScores) {
 			System.out.println(scores);
 		}
+
+		System.out.println("---------------------------------------------");
+		int i = 0;
+		for (Map<Color, Integer> colorMap : rowRanks) {
+			System.out.print(i++ + ")");
+			Iterator<Color> itr = colorMap.keySet().iterator();
+			while (itr.hasNext()) {
+				Color color = itr.next();
+				System.out.println(color + " " + colorMap.get(color));
+			}
+		}
+
+		System.out.println("---------------------------------------------");
+		i = 0;
+		for (Map<Color, Integer> colorMap : columnRanks) {
+			System.out.print(i++ + ")");
+			Iterator<Color> itr = colorMap.keySet().iterator();
+			while (itr.hasNext()) {
+				Color color = itr.next();
+				System.out.println(color + " " + colorMap.get(color));
+			}
+		}
+
 		return 0;
 	}
 
@@ -274,24 +305,73 @@ public class TDMatrix implements IMatrix<TDCoordinate>,
 		return this.entries.get(row).get(column);
 	}
 
-	private void updateScores(int start, int end, int rowOrColumnNumber,
-			boolean isRow, List<Integer> scores) {
-
+	private void calculateScore(int start, int end, int rowOrColumnNumber,
+			boolean isRow, List<Map<Color, Integer>> scores) {
+		if (start == end) {
+			return;
+		}
 		int mountainAt = mountainAt(start, end, rowOrColumnNumber, isRow);
-		if (mountainAt == -1) {
 
+		if (mountainAt == -1) {
+			Map<Color, Integer> rankMap = Maps.newHashMap();
+			scores.add(rankMap);
+			if (isRow) {
+				calcRowScore(start, end, rowOrColumnNumber, rankMap);
+			} else {
+				calcColumnScore(start, end, rowOrColumnNumber, rankMap);
+			}
 		} else {
-			getScore(start, mountainAt, rowOrColumnNumber, isRow, scores);
-			getScore(mountainAt + 1, end, rowOrColumnNumber, isRow, scores);
+			calculateScore(start, mountainAt, rowOrColumnNumber, isRow, scores);
+			calculateScore(mountainAt + 1, end, rowOrColumnNumber, isRow,
+					scores);
 		}
 	}
 
-	private void calcRowScore(int start, int end, int row) {
+	private void calcRowScore(int start, int end, int row,
+			Map<Color, Integer> rankMap) {
 		for (int column = start; column < end; column++) {
 			final Entry<TDCoordinate> entry = getEntry(row, column);
 			final Component component = entry.getComponent();
-			// if(component)
+			if (component instanceof Castle) {
+				final Castle castle = (Castle) component;
+				final Color color = castle.getColor();
+				final boolean hasWizardOrthogonal = this.tileFinder
+						.hasWizardOrthogonal(entry.getCoordinate());
+				int rank = castle.getValue();
+				if (hasWizardOrthogonal) {
+					rank = 2 * rank;
+				}
+				if (rankMap.get(color) != null) {
+					rank = rank + rankMap.get(color);
+					rankMap.put(color, rank);
+				} else {
+					rankMap.put(color, rank);
+				}
+			}
+		}
+	}
 
+	private void calcColumnScore(int start, int end, int column,
+			Map<Color, Integer> rankMap) {
+		for (int row = start; row < end; row++) {
+			final Entry<TDCoordinate> entry = getEntry(row, column);
+			final Component component = entry.getComponent();
+			if (component instanceof Castle) {
+				final Castle castle = (Castle) component;
+				final Color color = castle.getColor();
+				final boolean hasWizardOrthogonal = this.tileFinder
+						.hasWizardOrthogonal(entry.getCoordinate());
+				int rank = castle.getValue();
+				if (hasWizardOrthogonal) {
+					rank = 2 * rank;
+				}
+				if (rankMap.get(color) != null) {
+					rank = rank + rankMap.get(color);
+					rankMap.put(color, rank);
+				} else {
+					rankMap.put(color, rank);
+				}
+			}
 		}
 	}
 
