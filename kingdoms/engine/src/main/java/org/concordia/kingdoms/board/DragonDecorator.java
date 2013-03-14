@@ -24,9 +24,11 @@ public class DragonDecorator implements IDecorator {
 			final Tile tile = (Tile) this.component;
 			if (tile.getType().equals(TileType.RESOURCE)) {
 				return 0;
+			} else if (tile.getType().equals(TileType.HAZARD)) {
+				return this.component.getValue();
 			}
 		}
-		return this.component.getValue();
+		return 0;
 	}
 
 	public IDecorator setComponent(Component component) {
