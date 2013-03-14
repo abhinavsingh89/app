@@ -210,7 +210,7 @@ public class Player<T extends ICoordinate> {
 		public static final PlayerComparator INSTANCE = new PlayerComparator();
 
 		public int compare(Player<?> o1, Player<?> o2) {
-			return o1.getTotalScore() - o2.getTotalScore();
+			return o2.getTotalScore() - o1.getTotalScore();
 		}
 	}
 }
