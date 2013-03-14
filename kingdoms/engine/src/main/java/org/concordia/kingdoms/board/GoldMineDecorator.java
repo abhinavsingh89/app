@@ -23,7 +23,7 @@ public class GoldMineDecorator implements IDecorator {
 				return 2 * this.component.getValue();
 			}
 		}
-		return this.component.getValue();
+		return 0;
 	}
 
 	public String getName() {
