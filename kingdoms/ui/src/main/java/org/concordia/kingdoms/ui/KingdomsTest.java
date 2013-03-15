@@ -117,8 +117,8 @@ public class KingdomsTest {
 			}
 			log.info("Level Completed!!");
 			Map<Color, Score> scoreCard = kingdoms.score();
-			printFinalScore(scoreCard);
 			assignScore(players, scoreCard);
+			printFinalScore(players, scoreCard);
 			Collections.sort(players, Player.PlayerComparator.INSTANCE);
 			kingdoms.moveToNextLevel();
 			presentable = new Console<TDCoordinate>(kingdoms.getEntries());
@@ -130,11 +130,15 @@ public class KingdomsTest {
 		}
 	}
 
-	public static void printFinalScore(Map<Color, Score> finalScore) {
+	public static void printFinalScore(List<Player<TDCoordinate>> players,
+			Map<Color, Score> finalScore) {
 		if (finalScore == null) {
 			System.out.println("No Entry Found");
 			return;
 		}
+		System.out
+				.println("============================================================================");
+		System.out.println("Current Level Score:");
 		Iterator<Color> itr = finalScore.keySet().iterator();
 		while (itr.hasNext()) {
 			Color color = itr.next();
@@ -144,6 +148,16 @@ public class KingdomsTest {
 			System.out.print(score.getColumnScore() + " ");
 			System.out.println(score.score());
 		}
+		System.out.println("--------------------------------------------------------------------------");
+		System.out.println("Player's Score:");
+
+		for (Player<?> player : players) {
+			System.out.println("Name:" + player.getName());
+			System.out.println("Color:" + player.getChosenColor());
+			System.out.println("Score:" + player.getTotalScore());
+		}
+		System.out
+				.println("============================================================================");
 	}
 
 	private static void assignScore(final List<Player<TDCoordinate>> players,
