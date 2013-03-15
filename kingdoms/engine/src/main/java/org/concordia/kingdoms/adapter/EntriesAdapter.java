@@ -14,7 +14,11 @@ import org.concordia.kingdoms.domain.Tile;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
+/**
+ * This class is used to convert domain class object to Jaxb objects..
+ * @author Team K
+ * @since 1.1
+ */
 public class EntriesAdapter
 		implements
 		IAdapter<Iterator<Entry<TDCoordinate>>, List<org.concordia.kingdoms.jaxb.Entry>> {

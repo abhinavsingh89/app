@@ -12,7 +12,10 @@ import org.concordia.kingdoms.domain.Coin;
 import org.concordia.kingdoms.domain.CoinType;
 
 import com.google.common.collect.Maps;
-
+/**
+ * @author Team K
+ * @since 1.0
+ */
 public class CoinBank {
 
 	private Map<CoinType, List<Coin>> coins;
