@@ -112,14 +112,15 @@ public class KingdomsTest {
 					}
 				}
 			}
-			System.out.println("Level Completed!!");
+			log.info("Level Completed!!");
 			Map<Color, Score> scoreCard = kingdoms.score();
+			printFinalScore(scoreCard);
 			assignScore(players, scoreCard);
 			Collections.sort(players, Player.PlayerComparator.INSTANCE);
-			printFinalScore(scoreCard);
+			kingdoms.moveToNextLevel();
+			presentable = new Console<TDCoordinate>(kingdoms.getEntries());
 		}
 
-		// TODO:rearrange players according to winners
 		kingdoms.getEpochCounter().goNextLevel();
 		if ("exit".equals(input)) {
 			System.out.println("--Game Exit--");

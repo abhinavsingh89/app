@@ -116,5 +116,33 @@ public class GameBox {
 			tileBank.addTiles(this.tiles.remove(tileType));
 		}
 	}
+	
+	public void returnCastles(Castle castle){
+		Integer castleValue = castle.getValue();
+		Map<Color, List<Castle>>  colorCastles = castles.get(castleValue);
+		if(colorCastles!=null){
+			List<Castle> castlesList = colorCastles.get(castle.getColor());
+			if(castlesList!=null){
+				castlesList.add(castle);	
+			}else{
+				colorCastles.put(castle.getColor(), Lists.newArrayList(castle));
+			}
+		}else{
+			Map<Color, List<Castle>>  newColorCastles = Maps.newHashMap();
+			newColorCastles.put(castle.getColor(), Lists.newArrayList(castle));
+			this.castles.put(castleValue, newColorCastles);
+		}
+	}
+	
+	public void returnTiles(Tile tile){
+		//tiles of type
+		List<Tile> existingTiles = tiles.get(tile.getType());
+		
+		if(existingTiles!=null){
+			existingTiles.add(tile);
+		}else{
+			tiles.put(tile.getType(), Lists.newArrayList(tile));
+		}
+	}
 
 }

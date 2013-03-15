@@ -198,7 +198,7 @@ public class Player<T extends ICoordinate> {
 	}
 
 	public int getTotalScore() {
-		int total = 0;
+		int total = 50;
 		for (Score score : scores) {
 			total += score.score();
 		}

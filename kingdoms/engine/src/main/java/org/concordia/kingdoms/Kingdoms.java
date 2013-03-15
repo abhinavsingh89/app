@@ -160,4 +160,8 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 		return this.board.score();
 	}
 
+	public void moveToNextLevel() {
+		this.board.levelChange(newCoordinate(), builder);
+	}
+
 }

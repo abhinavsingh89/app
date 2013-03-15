@@ -14,13 +14,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.concordia.kingdoms.CoinBank;
+import org.concordia.kingdoms.GameBox;
 import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.TileBank;
+import org.concordia.kingdoms.board.factory.BoardBuilder;
+import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Component;
+import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameRuleException;
+import org.concordia.kingdoms.spring.SpringContainer;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 public class Board<T extends ICoordinate> {
 
@@ -171,5 +177,45 @@ public class Board<T extends ICoordinate> {
 
 	public Map<Color, Score> score() {
 		return this.matrix.score();
+	}
+
+	public void levelChange(final T coordinate,
+			final BoardBuilder<T> boardBuilder) {
+		final Iterator<Entry<T>> entries = getEntries();
+		Map<Color, Player<?>> playersColor = resolvePlayersColors();
+		final GameBox gameBox = SpringContainer.INSTANCE.getBean("gameBox",
+				GameBox.class);
+		while (entries.hasNext()) {
+
+			final Entry<T> entry = entries.next();
+
+			final Component component = entry.getComponent();
+			// if component is castle
+			if (component instanceof Castle) {
+				// if rank 1 castle
+				if (component.getValue() == 1) {
+					// castle's color
+					final Color color = ((Castle) component).getColor();
+					// give it back to the player
+					playersColor.get(color).addCastle(1,
+							Lists.newArrayList(((Castle) component)));
+				} else {
+					// return the castle to gamebox
+					gameBox.returnCastles((Castle) component);
+				}
+			} else {
+				gameBox.returnTiles((Tile) component);
+			}
+		}
+		this.matrix = boardBuilder.buildEmptyBoard(coordinate);
+	}
+
+	private Map<Color, Player<?>> resolvePlayersColors() {
+
+		final Map<Color, Player<?>> colorMap = Maps.newHashMap();
+		for (Player<?> player : players) {
+			colorMap.put(player.getChosenColor(), player);
+		}
+		return colorMap;
 	}
 }
