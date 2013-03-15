@@ -31,7 +31,10 @@ public class TDKingdoms extends Kingdoms<TDCoordinate> {
 	private static final Logger log = LoggerFactory.getLogger(TDKingdoms.class);
 
 	private PerstistenceManager perstistenceManager;
-
+	/**
+	 * Constructor for a TDKingdoms
+	 * 
+	 */
 	public TDKingdoms(BoardBuilder<TDCoordinate> builder, int totalLevels)
 			throws IOException {
 		super(new TDBoardBuilder(), totalLevels);
