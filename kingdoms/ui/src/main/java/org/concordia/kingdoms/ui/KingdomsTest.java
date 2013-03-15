@@ -48,7 +48,7 @@ public class KingdomsTest {
 		List<Player<TDCoordinate>> players = Lists.newArrayList();
 		String input = "";
 		System.out.println("1.Resume the saved game - Press 1");
-		System.out.println("2.New Game - Press any key to continue");
+		System.out.println("2.New Game - Press  key 2 to continue");
 		System.out.println("3.Exit- Press 3");
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
 				System.in));
