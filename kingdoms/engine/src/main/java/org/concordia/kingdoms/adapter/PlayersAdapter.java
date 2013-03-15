@@ -40,7 +40,9 @@ public class PlayersAdapter
 			org.concordia.kingdoms.jaxb.Player jaxbPlayer = new org.concordia.kingdoms.jaxb.Player();
 
 			jaxbPlayer.setName(name);
-			jaxbPlayer.setStartingTile(AdapterUtil.newJaxbTile(startTile));
+			if (startTile != null) {
+				jaxbPlayer.setStartingTile(AdapterUtil.newJaxbTile(startTile));
+			}
 			Iterator<Integer> castleItr = castles.keySet().iterator();
 			List<org.concordia.kingdoms.jaxb.Castle> jaxbCastles = Lists
 					.newArrayList();

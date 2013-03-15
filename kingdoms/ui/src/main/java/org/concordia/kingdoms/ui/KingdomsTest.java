@@ -120,9 +120,13 @@ public class KingdomsTest {
 			assignScore(players, scoreCard);
 			printFinalScore(players, scoreCard);
 			Collections.sort(players, Player.PlayerComparator.INSTANCE);
-			kingdoms.moveToNextLevel();
-			presentable = new Console<TDCoordinate>(kingdoms.getEntries());
-			presentable.present();
+			if (kingdoms.getEpochCounter().isNextAvailable()) {
+				kingdoms.moveToNextLevel();
+				presentable = new Console<TDCoordinate>(kingdoms.getEntries());
+				presentable.present();
+			} else {
+				System.out.println("GAME FINISHED!!");
+			}
 		}
 
 		kingdoms.getEpochCounter().goNextLevel();

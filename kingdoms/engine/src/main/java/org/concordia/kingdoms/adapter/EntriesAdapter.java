@@ -14,8 +14,10 @@ import org.concordia.kingdoms.domain.Tile;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
 /**
  * This class is used to convert domain class object to Jaxb objects..
+ * 
  * @author Team K
  * @since 1.1
  */
@@ -28,6 +30,9 @@ public class EntriesAdapter
 
 		// collection whose iterator will be returned
 		List<Entry<TDCoordinate>> retEntries = Lists.newArrayList();
+		if (jaxbEntries == null) {
+			return retEntries.iterator();
+		}
 		// arranging the entries in a map with row as key and again the value as
 		// a map of column and Entry
 		final Map<Integer, Map<Integer, org.concordia.kingdoms.jaxb.Entry>> rowMap = Maps
