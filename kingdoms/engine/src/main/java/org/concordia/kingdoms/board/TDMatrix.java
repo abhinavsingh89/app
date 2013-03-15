@@ -189,7 +189,6 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 			System.out.print(score.getColumnScore() + " ");
 			System.out.println(score.score());
 		}
-
 	}
 
 	private void extractFinalScore(

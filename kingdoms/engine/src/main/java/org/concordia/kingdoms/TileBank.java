@@ -48,9 +48,7 @@ public class TileBank {
 	 * @return tile
 	 */
 	public Tile pickTile() {
-		// get a random tile
-		int randomindex = new Random().nextInt(tiles.size());
-		return tiles.remove(randomindex);
+		return tiles.remove(tiles.size() - 1);
 	}
 
 	/**
@@ -60,5 +58,13 @@ public class TileBank {
 	 */
 	public List<Tile> getTiles() {
 		return Collections.unmodifiableList(this.tiles);
+	}
+
+	public static void main(String[] args) {
+		for (int i = 0; i < 30; i++) {
+			int randomIndex = new Random().nextInt();
+			System.out.println(randomIndex);
+		}
+
 	}
 }
