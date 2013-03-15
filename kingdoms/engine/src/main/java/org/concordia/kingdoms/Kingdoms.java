@@ -40,6 +40,8 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 
 	private boolean isGameInProgress = false;
 
+	private String fileName = "kingdoms-jaxb.xml";
+
 	/**
 	 * Constructor for a kingdom
 	 * 
@@ -92,7 +94,9 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	 */
 	public void save() throws GameException {
 		org.concordia.kingdoms.GameState<T> gameState = new org.concordia.kingdoms.GameState<T>();
+		gameState.setFileName(fileName);
 		saveCoordinate(gameState);
+
 		gameState.setComponentsOnBoard(this.board.getComponentsOnBoard());
 		gameState.setComponentsOnBoard(this.board.getComponentsOnBoard());
 		List<Entry<T>> entries = Lists.newArrayList(this.board.getEntries());
@@ -188,6 +192,13 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 
 	public Tile drawTile() {
 		return board.drawTile();
+	}
+
+	public void setFileName(String fileName) {
+		if (!"".equals(fileName)) {
+			this.fileName = fileName;
+		}
+
 	}
 
 }

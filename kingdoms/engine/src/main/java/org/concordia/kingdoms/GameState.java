@@ -27,6 +27,8 @@ public class GameState<T extends ICoordinate> {
 
 	private EpochCounter epochCounter;
 
+	private String fileName;
+
 	public GameState() {
 	}
 
@@ -84,5 +86,14 @@ public class GameState<T extends ICoordinate> {
 
 	public void setEpochCounter(EpochCounter epochCounter) {
 		this.epochCounter = epochCounter;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+
 	}
 }

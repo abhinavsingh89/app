@@ -11,8 +11,10 @@ import javax.xml.bind.Unmarshaller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
  * This class is used for marshelling and un-marshelling
+ * 
  * @author Team K
  * @since 1.1
  */
@@ -24,8 +26,6 @@ public class JaxbUtil {
 
 	public static final JaxbUtil INSTANCE = new JaxbUtil();
 
-	private static final String GAME_STATE_XML = "kingdoms-jaxb.xml";
-
 	public void save(GameState gameState) throws JAXBException {
 		if (context == null) {
 			this.context = JAXBContext.newInstance(GameState.class);
@@ -36,7 +36,9 @@ public class JaxbUtil {
 		// Write to System.out
 		m.marshal(gameState, System.out);
 		// Write to File
-		m.marshal(gameState, new File(GAME_STATE_XML));
+		String fileName = gameState.getFileName();
+		fileName = fileName + ".xml";
+		m.marshal(gameState, new File(fileName));
 	}
 
 	public GameState getGameState() {

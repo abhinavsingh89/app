@@ -98,7 +98,7 @@ public class KingdomsTest {
 											+ "Press 1 to pick a Tile any other number for Castle");
 							String data = br.readLine();
 							if ("save".equals(data)) {
-								saveMyGame(kingdoms);
+								saveMyGame(br, kingdoms);
 								continue;
 							}
 							int tileOrCastle = Integer.parseInt(data);
@@ -214,10 +214,13 @@ public class KingdomsTest {
 		player.putTile(tile, TDCoordinate.newInstance(row, column));
 	}
 
-	private static void saveMyGame(final Kingdoms kingdoms)
-			throws GameException {
-		log.debug("Game Saved successfully");
+	private static void saveMyGame(BufferedReader br, final Kingdoms kingdoms)
+			throws GameException, IOException {
+		log.debug("Give a name to file");
+		String fileName = br.readLine();
+		kingdoms.setFileName(fileName);
 		kingdoms.save();
+		log.debug("Game Saved successfully");
 	}
 
 	private static int getColumn(final BufferedReader br) throws IOException {

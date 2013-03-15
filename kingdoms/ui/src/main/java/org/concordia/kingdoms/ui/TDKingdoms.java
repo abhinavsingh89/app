@@ -57,6 +57,7 @@ public class TDKingdoms extends Kingdoms<TDCoordinate> {
 	public void save(GameState<TDCoordinate> gameState) throws GameException {
 
 		org.concordia.kingdoms.jaxb.GameState jaxbGameState = new org.concordia.kingdoms.jaxb.GameState();
+		jaxbGameState.setFileName(gameState.getFileName());
 		jaxbGameState.setComponentsOnBoard(gameState.getComponentsOnBoard());
 		jaxbGameState.setMAX_ROWS(gameState.getMAX_ROWS());
 		jaxbGameState.setMAX_COLUMNS(gameState.getMAX_COLUMNS());

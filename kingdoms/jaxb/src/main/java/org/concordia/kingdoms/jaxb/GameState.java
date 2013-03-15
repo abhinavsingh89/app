@@ -40,6 +40,8 @@ public class GameState {
 	@XmlElement(name = "epoch")
 	EpochCounter epochCounter;
 
+	String fileName;
+
 	public GameState() {
 	}
 
@@ -97,5 +99,13 @@ public class GameState {
 
 	public void setEpochCounter(EpochCounter epochCounter) {
 		this.epochCounter = epochCounter;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileName() {
+		return fileName;
 	}
 }
