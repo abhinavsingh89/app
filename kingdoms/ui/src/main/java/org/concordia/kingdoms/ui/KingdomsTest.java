@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -114,12 +115,29 @@ public class KingdomsTest {
 			Map<Color, Score> scoreCard = kingdoms.score();
 			assignScore(players, scoreCard);
 			Collections.sort(players, Player.PlayerComparator.INSTANCE);
+			printFinalScore(scoreCard);
 		}
 
 		// TODO:rearrange players according to winners
 		kingdoms.getEpochCounter().goNextLevel();
 		if ("exit".equals(input)) {
 			System.out.println("--Game Exit--");
+		}
+	}
+
+	public static void printFinalScore(Map<Color, Score> finalScore) {
+		if (finalScore == null) {
+			System.out.println("No Entry Found");
+			return;
+		}
+		Iterator<Color> itr = finalScore.keySet().iterator();
+		while (itr.hasNext()) {
+			Color color = itr.next();
+			Score score = finalScore.get(color);
+			System.out.print(color + " ");
+			System.out.print(score.getRowScore() + " ");
+			System.out.print(score.getColumnScore() + " ");
+			System.out.println(score.score());
 		}
 	}
 

@@ -159,4 +159,5 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	public Map<Color, Score> score() {
 		return this.board.score();
 	}
+
 }
