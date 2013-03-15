@@ -94,6 +94,7 @@ public class KingdomsTest {
 								saveMyGame(br, kingdoms);
 								continue;
 							}
+
 							int tileOrCastle = Integer.parseInt(data);
 							if (tileOrCastle == 1) {
 								placeTile(kingdoms, br, player);
@@ -234,13 +235,31 @@ public class KingdomsTest {
 
 	private static int getColumn(final BufferedReader br) throws IOException {
 		log.debug("Enter an empty space column ");
-		int column = Integer.parseInt(br.readLine());
+		int column = 0;
+		boolean flag = true;
+		while (flag) {
+			try {
+				column = Integer.parseInt(br.readLine());
+				flag = false;
+			} catch (NumberFormatException e) {
+				log.error("Invalid input for column");
+			}
+		}
 		return column;
 	}
 
 	private static int getRow(final BufferedReader br) throws IOException {
 		log.debug("Enter an empty space row ");
-		int row = Integer.parseInt(br.readLine());
+		int row = 0;
+		boolean flag = true;
+		while (flag) {
+			try {
+				row = Integer.parseInt(br.readLine());
+				flag = false;
+			} catch (NumberFormatException e) {
+				log.error("Invalid input for row");
+			}
+		}
 		return row;
 	}
 
