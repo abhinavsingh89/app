@@ -205,6 +205,19 @@ public class Player<T extends ICoordinate> {
 		return total;
 	}
 
+	public boolean hasAnyCastleAvailable() {
+
+		Iterator<Integer> itr = this.castles.keySet().iterator();
+		while (itr.hasNext()) {
+			Integer rank = itr.next();
+			if (!this.castles.get(rank).isEmpty()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public static class PlayerComparator implements Comparator<Player<?>> {
 
 		public static final PlayerComparator INSTANCE = new PlayerComparator();
