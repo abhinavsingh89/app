@@ -117,7 +117,7 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 	 * @return true/false
 	 */
 	public boolean isEmpty() {
-		return this.componentsOnBoard <= MAX_ROWS * MAX_COLUMNS;
+		return this.componentsOnBoard < MAX_ROWS * MAX_COLUMNS;
 	}
 
 	public boolean isEmpty(final TDCoordinate coordinate) {
