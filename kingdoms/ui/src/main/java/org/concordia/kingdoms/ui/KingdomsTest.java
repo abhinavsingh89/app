@@ -168,6 +168,11 @@ public class KingdomsTest {
 					row = getRow(br);
 					column = getColumn(br);
 				}
+				boolean hasAnyCastleAvailable = player.hasAnyCastleAvailable();
+				if (!hasAnyCastleAvailable) {
+					log.error("No Castles Available");
+					break;
+				}
 				Castle castle = player.getCastle(rank);
 				if (castle == null) {
 					log.error("No Castle with that rank available(you must have used all castles of that Rank)");
