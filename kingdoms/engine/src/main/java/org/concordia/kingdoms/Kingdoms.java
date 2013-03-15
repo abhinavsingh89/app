@@ -13,6 +13,7 @@ import org.concordia.kingdoms.board.ICoordinate;
 import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
 import org.concordia.kingdoms.domain.Color;
+import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.spring.SpringContainer;
 import org.slf4j.Logger;
@@ -57,14 +58,11 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	 * 
 	 * @param players
 	 *            - Number of players
-	 * 
 	 */
 	public void start(List<Player<T>> players) throws GameException {
 		// if the game is not in progress then initialize everything
-
 		if (!this.isGameInProgress) {
 			// Game expects atleast 2 and a maximum of 4 players only
-
 			if (players.size() < 2 || players.size() > 4) {
 				throw new GameException(
 						"Supports mimimum of 2 and maximum of 4 Players.");
@@ -74,7 +72,6 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 			}
 		} else {
 			// when game is already in progress, resume the game but not start
-
 			throw new GameException("Game is Already in Progress");
 		}
 	}
@@ -87,21 +84,15 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	 */
 	private void initBoard(List<Player<T>> players) throws GameException {
 		// build a mXn board for game entries
-
 		this.board = this.builder.buildBoard(newCoordinate(), players);
 	}
 
-	protected abstract T newCoordinate();
-
 	/**
-	 * public method for pausing
+	 * save the game state
 	 */
-	public void pause() {
-		//
-	}
-
 	public void save() throws GameException {
 		org.concordia.kingdoms.GameState<T> gameState = new org.concordia.kingdoms.GameState<T>();
+		saveCoordinate(gameState);
 		gameState.setComponentsOnBoard(this.board.getComponentsOnBoard());
 		gameState.setComponentsOnBoard(this.board.getComponentsOnBoard());
 		List<Entry<T>> entries = Lists.newArrayList(this.board.getEntries());
@@ -109,8 +100,11 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 		gameState.setPlayers(this.board.getPlayers());
 		gameState.setTileBank(SpringContainer.INSTANCE.getBean("tileBank",
 				TileBank.class).getTiles());
+		gameState.setEpochCounter(epochCounter);
 		this.save(gameState);
 	}
+
+	protected abstract void saveCoordinate(GameState<T> gameState);
 
 	protected void save(org.concordia.kingdoms.GameState<T> gameState)
 			throws GameException {
@@ -118,7 +112,29 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	}
 
 	public void resume(File file) throws GameException {
-		loadGameState(file);
+		GameState<T> gameState = loadGameState(file);
+		// if the game is not in progress then initialize everything
+		if (!this.isGameInProgress) {
+			// Game expects atleast 2 and a maximum of 4 players only
+			List<Player<T>> players = gameState.getPlayers();
+
+			if (players.size() < 2 || players.size() > 4) {
+				throw new GameException(
+						"Supports mimimum of 2 and maximum of 4 Players.");
+			} else {
+				// initialize the board with empty entries
+				this.initBoard(gameState);
+			}
+		} else {
+			// when game is already in progress, resume the game but not start
+			throw new GameException("Game is Already in Progress");
+		}
+
+	}
+
+	private void initBoard(GameState<T> gameState) throws GameException {
+		// build a mXn board for game entries
+		this.board = this.builder.buildBoard(newCoordinate(), gameState);
 	}
 
 	protected abstract org.concordia.kingdoms.GameState<T> loadGameState(
@@ -162,6 +178,16 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 
 	public void moveToNextLevel() {
 		this.board.levelChange(newCoordinate(), builder);
+	}
+
+	public List<Player<T>> getPlayers() {
+		return this.board.getPlayers();
+	}
+
+	protected abstract T newCoordinate();
+
+	public Tile drawTile() {
+		return board.drawTile();
 	}
 
 }

@@ -1,15 +1,20 @@
 package org.concordia.kingdoms.adapter;
 
 import java.util.List;
+import java.util.Map;
 
+import org.concordia.kingdoms.board.EpochCounter;
 import org.concordia.kingdoms.board.ICoordinate;
+import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.TDCoordinate;
+import org.concordia.kingdoms.board.score.ScoreCard;
 import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.domain.TileType;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * Simple utility to convert the basic token objects to and from Jaxb to domain
@@ -102,6 +107,25 @@ public class AdapterUtil {
 	}
 
 	/**
+	 * builds list of new Tile objects from Jaxb Tile list
+	 * 
+	 * @param - list of jaxb Tile object
+	 * @return A new List of new Tile objects
+	 */
+
+	public static List<Castle> newCastles(
+			List<org.concordia.kingdoms.jaxb.Castle> jaxbCastles) {
+		if (jaxbCastles == null) {
+			return null;
+		}
+		List<Castle> castles = Lists.newArrayList();
+		for (org.concordia.kingdoms.jaxb.Castle jaxbCastle : jaxbCastles) {
+			castles.add(newCastle(jaxbCastle));
+		}
+		return castles;
+	}
+
+	/**
 	 * builds list of new Jaxb Tile objects from Tile list
 	 * 
 	 * @param - list of Tile object
@@ -136,6 +160,34 @@ public class AdapterUtil {
 		return jaxbCastle;
 	}
 
+	public static List<org.concordia.kingdoms.jaxb.Castle> newJaxbCastles(
+			List<Castle> castles) {
+		if (castles == null) {
+			return null;
+		}
+		List<org.concordia.kingdoms.jaxb.Castle> jaxbCastles = Lists
+				.newArrayList();
+
+		for (Castle castle : castles) {
+			jaxbCastles.add(newJaxbCastle(castle));
+		}
+
+		return jaxbCastles;
+	}
+
+	public static Map<Integer, List<Castle>> reoslveCastles(List<Castle> castles) {
+		Map<Integer, List<Castle>> retCastles = Maps.newHashMap();
+		for (Castle castle : castles) {
+			Integer rank = castle.getValue();
+			if (retCastles.get(rank) != null) {
+				retCastles.get(rank).add(castle);
+			} else {
+				retCastles.put(rank, Lists.newArrayList(castle));
+			}
+		}
+		return retCastles;
+	}
+
 	public static org.concordia.kingdoms.jaxb.Tile newJaxbTile(final Tile tile) {
 		String tileName = tile.getName();
 		TileType tileType = tile.getType();
@@ -149,4 +201,129 @@ public class AdapterUtil {
 		return jaxbTile;
 	}
 
+	public static org.concordia.kingdoms.jaxb.Score newJaxbScore(
+			final Score score) {
+		Color color = score.getColor();
+		int columnScore = score.getColumnScore();
+		int rowScore = score.getRowScore();
+
+		// prepare a new Jaxb Score
+		org.concordia.kingdoms.jaxb.Score jaxbScore = new org.concordia.kingdoms.jaxb.Score();
+		jaxbScore.setColor(org.concordia.kingdoms.jaxb.Color.valueOf(color
+				.name()));
+		jaxbScore.setColumnScore(columnScore);
+		jaxbScore.setRowScore(rowScore);
+		return jaxbScore;
+	}
+
+	/**
+	 * builds list of new Jaxb Score objects from Score list
+	 * 
+	 * @param - list of Score object
+	 * @return A new List of new Jaxb Score objects
+	 */
+
+	public static List<org.concordia.kingdoms.jaxb.Score> newJaxbScores(
+			List<Score> scores) {
+		if (scores == null) {
+			return null;
+		}
+		List<org.concordia.kingdoms.jaxb.Score> jaxbScores = Lists
+				.newArrayList();
+
+		for (Score score : scores) {
+			jaxbScores.add(newJaxbScore(score));
+		}
+
+		return jaxbScores;
+	}
+
+	/**
+	 * builds list of new Score objects from Jaxb Score list
+	 * 
+	 * @param - list of jaxb Score object
+	 * @return A new List of new Score objects
+	 */
+
+	public static List<Score> newScores(
+			List<org.concordia.kingdoms.jaxb.Score> jaxbScores) {
+		if (jaxbScores == null) {
+			return null;
+		}
+		List<Score> scores = Lists.newArrayList();
+		for (org.concordia.kingdoms.jaxb.Score jaxbScore : jaxbScores) {
+			scores.add(newScore(jaxbScore));
+		}
+		return scores;
+	}
+
+	/**
+	 * builds a new Score object from Jaxb Score object
+	 * 
+	 * @param - jaxbScore Score object using by Jaxb
+	 * @return A new Score object
+	 */
+
+	public static Score newScore(org.concordia.kingdoms.jaxb.Score jaxbScore) {
+		if (jaxbScore == null) {
+			return null;
+		}
+		org.concordia.kingdoms.jaxb.Color color = jaxbScore.getColor();
+		int columnScore = jaxbScore.getColumnScore();
+		int rowScore = jaxbScore.getRowScore();
+
+		Score score = new Score(Color.valueOf(color.name()));
+		score.incrementColumnScoreBy(columnScore);
+		score.incrementRowScoreBy(rowScore);
+
+		return score;
+	}
+
+	public static EpochCounter newEpochCounter(
+			org.concordia.kingdoms.jaxb.EpochCounter jaxbEpochCounter) {
+
+		List<org.concordia.kingdoms.jaxb.ScoreCard> jaxbScoreCards = jaxbEpochCounter
+				.getScoreCards();
+
+		List<ScoreCard> scoreCards = Lists.newArrayList();
+
+		for (org.concordia.kingdoms.jaxb.ScoreCard jaxbScoreCard : jaxbScoreCards) {
+			List<org.concordia.kingdoms.jaxb.Score> scores = jaxbScoreCard
+					.getScores();
+			ScoreCard scoreCard = new ScoreCard(jaxbScoreCard.getLevel(),
+					newScores(scores));
+			scoreCards.add(scoreCard);
+		}
+
+		EpochCounter epochCounter = new EpochCounter(
+				jaxbEpochCounter.getCurrentLevel(),
+				jaxbEpochCounter.getTotalLevels());
+		epochCounter.setScoreCards(scoreCards);
+
+		return epochCounter;
+	}
+
+	public static org.concordia.kingdoms.jaxb.EpochCounter newJaxbEpochCounter(
+			EpochCounter epochCounter) {
+
+		int currentLevel = epochCounter.getCurrentLevel();
+		int totalLevels = epochCounter.getTotalLevels();
+		List<ScoreCard> scoreCards = epochCounter.getScoreCards();
+		List<org.concordia.kingdoms.jaxb.ScoreCard> jaxbScoreCards = Lists
+				.newArrayList();
+		for (ScoreCard scoreCard : scoreCards) {
+			int level = scoreCard.getLevel();
+			List<Score> scores = scoreCard.getScores();
+			List<org.concordia.kingdoms.jaxb.Score> jaxbScores = newJaxbScores(scores);
+			org.concordia.kingdoms.jaxb.ScoreCard jaxbScoreCard = new org.concordia.kingdoms.jaxb.ScoreCard();
+			jaxbScoreCard.setLevel(level);
+			jaxbScoreCard.setScores(jaxbScores);
+			jaxbScoreCards.add(jaxbScoreCard);
+		}
+		org.concordia.kingdoms.jaxb.EpochCounter jaxbEpochCounter = new org.concordia.kingdoms.jaxb.EpochCounter();
+		jaxbEpochCounter.setCurrentLevel(currentLevel);
+		jaxbEpochCounter.setTotalLevels(totalLevels);
+		jaxbEpochCounter.setScoreCards(jaxbScoreCards);
+		return jaxbEpochCounter;
+	}
 }

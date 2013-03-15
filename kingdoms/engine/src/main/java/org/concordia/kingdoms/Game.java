@@ -20,8 +20,6 @@ public interface Game<T extends ICoordinate> {
 
 	void resume(File file) throws GameException;
 
-	void pause();
-
 	void save() throws GameException;
 
 	void exit();

@@ -36,7 +36,7 @@ public class TileBank {
 		Collections.shuffle(this.tiles);
 	}
 
-	void addTiles(List<Tile> tiles) {
+	public void addTiles(List<Tile> tiles) {
 		if (tiles != null && !tiles.isEmpty()) {
 			this.tiles.addAll(tiles);
 		}
@@ -47,7 +47,7 @@ public class TileBank {
 	 * 
 	 * @return tile
 	 */
-	public Tile pickTile() {
+	public Tile drawTile() {
 		return tiles.remove(tiles.size() - 1);
 	}
 
@@ -58,13 +58,5 @@ public class TileBank {
 	 */
 	public List<Tile> getTiles() {
 		return Collections.unmodifiableList(this.tiles);
-	}
-
-	public static void main(String[] args) {
-		for (int i = 0; i < 30; i++) {
-			int randomIndex = new Random().nextInt();
-			System.out.println(randomIndex);
-		}
-
 	}
 }

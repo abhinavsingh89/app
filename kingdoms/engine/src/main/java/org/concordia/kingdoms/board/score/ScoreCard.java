@@ -1,6 +1,5 @@
 package org.concordia.kingdoms.board.score;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class ScoreCard {
 		return this.level;
 	}
 
-	public Collection<Score> getScores() {
+	public List<Score> getScores() {
 		return this.scores;
 	}
 }

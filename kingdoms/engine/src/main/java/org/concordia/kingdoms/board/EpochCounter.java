@@ -33,8 +33,7 @@ public class EpochCounter {
 	 * @param totalLevels
 	 */
 	public EpochCounter(int totalLevels) {
-		this.totalLevels = totalLevels;
-		this.currentLevel = 1;
+		this(1, totalLevels);
 	}
 
 	/**
@@ -46,6 +45,7 @@ public class EpochCounter {
 	public EpochCounter(int currentLevel, int totalLevels) {
 		this.currentLevel = currentLevel;
 		this.totalLevels = totalLevels;
+		this.scoreCards = Lists.newArrayList();
 	}
 
 	/**
@@ -95,6 +95,26 @@ public class EpochCounter {
 		ScoreCard newScoreCard = new ScoreCard(this.scoreCards.size() + 1,
 				scores);
 		this.scoreCards.add(newScoreCard);
+	}
+
+	public int getTotalLevels() {
+		return totalLevels;
+	}
+
+	public void setTotalLevels(int totalLevels) {
+		this.totalLevels = totalLevels;
+	}
+
+	public List<ScoreCard> getScoreCards() {
+		return scoreCards;
+	}
+
+	public void setScoreCards(List<ScoreCard> scoreCards) {
+		this.scoreCards = scoreCards;
+	}
+
+	public void setCurrentLevel(int currentLevel) {
+		this.currentLevel = currentLevel;
 	}
 
 }

@@ -45,7 +45,7 @@ public class KingdomsTest {
 	public static void main(String[] args) throws IOException, GameException {
 		final Kingdoms<TDCoordinate> kingdoms = new TDKingdoms(
 				new TDBoardBuilder(), 3);
-		final List<Player<TDCoordinate>> players = Lists.newArrayList();
+		List<Player<TDCoordinate>> players = Lists.newArrayList();
 		String input = "";
 		System.out.println("1.Resume the saved game - Press 1");
 		System.out.println("2.New Game - Press any key to continue");
@@ -61,10 +61,13 @@ public class KingdomsTest {
 					.println("Give Absolute path to the file you saved the xml");
 			String filePath = br.readLine();
 			kingdoms.resume(new File(filePath));
+			players = kingdoms.getPlayers();
+		}
+		if ("2".equals(reply)) {
+			initializePlayers(br, players);
+			kingdoms.start(players);
 		}
 
-		initializePlayers(br, players);
-		kingdoms.start(players);
 		Presentable presentable = new Console<TDCoordinate>(
 				kingdoms.getEntries());
 		System.out.println("Current Level: "
@@ -81,7 +84,7 @@ public class KingdomsTest {
 						br.readLine();
 
 						Tile startingTile = SpringContainer.INSTANCE.getBean(
-								"tileBank", TileBank.class).pickTile();
+								"tileBank", TileBank.class).drawTile();
 						player.setStartingTile(startingTile);
 						System.out.println(startingTile.show());
 					}
@@ -196,8 +199,7 @@ public class KingdomsTest {
 			throws IOException, GameRuleException {
 		// show the random tile picked up from
 		// the tile bank
-		final Tile tile = SpringContainer.INSTANCE.getBean("tileBank",
-				TileBank.class).pickTile();
+		final Tile tile = kingdoms.drawTile();
 		System.out.println(tile.show());
 		int row = getRow(br);
 		int column = getColumn(br);

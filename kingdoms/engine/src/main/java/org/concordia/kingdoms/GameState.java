@@ -3,8 +3,10 @@ package org.concordia.kingdoms;
 import java.util.List;
 
 import org.concordia.kingdoms.board.Entry;
+import org.concordia.kingdoms.board.EpochCounter;
 import org.concordia.kingdoms.board.ICoordinate;
 import org.concordia.kingdoms.domain.Tile;
+
 /**
  * @author Team K
  * @since 1.1
@@ -22,6 +24,8 @@ public class GameState<T extends ICoordinate> {
 	private List<Tile> tileBank;
 
 	private List<Player<T>> players;
+
+	private EpochCounter epochCounter;
 
 	public GameState() {
 	}
@@ -72,5 +76,13 @@ public class GameState<T extends ICoordinate> {
 
 	public void setPlayers(List<Player<T>> players) {
 		this.players = players;
+	}
+
+	public EpochCounter getEpochCounter() {
+		return epochCounter;
+	}
+
+	public void setEpochCounter(EpochCounter epochCounter) {
+		this.epochCounter = epochCounter;
 	}
 }

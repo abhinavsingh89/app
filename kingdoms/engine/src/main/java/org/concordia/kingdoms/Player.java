@@ -205,6 +205,21 @@ public class Player<T extends ICoordinate> {
 		return total;
 	}
 
+	/**
+	 * score is a mutable object, so returns a list of new score objects
+	 * 
+	 * @return
+	 */
+	public List<Score> getScores() {
+		List<Score> retScores = Lists.newArrayList();
+		for (Score score : scores) {
+			Score newScore = new Score(score.getColor());
+			newScore.incrementColumnScoreBy(score.getColumnScore());
+			newScore.incrementRowScoreBy(score.getRowScore());
+		}
+		return retScores;
+	}
+
 	public boolean hasAnyCastleAvailable() {
 
 		Iterator<Integer> itr = this.castles.keySet().iterator();

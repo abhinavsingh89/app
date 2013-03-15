@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author Team K
  * @since 1.1
@@ -35,6 +36,9 @@ public class GameState {
 	@XmlElementWrapper(name = "players")
 	@XmlElement(name = "player")
 	List<Player> players;
+
+	@XmlElement(name = "epoch")
+	EpochCounter epochCounter;
 
 	public GameState() {
 	}
@@ -85,5 +89,13 @@ public class GameState {
 
 	public void setPlayers(List<Player> players) {
 		this.players = players;
+	}
+
+	public EpochCounter getEpochCounter() {
+		return epochCounter;
+	}
+
+	public void setEpochCounter(EpochCounter epochCounter) {
+		this.epochCounter = epochCounter;
 	}
 }

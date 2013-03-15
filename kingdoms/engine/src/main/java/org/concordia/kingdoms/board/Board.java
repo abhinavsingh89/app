@@ -218,4 +218,8 @@ public class Board<T extends ICoordinate> {
 		}
 		return colorMap;
 	}
+
+	public Tile drawTile() {
+		return tileBank.drawTile();
+	}
 }

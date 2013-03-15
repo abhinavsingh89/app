@@ -11,9 +11,11 @@ import java.util.Set;
 
 import org.concordia.kingdoms.CoinBank;
 import org.concordia.kingdoms.GameBox;
+import org.concordia.kingdoms.GameState;
 import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.TileBank;
 import org.concordia.kingdoms.board.Board;
+import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.ICoordinate;
 import org.concordia.kingdoms.board.IMatrix;
 import org.concordia.kingdoms.board.TDCoordinate;
@@ -70,6 +72,32 @@ public class TDBoardBuilder implements BoardBuilder<TDCoordinate> {
 		board.setCoinBank(this.buildCoinBank());
 		board.setPlayers(players);
 		initPlayers(board, players);
+		return board;
+	}
+
+	public Board<TDCoordinate> buildBoard(final TDCoordinate coordinate,
+			GameState<TDCoordinate> gameState) throws GameException {
+		List<Player<TDCoordinate>> players = gameState.getPlayers();
+
+		isPlayersColorUnique(players);
+		final Board<TDCoordinate> board = new Board<TDCoordinate>(
+				this.buildEmptyBoard(coordinate));
+
+		List<Entry<TDCoordinate>> entries = gameState.getEntries();
+		for (Entry<TDCoordinate> entry : entries) {
+			if (entry.getComponent() != null) {
+				board.putComponent(entry.getComponent(), entry.getCoordinate());
+			}
+		}
+
+		TileBank tileBank = new TileBank();
+		tileBank.addTiles(gameState.getTileBank());
+		board.setTileBank(tileBank);
+		board.setCoinBank(this.buildCoinBank());
+		board.setPlayers(players);
+		for (Player<TDCoordinate> player : players) {
+			player.setBoard(board);
+		}
 		return board;
 	}
 

@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.google.common.collect.Lists;
+
 /**
  * 
  * @author Team K
@@ -24,8 +26,9 @@ public class Player {
 	@XmlElement
 	private Color chosenColor;
 
-	@XmlElement
-	private int score;
+	@XmlElementWrapper(name = "scores")
+	@XmlElement(name = "score")
+	private List<Score> scores;
 
 	@XmlElement
 	private Tile startingTile;
@@ -35,7 +38,7 @@ public class Player {
 	private List<Castle> castles;
 
 	public Player() {
-
+		this.scores = Lists.newArrayList();
 	}
 
 	public String getName() {
@@ -54,12 +57,12 @@ public class Player {
 		this.chosenColor = chosenColor;
 	}
 
-	public int getScore() {
-		return score;
+	public List<Score> getScores() {
+		return scores;
 	}
 
-	public void setScore(int score) {
-		this.score = score;
+	public void setScores(List<Score> scores) {
+		this.scores = scores;
 	}
 
 	public Tile getStartingTile() {

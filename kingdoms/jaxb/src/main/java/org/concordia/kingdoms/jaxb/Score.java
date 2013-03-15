@@ -1,8 +1,11 @@
-package org.concordia.kingdoms.board;
+package org.concordia.kingdoms.jaxb;
 
 import java.util.Comparator;
 
-import org.concordia.kingdoms.domain.Color;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * This class is used to calculate the total score by adding rowScore and
@@ -11,32 +14,20 @@ import org.concordia.kingdoms.domain.Color;
  * @author Team K
  * @since 1.1
  */
+@XmlRootElement(name = "score")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Score {
 
+	@XmlElement
 	private int rowScore;
 
+	@XmlElement
 	private int columnScore;
 
+	@XmlElement
 	private Color color;
 
-	/**
-	 * Constructor for a score
-	 * 
-	 * @param color
-	 *            - calculating score according to color
-	 */
-	public Score(Color color) {
-		this.color = color;
-	}
-
-	public Score incrementRowScoreBy(int score) {
-		this.rowScore += score;
-		return this;
-	}
-
-	public Score incrementColumnScoreBy(int score) {
-		this.columnScore += score;
-		return this;
+	public Score() {
 	}
 
 	public int score() {
@@ -49,6 +40,18 @@ public class Score {
 
 	public int getColumnScore() {
 		return columnScore;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public void setColumnScore(int columnScore) {
+		this.columnScore = columnScore;
+	}
+
+	public void setRowScore(int rowScore) {
+		this.rowScore = rowScore;
 	}
 
 	public Color getColor() {
