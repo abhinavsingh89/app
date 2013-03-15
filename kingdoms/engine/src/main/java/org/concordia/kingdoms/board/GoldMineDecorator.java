@@ -3,7 +3,11 @@ package org.concordia.kingdoms.board;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.domain.TileType;
-
+/**
+ * 
+ * @author Team K
+ * @since 1.1
+ */
 public class GoldMineDecorator implements IDecorator {
 
 	private Component component;

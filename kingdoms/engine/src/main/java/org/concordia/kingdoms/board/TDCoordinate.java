@@ -2,10 +2,10 @@ package org.concordia.kingdoms.board;
 
 /**
  * A 2-D coordinate to identified by the row and column
- * 
- * @author Pavan
- * 
+ * @author Team K
+ * @since 1.1
  */
+
 public class TDCoordinate implements ICoordinate {
 
 	private int row;

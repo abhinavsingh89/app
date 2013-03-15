@@ -12,7 +12,11 @@ import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Tile;
 
 import com.google.common.collect.Lists;
-
+/**
+ * This class is used to convert domain class object to Jaxb objects..
+ * @author Team K
+ * @since 1.1
+ */
 public class PlayersAdapter
 		implements
 		IAdapter<List<Player<TDCoordinate>>, List<org.concordia.kingdoms.jaxb.Player>> {

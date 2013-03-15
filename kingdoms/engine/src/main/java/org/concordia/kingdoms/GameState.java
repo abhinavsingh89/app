@@ -5,7 +5,10 @@ import java.util.List;
 import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.ICoordinate;
 import org.concordia.kingdoms.domain.Tile;
-
+/**
+ * @author Team K
+ * @since 1.1
+ */
 public class GameState<T extends ICoordinate> {
 
 	private int MAX_ROWS;

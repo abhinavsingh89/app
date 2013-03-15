@@ -15,7 +15,11 @@ import org.concordia.kingdoms.exceptions.GameRuleException;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
+/**
+ * This class is used for two dimensional matrix.
+ * @author Team K
+ * @since 1.1
+ */
 public class TDMatrix implements IMatrix<TDCoordinate> {
 
 	private List<List<Entry<TDCoordinate>>> entries;

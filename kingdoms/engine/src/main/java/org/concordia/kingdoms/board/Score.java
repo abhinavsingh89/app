@@ -3,7 +3,11 @@ package org.concordia.kingdoms.board;
 import java.util.Comparator;
 
 import org.concordia.kingdoms.domain.Color;
-
+/**
+ * This class is used to calculate the total score by adding rowScore and columnScore.
+ * @author Team K
+ * @since 1.1
+ */
 public class Score {
 
 	private int rowScore;
