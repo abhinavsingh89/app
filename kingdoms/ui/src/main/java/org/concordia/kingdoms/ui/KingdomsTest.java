@@ -16,6 +16,7 @@ import org.concordia.kingdoms.TileBank;
 import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.board.factory.TDBoardBuilder;
+import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameException;
@@ -167,11 +168,17 @@ public class KingdomsTest {
 					row = getRow(br);
 					column = getColumn(br);
 				}
-				// get a ranked castle and put it on
-				// board
-				player.putCastle(player.getCastle(rank),
-						TDCoordinate.newInstance(row, column));
-				isValidCastle = true;
+				Castle castle = player.getCastle(rank);
+				if (castle == null) {
+					log.error("No Castle with that rank available(you must have used all castles of that Rank)");
+					isValidCastle = false;
+				} else {
+					// get a ranked castle and put it on
+					// board
+					player.putCastle(castle,
+							TDCoordinate.newInstance(row, column));
+					isValidCastle = true;
+				}
 			} catch (GameRuleException ex) {
 				log.error(ex.getMessage());
 			}
