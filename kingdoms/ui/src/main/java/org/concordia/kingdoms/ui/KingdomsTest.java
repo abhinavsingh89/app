@@ -122,6 +122,7 @@ public class KingdomsTest {
 			Collections.sort(players, Player.PlayerComparator.INSTANCE);
 			kingdoms.moveToNextLevel();
 			presentable = new Console<TDCoordinate>(kingdoms.getEntries());
+			presentable.present();
 		}
 
 		kingdoms.getEpochCounter().goNextLevel();
@@ -148,7 +149,8 @@ public class KingdomsTest {
 			System.out.print(score.getColumnScore() + " ");
 			System.out.println(score.score());
 		}
-		System.out.println("--------------------------------------------------------------------------");
+		System.out
+				.println("--------------------------------------------------------------------------");
 		System.out.println("Player's Score:");
 
 		for (Player<?> player : players) {
