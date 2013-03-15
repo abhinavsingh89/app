@@ -11,7 +11,14 @@ public class TDCoordinate implements ICoordinate {
 	private int row;
 
 	private int column;
-
+	/**
+	 * Constructor for a TDCoordinate
+	 * 
+	 * @param row
+	 *            - row number
+	 * @param column
+	 *            - column number
+	 */
 	private TDCoordinate(int row, int column) {
 		this.row = row;
 		this.column = column;

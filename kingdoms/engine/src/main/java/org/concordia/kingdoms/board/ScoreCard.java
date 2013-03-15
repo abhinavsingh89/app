@@ -13,7 +13,9 @@ public class ScoreCard {
 	private int level;
 
 	private List<Score> scores;
-
+	/**
+	 * Constructor for a Score card
+	 */
 	public ScoreCard(int level, List<Score> scores) {
 		this.level = level;
 		this.scores = Collections.unmodifiableList(scores);

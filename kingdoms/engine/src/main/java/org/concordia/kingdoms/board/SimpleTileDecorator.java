@@ -11,7 +11,9 @@ import org.concordia.kingdoms.domain.TileType;
 public class SimpleTileDecorator implements IDecorator {
 
 	private Component component;
-
+	/**
+	 * Constructor for a SimpleTileDecorator
+	 */
 	public SimpleTileDecorator(Component component) {
 		this.component = component;
 	}

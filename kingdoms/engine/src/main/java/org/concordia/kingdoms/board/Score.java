@@ -15,7 +15,12 @@ public class Score {
 	private int columnScore;
 
 	private Color color;
-
+	/**
+	 * Constructor for a score
+	 * 
+	 * @param color
+	 *            - calculating score according to color
+	 */
 	public Score(Color color) {
 		this.color = color;
 	}
