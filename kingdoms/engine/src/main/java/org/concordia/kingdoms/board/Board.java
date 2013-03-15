@@ -8,7 +8,6 @@ package org.concordia.kingdoms.board;
  *
  */
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -148,10 +147,10 @@ public class Board<T extends ICoordinate> {
 	/**
 	 * method used for returning the players list
 	 * 
-	 * @return unmodifiable players list
+	 * @return - @see {@link Player}
 	 */
 	public List<Player<T>> getPlayers() {
-		return Collections.unmodifiableList(this.players);
+		return this.players;
 	}
 
 	/**
@@ -185,6 +184,7 @@ public class Board<T extends ICoordinate> {
 		Map<Color, Player<?>> playersColor = resolvePlayersColors();
 		final GameBox gameBox = SpringContainer.INSTANCE.getBean("gameBox",
 				GameBox.class);
+		List<Tile> retTiles = Lists.newArrayList();
 		while (entries.hasNext()) {
 
 			final Entry<T> entry = entries.next();
@@ -204,9 +204,10 @@ public class Board<T extends ICoordinate> {
 					gameBox.returnCastles((Castle) component);
 				}
 			} else {
-				gameBox.returnTiles((Tile) component);
+				retTiles.add((Tile) component);
 			}
 		}
+		this.tileBank.addTiles(retTiles);
 		this.matrix = boardBuilder.buildEmptyBoard(coordinate);
 	}
 

@@ -15,8 +15,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- * This class is useful when the game board is initialized. It consist of all
- * the tiles, castles, coins.
+ * Gamebox has all the necessary tokens(tiles,castles..), coins to start the
+ * game.
  * 
  * @author Team K
  * @since 1.0
@@ -44,7 +44,17 @@ public class GameBox {
 		this.castles = castles;
 	}
 
-	// create 'size' number of new castles with given properties of castle
+	/**
+	 * create 'size' number of new castles with given properties of castle
+	 * 
+	 * @param rank
+	 *            - castle rank
+	 * @param color
+	 *            - castle color
+	 * @param size
+	 *            - total number of castles to be created
+	 * @return
+	 */
 	public static List<Castle> newCastles(int rank, Color color, int size) {
 		final List<Castle> castles = Lists.newArrayList();
 		for (int i = 0; i < size; i++) {
@@ -108,6 +118,10 @@ public class GameBox {
 		player.addCastle(1, retCastles);
 	}
 
+	/**
+	 * drops all the tiles from gamebox to tilebank
+	 * @param tileBank - tile area
+	 */
 	public void assignTiles(TileBank tileBank) {
 		/*
 		 * the tiles pulled from this gamebox should no longer be available here
@@ -116,7 +130,11 @@ public class GameBox {
 			tileBank.addTiles(this.tiles.remove(tileType));
 		}
 	}
-	
+	/**
+	 * Castle will be returned to the gamebox, no null check happens here, so its upto the client code to pass non-null vlues
+	 * 
+	 * @param castle
+	 */
 	public void returnCastles(Castle castle){
 		Integer castleValue = castle.getValue();
 		Map<Color, List<Castle>>  colorCastles = castles.get(castleValue);
@@ -134,6 +152,10 @@ public class GameBox {
 		}
 	}
 	
+	/**
+	 * Tile will be returned to the gamebox
+	 * @param tile
+	 */
 	public void returnTiles(Tile tile){
 		//tiles of type
 		List<Tile> existingTiles = tiles.get(tile.getType());

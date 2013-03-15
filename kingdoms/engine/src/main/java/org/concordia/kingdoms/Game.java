@@ -16,12 +16,34 @@ import org.concordia.kingdoms.exceptions.GameException;
  */
 public interface Game<T extends ICoordinate> {
 
+	/**
+	 * starts the game
+	 * 
+	 * @param players
+	 *            - required
+	 * @throws GameException
+	 */
 	void start(List<Player<T>> players) throws GameException;
 
+	/**
+	 * resumes the game from the file having the game state
+	 * 
+	 * @param file
+	 *            - required
+	 * @throws GameException
+	 */
 	void resume(File file) throws GameException;
 
+	/**
+	 * saves the game state, so that the same can be reloaded
+	 * 
+	 * @throws GameException
+	 */
 	void save() throws GameException;
 
+	/**
+	 * gets out of the game
+	 */
 	void exit();
 
 	String getName();

@@ -3,6 +3,7 @@ package org.concordia.kingdoms;
 import org.concordia.kingdoms.board.ICoordinate;
 
 /**
+ * Games which have a concept of level need to subclass
  * 
  * @author Team K
  * @since 1.0

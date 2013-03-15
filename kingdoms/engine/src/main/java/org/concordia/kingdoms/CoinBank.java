@@ -5,6 +5,8 @@
  */
 package org.concordia.kingdoms;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +14,10 @@ import org.concordia.kingdoms.domain.Coin;
 import org.concordia.kingdoms.domain.CoinType;
 
 import com.google.common.collect.Maps;
+
 /**
+ * A repository containing all the coins
+ * 
  * @author Team K
  * @since 1.0
  */
@@ -28,11 +33,11 @@ public class CoinBank {
 	}
 
 	/**
-	 * method for returning the coin map
+	 * returns an immutable map
 	 * 
 	 * @return coins
 	 */
 	public Map<CoinType, List<Coin>> getCoins() {
-		return this.coins;
+		return Collections.unmodifiableMap(this.coins);
 	}
 }

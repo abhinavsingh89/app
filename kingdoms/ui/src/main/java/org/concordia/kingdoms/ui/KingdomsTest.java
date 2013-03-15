@@ -12,7 +12,6 @@ import java.util.Map;
 
 import org.concordia.kingdoms.Kingdoms;
 import org.concordia.kingdoms.Player;
-import org.concordia.kingdoms.TileBank;
 import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.board.factory.TDBoardBuilder;
@@ -21,7 +20,6 @@ import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.exceptions.GameRuleException;
-import org.concordia.kingdoms.spring.SpringContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,8 +77,7 @@ public class KingdomsTest {
 								+ "Press any key to pick a Starting Tile");
 						br.readLine();
 
-						Tile startingTile = SpringContainer.INSTANCE.getBean(
-								"tileBank", TileBank.class).drawTile();
+						Tile startingTile = kingdoms.drawTile();
 						player.setStartingTile(startingTile);
 						System.out.println(startingTile.show());
 					}
