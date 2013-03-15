@@ -2,6 +2,7 @@ package org.concordia.kingdoms.board;
 
 import java.util.Iterator;
 
+import org.concordia.kingdoms.board.score.ScoreService;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 /**

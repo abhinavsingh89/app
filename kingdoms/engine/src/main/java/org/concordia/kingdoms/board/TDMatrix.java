@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.concordia.kingdoms.board.score.DragonDecorator;
+import org.concordia.kingdoms.board.score.DragonGoldMineDecorator;
+import org.concordia.kingdoms.board.score.GoldMineDecorator;
+import org.concordia.kingdoms.board.score.SimpleTileDecorator;
 import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Component;

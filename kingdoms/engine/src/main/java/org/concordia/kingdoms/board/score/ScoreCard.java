@@ -1,8 +1,11 @@
-package org.concordia.kingdoms.board;
+package org.concordia.kingdoms.board.score;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import org.concordia.kingdoms.board.Score;
+
 /**
  * This class is used to calculate the score for each level i.e. epoch
  * @author Team K

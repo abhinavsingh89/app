@@ -1,5 +1,6 @@
-package org.concordia.kingdoms.board;
+package org.concordia.kingdoms.board.score;
 
+import org.concordia.kingdoms.board.IDecorator;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.domain.TileType;
@@ -8,16 +9,12 @@ import org.concordia.kingdoms.domain.TileType;
  * @author Team K
  * @since 1.1
  */
-public class DragonDecorator implements IDecorator {
+public class GoldMineDecorator implements IDecorator {
 
 	private Component component;
 
-	public DragonDecorator(Component component) {
+	public GoldMineDecorator(Component component) {
 		this.component = component;
-	}
-
-	public String getName() {
-		return this.component.getName();
 	}
 
 	public Integer getValue() {
@@ -26,13 +23,16 @@ public class DragonDecorator implements IDecorator {
 		}
 		if (this.component instanceof Tile) {
 			final Tile tile = (Tile) this.component;
-			if (tile.getType().equals(TileType.RESOURCE)) {
-				return 0;
-			} else if (tile.getType().equals(TileType.HAZARD)) {
-				return this.component.getValue();
+			if (tile.getType().equals(TileType.RESOURCE)
+					|| tile.getType().equals(TileType.HAZARD)) {
+				return 2 * this.component.getValue();
 			}
 		}
 		return 0;
+	}
+
+	public String getName() {
+		return this.component.getName();
 	}
 
 	public IDecorator setComponent(Component component) {

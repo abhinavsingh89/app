@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.concordia.kingdoms.Player;
+import org.concordia.kingdoms.board.score.ScoreCard;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 

@@ -1,7 +1,9 @@
-package org.concordia.kingdoms.board;
+package org.concordia.kingdoms.board.score;
 
 import java.util.Map;
 
+import org.concordia.kingdoms.board.ICoordinate;
+import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.domain.Color;
 /**
  * @author Team K

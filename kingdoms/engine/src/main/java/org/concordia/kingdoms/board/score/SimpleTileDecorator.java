@@ -1,5 +1,6 @@
-package org.concordia.kingdoms.board;
+package org.concordia.kingdoms.board.score;
 
+import org.concordia.kingdoms.board.IDecorator;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.domain.TileType;
