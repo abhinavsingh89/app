@@ -6,7 +6,10 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-
+/**
+ * @author Team K
+ * @since 1.1
+ */
 @XmlRootElement(name = "entry")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = { "row", "column", "tile", "castle" })

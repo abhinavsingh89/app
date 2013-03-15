@@ -11,7 +11,11 @@ import javax.xml.bind.Unmarshaller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ * This class is used for marshelling and un-marshelling
+ * @author Team K
+ * @since 1.1
+ */
 public class JaxbUtil {
 
 	private static final Logger log = LoggerFactory.getLogger(JaxbUtil.class);

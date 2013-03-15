@@ -7,7 +7,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-
+/**
+ * @author Team K
+ * @since 1.1
+ */
 @XmlRootElement(name = "kingdoms", namespace = "org.concordia.kingdoms")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GameState {
