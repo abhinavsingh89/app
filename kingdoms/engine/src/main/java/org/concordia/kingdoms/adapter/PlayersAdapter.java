@@ -33,6 +33,7 @@ public class PlayersAdapter
 			String name = player.getName();
 			List<Score> scores = player.getScores();
 			Tile startTile = player.getStartingTile();
+			boolean isStartingTileUsed = player.isStartingTileUsed();
 			Map<CoinType, List<Coin>> coins = player.getCoins();
 			Map<Integer, List<Castle>> castles = player.getCastles();
 			Color color = player.getChosenColor();
@@ -43,6 +44,7 @@ public class PlayersAdapter
 			if (startTile != null) {
 				jaxbPlayer.setStartingTile(AdapterUtil.newJaxbTile(startTile));
 			}
+			jaxbPlayer.setStartingTileUsed(isStartingTileUsed);
 			Iterator<Integer> castleItr = castles.keySet().iterator();
 			List<org.concordia.kingdoms.jaxb.Castle> jaxbCastles = Lists
 					.newArrayList();
@@ -85,7 +87,7 @@ public class PlayersAdapter
 			}
 
 			player.setStartingTile(AdapterUtil.newTile(startTile));
-
+			player.setStartingTileUsed(jaxbPlayer.isStartingTileUsed());
 			Map<Integer, List<Castle>> castleMap = AdapterUtil
 					.reoslveCastles(AdapterUtil.newCastles(jaxbCastles));
 			Iterator<Integer> itr = castleMap.keySet().iterator();

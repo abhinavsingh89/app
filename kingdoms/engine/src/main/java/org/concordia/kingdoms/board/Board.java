@@ -223,4 +223,8 @@ public class Board<T extends ICoordinate> {
 	public Tile drawTile() {
 		return tileBank.drawTile();
 	}
+
+	public boolean isTileBankEmpty() {
+		return this.tileBank.isEmpty();
+	}
 }

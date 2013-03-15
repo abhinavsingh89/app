@@ -58,4 +58,12 @@ public class TileBank {
 	public List<Tile> getTiles() {
 		return Collections.unmodifiableList(this.tiles);
 	}
+
+	/**
+	 * 
+	 */
+
+	public boolean isEmpty() {
+		return this.tiles.isEmpty();
+	}
 }

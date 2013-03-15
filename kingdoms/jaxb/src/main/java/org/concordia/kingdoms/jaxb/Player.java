@@ -33,6 +33,9 @@ public class Player {
 	@XmlElement
 	private Tile startingTile;
 
+	@XmlElement
+	private boolean isStartingTileUsed;
+
 	@XmlElementWrapper(name = "castles")
 	@XmlElement(name = "castle")
 	private List<Castle> castles;
@@ -80,4 +83,13 @@ public class Player {
 	public void setCastles(List<Castle> castles) {
 		this.castles = castles;
 	}
+
+	public boolean isStartingTileUsed() {
+		return isStartingTileUsed;
+	}
+
+	public void setStartingTileUsed(boolean isStartingTileUsed) {
+		this.isStartingTileUsed = isStartingTileUsed;
+	}
+
 }

@@ -203,4 +203,8 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 
 	}
 
+	public boolean isTileBankEmpty() {
+		return this.board.isTileBankEmpty();
+	}
+
 }

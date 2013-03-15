@@ -72,7 +72,7 @@ public class KingdomsTest {
 			while (!kingdoms.isLevelCompleted()) {
 				for (final Player<TDCoordinate> player : players) {
 
-					if (player.getStartingTile() == null) {
+					if (!player.isStartingTileUsed()) {
 						System.out.println(player.getName() + ">"
 								+ "Press any key to pick a Starting Tile");
 						br.readLine();
@@ -88,7 +88,7 @@ public class KingdomsTest {
 							System.out
 									.println(player.getName()
 											+ ">"
-											+ "Press 1 to pick a Tile any other number for Castle");
+											+ "Press 1 to pick a Tile 2 for Castle 3 for starting Tile");
 							String data = br.readLine();
 							if ("save".equals(data)) {
 								saveMyGame(br, kingdoms);
@@ -99,8 +99,16 @@ public class KingdomsTest {
 							if (tileOrCastle == 1) {
 								placeTile(kingdoms, br, player);
 							} else {
-								placeCastle(kingdoms, br, player);
-							}// else ending
+								if (tileOrCastle == 2) {
+									placeCastle(kingdoms, br, player);
+								} else {
+									if (player.isStartingTileUsed()) {
+										log.error("No Starting Tile Available");
+										continue;
+									}
+									placeStartingTile(kingdoms, br, player);
+								}
+							}
 							isValidInput = true;
 							presentable.present();
 						} catch (NumberFormatException ex) {
@@ -122,6 +130,31 @@ public class KingdomsTest {
 				System.out.println("GAME FINISHED!!");
 			}
 		}
+
+	}
+
+	private static void placeStartingTile(Kingdoms<TDCoordinate> kingdoms,
+			BufferedReader br, Player<TDCoordinate> player) throws IOException,
+			GameRuleException {
+
+		// show the random tile picked up from
+		// the tile bank
+		System.out.println(player.getStartingTile().show());
+		int row = getRow(br);
+		int column = getColumn(br);
+
+		// player must chose valid position to
+		// place the tile
+		while (!kingdoms.isValidPosition(TDCoordinate.newInstance(row, column))) {
+			System.out.println("Not a Valid Position");
+			row = getRow(br);
+			column = getColumn(br);
+		}
+
+		player.putTile(player.getStartingTile(),
+				TDCoordinate.newInstance(row, column));
+		player.setStartingTile(null);
+		player.setStartingTileUsed(true);
 
 	}
 

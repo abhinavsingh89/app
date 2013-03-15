@@ -37,6 +37,8 @@ public class Player<T extends ICoordinate> {
 
 	private Tile startingTile;
 
+	private boolean isStartingTileUsed;
+
 	private Map<CoinType, List<Coin>> coins;
 
 	private Map<Integer, List<Castle>> castles;
@@ -59,6 +61,7 @@ public class Player<T extends ICoordinate> {
 		this.startingTile = null;
 		this.coins = Maps.newHashMap();
 		this.castles = Maps.newHashMap();
+		this.isStartingTileUsed = false;
 	}
 
 	/**
@@ -240,5 +243,13 @@ public class Player<T extends ICoordinate> {
 		public int compare(Player<?> o1, Player<?> o2) {
 			return o2.getTotalScore() - o1.getTotalScore();
 		}
+	}
+
+	public boolean isStartingTileUsed() {
+		return isStartingTileUsed;
+	}
+
+	public void setStartingTileUsed(boolean isStartingTileUsed) {
+		this.isStartingTileUsed = isStartingTileUsed;
 	}
 }
