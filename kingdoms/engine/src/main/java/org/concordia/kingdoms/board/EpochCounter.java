@@ -66,7 +66,7 @@ public class EpochCounter {
 	 * @return true/false
 	 */
 	public boolean isNextAvailable() {
-		return this.currentLevel + 1 <= this.totalLevels;
+		return this.currentLevel <= this.totalLevels;
 	}
 
 	/**

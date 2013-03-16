@@ -193,7 +193,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	protected abstract T newCoordinate();
 
 	public Tile drawTile() {
-		return board.drawTile();
+		return this.board.drawTile();
 	}
 
 	public void setFileName(String fileName) {

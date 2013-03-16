@@ -50,6 +50,8 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 
 	private IDecorator dragonGoldMineDecorator;
 
+	private List<TDCoordinate> availableCoordinates;
+
 	public TDMatrix(int rows, int columns) {
 		this.MAX_ROWS = rows;
 		this.MAX_COLUMNS = columns;
@@ -67,6 +69,7 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		this.rowsScores = Lists.newArrayList();
 		this.columnsScores = Lists.newArrayList();
 		this.initEntries();
+		this.initAvailableCoordinates();
 	}
 
 	/**
@@ -90,7 +93,7 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 	/**
 	 * put the component on the board, for given coordinate; before the
 	 * component is placed on the board, checks to see if the coordinate is
-	 * invalid position, and a space is available
+	 * invalid position, and a space is available.
 	 */
 	public void putComponent(Component component, TDCoordinate coordinate)
 			throws GameRuleException {
@@ -109,6 +112,7 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		this.entries.get(row).get(column).setComponent(component);
 		this.tileFinder.rememberCoordinate(component, coordinate);
 		this.componentsOnBoard++;
+		this.availableCoordinates.remove(coordinate);
 	}
 
 	/**
@@ -576,8 +580,16 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		return this.componentsOnBoard;
 	}
 
-	public Set<TDCoordinate> getAvailableCoordinates() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TDCoordinate> getAvailableCoordinates() {
+		return this.availableCoordinates;
+	}
+
+	private void initAvailableCoordinates() {
+		this.availableCoordinates = Lists.newArrayList();
+		for (int i = 0; i < MAX_ROWS; i++) {
+			for (int j = 0; j < MAX_COLUMNS; j++) {
+				this.availableCoordinates.add(TDCoordinate.newInstance(i, j));
+			}
+		}
 	}
 }

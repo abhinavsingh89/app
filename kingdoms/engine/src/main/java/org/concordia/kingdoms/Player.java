@@ -19,6 +19,8 @@ import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 import org.concordia.kingdoms.strategies.IStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -30,6 +32,8 @@ import com.google.common.collect.Maps;
  * 
  */
 public class Player<T extends ICoordinate> {
+
+	private static final Logger log = LoggerFactory.getLogger(Player.class);
 
 	private String name;
 
@@ -69,9 +73,51 @@ public class Player<T extends ICoordinate> {
 	}
 
 	public void myTurn() {
-		// Entry<T> entry = playStrategy
-		// .getEntry(tiles, castles, emptyCoordinates);
-		// this.board.putComponent(entry.getComponent(), entry.getCoordinate());
+
+		final List<Tile> tilesToChose = Lists.newArrayList();
+
+		if (!isStartingTileUsed) {
+			tilesToChose.add(startingTile);
+		}
+
+		boolean invalid = true;
+		final List<Castle> castlesList = getCastlesAsList();
+		Entry<T> entry = null;
+		try {
+			entry = playStrategy.getEntry(this, tilesToChose, castlesList,
+					board.getAvailableCoordinates());
+		} catch (GameRuleException e1) {
+			log.error(e1.getMessage());
+		}
+		while (invalid) {
+			try {
+				if (entry.getComponent() instanceof Castle) {
+					putCastle((Castle) entry.getComponent(),
+							entry.getCoordinate());
+				} else {
+					final Tile tile = (Tile) entry.getComponent();
+					putTile(tile, entry.getCoordinate());
+					if (tile.equals(startingTile)) {
+						startingTile = null;
+						isStartingTileUsed = true;
+					}
+				}
+				invalid = false;
+			} catch (GameRuleException e) {
+				log.error(e.getMessage());
+			}
+		}
+
+	}
+
+	private List<Castle> getCastlesAsList() {
+		Iterator<Integer> itr = castles.keySet().iterator();
+		List<Castle> castlesList = Lists.newArrayList();
+		while (itr.hasNext()) {
+			List<Castle> rankCastles = castles.get(itr.next());
+			castlesList.addAll(rankCastles);
+		}
+		return castlesList;
 	}
 
 	/**
@@ -340,5 +386,9 @@ public class Player<T extends ICoordinate> {
 
 	public void setPlayStrategy(IStrategy<T> playStrategy) {
 		this.playStrategy = playStrategy;
+	}
+
+	public Component drawTile() {
+		return board.drawTile();
 	}
 }

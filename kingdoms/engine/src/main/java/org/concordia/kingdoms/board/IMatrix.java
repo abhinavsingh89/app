@@ -1,7 +1,7 @@
 package org.concordia.kingdoms.board;
 
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 import org.concordia.kingdoms.board.score.ScoreService;
 import org.concordia.kingdoms.domain.Component;
@@ -26,6 +26,6 @@ public interface IMatrix<T extends ICoordinate> extends ScoreService<T> {
 
 	Iterator<Entry<T>> getEntries();
 
-	Set<T> getAvailableCoordinates();
+	List<T> getAvailableCoordinates();
 
 }

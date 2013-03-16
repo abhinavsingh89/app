@@ -69,6 +69,12 @@ public class KingdomsTest {
 		if ("2".equals(reply)) {
 			initializePlayers(br, players);
 			kingdoms.start(players);
+			for (Player player : players) {
+				if (!player.isStartingTileUsed()) {
+					player.setStartingTile(kingdoms.drawTile());
+				}
+			}
+
 		}
 
 		Presentable presentable = new Console<TDCoordinate>(
@@ -76,57 +82,22 @@ public class KingdomsTest {
 		System.out.println("Current Level: "
 				+ kingdoms.getEpochCounter().getCurrentLevel());
 		presentable.present();
+		System.out.println();
+		System.out.println();
 
 		while (kingdoms.getEpochCounter().isNextAvailable()) {
 			while (!kingdoms.isLevelCompleted()) {
 				for (final Player<TDCoordinate> player : players) {
-
-					if (!player.isStartingTileUsed()) {
-						System.out.println(player.getName() + ">"
-								+ "Press any key to pick a Starting Tile");
-						br.readLine();
-
-						Tile startingTile = kingdoms.drawTile();
-						player.setStartingTile(startingTile);
-						System.out.println(startingTile.show());
-					}
-
-					boolean isValidInput = false;
-					while (!isValidInput) {
-						try {
-							System.out
-									.println(player.getName()
-											+ ">"
-											+ "Press 1 to pick a Tile 2 for Castle 3 for starting Tile");
-							String data = br.readLine();
-							if ("save".equals(data)) {
-								saveMyGame(br, kingdoms);
-								continue;
-							}
-
-							int tileOrCastle = Integer.parseInt(data);
-							if (tileOrCastle == 1) {
-								placeTile(kingdoms, br, player);
-							} else {
-								if (tileOrCastle == 2) {
-									placeCastle(kingdoms, br, player);
-								} else {
-									if (player.isStartingTileUsed()) {
-										log.error("No Starting Tile Available");
-										continue;
-									}
-									placeStartingTile(kingdoms, br, player);
-								}
-							}
-							isValidInput = true;
-							presentable.present();
-						} catch (NumberFormatException ex) {
-							log.error("Invalid input:" + ex.getMessage());
-						}
-					}
+					player.myTurn();
+					presentable.present();
+					System.out.println();
+					System.out
+							.println("________________________________________________________________________________");
+					System.out.println();
 				}
 			}
-			log.info("Level Completed!!");
+			log.info(kingdoms.getEpochCounter().getCurrentLevel()
+					+ " Level Completed!!");
 			Map<Color, Score> scoreCard = kingdoms.score();
 			assignScore(players, scoreCard);
 			printFinalScore(players, scoreCard);
@@ -135,11 +106,11 @@ public class KingdomsTest {
 				kingdoms.moveToNextLevel();
 				presentable = new Console<TDCoordinate>(kingdoms.getEntries());
 				presentable.present();
-			} else {
-				System.out.println("GAME FINISHED!!");
+				System.out.println();
+				System.out.println();
 			}
 		}
-
+		System.out.println("----GAME FINISHED----");
 	}
 
 	private static void placeStartingTile(Kingdoms<TDCoordinate> kingdoms,
@@ -316,10 +287,12 @@ public class KingdomsTest {
 	private static void initializePlayers(BufferedReader br,
 			List<Player<TDCoordinate>> players) throws IOException {
 
-		// Player<TDCoordinate> randomStrategyPlayer = Player.newPlayer(null,
-		// Color.BLUE);
-		// randomStrategyPlayer.setPlayStrategy(new RandomStrategy());
-		// players.add(randomStrategyPlayer);
+		Player<TDCoordinate> randomStrategyPlayer = Player.newPlayer(null,
+				Color.BLUE);
+
+		randomStrategyPlayer.setName("random_player");
+		randomStrategyPlayer.setPlayStrategy(new RandomStrategy());
+		players.add(randomStrategyPlayer);
 
 		log.debug("Random Strategy Player is in the Game");
 
@@ -344,7 +317,9 @@ public class KingdomsTest {
 									+ Arrays.toString(colors));
 							final String chosenColor = br.readLine();
 							final Color playerColor = stringToColor(chosenColor);
-							players.add(Player.newPlayer(name, playerColor));
+							Player player = Player.newPlayer(name, playerColor);
+							player.setPlayStrategy(new RandomStrategy());
+							players.add(player);
 							isValidColor = true;
 						} catch (GameException ex) {
 							log.error(ex.getMessage());

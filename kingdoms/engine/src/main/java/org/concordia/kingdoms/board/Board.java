@@ -227,4 +227,9 @@ public class Board<T extends ICoordinate> {
 	public boolean isTileBankEmpty() {
 		return this.tileBank.isEmpty();
 	}
+
+	public List<T> getAvailableCoordinates() {
+		return this.matrix.getAvailableCoordinates();
+	}
+
 }
