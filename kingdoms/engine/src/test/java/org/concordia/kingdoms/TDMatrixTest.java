@@ -37,7 +37,7 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(0, 5));
 
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 0, true, scores);
+			matrix.getTilesScore(0, 6, 0, true, scores);
 			assertEquals(Integer.valueOf(-5), scores.get(0));
 			assertEquals(Integer.valueOf(-5), scores.get(1));
 
@@ -67,7 +67,7 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(0, 5));
 
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 0, true, scores);
+			matrix.getTilesScore(0, 6, 0, true, scores);
 			assertEquals(Integer.valueOf(-5), scores.get(0));
 			assertEquals(Integer.valueOf(1), scores.get(1));
 			assertEquals(Integer.valueOf(0), scores.get(2));
@@ -98,7 +98,7 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(0, 5));
 
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 0, true, scores);
+			matrix.getTilesScore(0, 6, 0, true, scores);
 			assertEquals(Integer.valueOf(-5), scores.get(0));
 		} catch (GameRuleException e) {
 			e.printStackTrace();
@@ -128,7 +128,7 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(0, 5));
 
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 0, true, scores);
+			matrix.getTilesScore(0, 6, 0, true, scores);
 			assertEquals(Integer.valueOf(2), scores.get(0));
 		} catch (GameRuleException e) {
 			e.printStackTrace();
@@ -158,7 +158,7 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(0, 5));
 
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 0, true, scores);
+			matrix.getTilesScore(0, 6, 0, true, scores);
 			assertEquals(Integer.valueOf(-5), scores.get(0));
 		} catch (GameRuleException e) {
 			e.printStackTrace();
@@ -187,7 +187,7 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(0, 5));
 
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 0, true, scores);
+			matrix.getTilesScore(0, 6, 0, true, scores);
 			assertEquals(Integer.valueOf(-5), scores.get(0));
 		} catch (GameRuleException e) {
 			e.printStackTrace();
@@ -218,7 +218,7 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(0, 5));
 
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 0, true, scores);
+			matrix.getTilesScore(0, 6, 0, true, scores);
 			assertEquals(Integer.valueOf(2), scores.get(0));
 			assertEquals(Integer.valueOf(-5), scores.get(1));
 		} catch (GameRuleException e) {
@@ -249,7 +249,7 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(0, 5));
 
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 0, true, scores);
+			matrix.getTilesScore(0, 6, 0, true, scores);
 
 			assertEquals(Integer.valueOf(-12), scores.get(0));
 		} catch (GameRuleException e) {
@@ -280,7 +280,7 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(0, 5));
 
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 0, true, scores);
+			matrix.getTilesScore(0, 6, 0, true, scores);
 
 			assertEquals(Integer.valueOf(0), scores.get(0));
 		} catch (GameRuleException e) {
@@ -309,7 +309,7 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(0, 5));
 
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 0, true, scores);
+			matrix.getTilesScore(0, 6, 0, true, scores);
 
 			assertEquals(Integer.valueOf(-3), scores.get(0));
 		} catch (GameRuleException e) {
@@ -340,7 +340,7 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(1, 5));
 
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 1, true, scores);
+			matrix.getTilesScore(0, 6, 1, true, scores);
 
 			assertEquals(Integer.valueOf(10), scores.get(0));
 			assertEquals(Integer.valueOf(0), scores.get(1));
@@ -370,7 +370,7 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(2, 5));
 
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 2, true, scores);
+			matrix.getTilesScore(0, 6, 2, true, scores);
 
 			assertEquals(Integer.valueOf(-1), scores.get(0));
 		} catch (GameRuleException e) {
@@ -398,7 +398,7 @@ public class TDMatrixTest extends TestCase {
 			matrix.putComponent(Tile.newTile(TileType.RESOURCE, "resource", 5),
 					TDCoordinate.newInstance(3, 5));
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 3, true, scores);
+			matrix.getTilesScore(0, 6, 3, true, scores);
 
 			assertEquals(Integer.valueOf(0), scores.get(0));
 			assertEquals(Integer.valueOf(5), scores.get(1));
@@ -427,7 +427,7 @@ public class TDMatrixTest extends TestCase {
 			matrix.putComponent(Tile.newTile(TileType.RESOURCE, "resource", 2),
 					TDCoordinate.newInstance(4, 5));
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 6, 4, true, scores);
+			matrix.getTilesScore(0, 6, 4, true, scores);
 			assertEquals(Integer.valueOf(4), scores.get(0));
 		} catch (GameRuleException e) {
 			e.printStackTrace();
@@ -451,7 +451,7 @@ public class TDMatrixTest extends TestCase {
 			matrix.putComponent(Tile.newTile(TileType.HAZARD, "hazard", -1),
 					TDCoordinate.newInstance(4, 0));
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 5, 0, false, scores);
+			matrix.getTilesScore(0, 5, 0, false, scores);
 			assertEquals(Integer.valueOf(4), scores.get(0));
 		} catch (GameRuleException e) {
 			e.printStackTrace();
@@ -475,7 +475,7 @@ public class TDMatrixTest extends TestCase {
 			matrix.putComponent(Tile.newTile(TileType.HAZARD, "hazard", -3),
 					TDCoordinate.newInstance(4, 1));
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 5, 1, false, scores);
+			matrix.getTilesScore(0, 5, 1, false, scores);
 
 			assertEquals(Integer.valueOf(-6), scores.get(0));
 		} catch (GameRuleException e) {
@@ -500,7 +500,7 @@ public class TDMatrixTest extends TestCase {
 			matrix.putComponent(Castle.newCastle(1, Color.BLUE),
 					TDCoordinate.newInstance(4, 2));
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 5, 2, false, scores);
+			matrix.getTilesScore(0, 5, 2, false, scores);
 			assertEquals(Integer.valueOf(7), scores.get(0));
 		} catch (GameRuleException e) {
 			e.printStackTrace();
@@ -525,7 +525,7 @@ public class TDMatrixTest extends TestCase {
 			matrix.putComponent(Castle.newCastle(3, Color.YELLOW),
 					TDCoordinate.newInstance(4, 3));
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 5, 3, false, scores);
+			matrix.getTilesScore(0, 5, 3, false, scores);
 			assertEquals(Integer.valueOf(-4), scores.get(0));
 			assertEquals(Integer.valueOf(0), scores.get(1));
 		} catch (GameRuleException e) {
@@ -551,7 +551,7 @@ public class TDMatrixTest extends TestCase {
 					Tile.newTile(TileType.RESOURCE, "resource", +6),
 					TDCoordinate.newInstance(4, 4));
 			List<Integer> scores = Lists.newArrayList();
-			matrix.getScore(0, 5, 4, false, scores);
+			matrix.getTilesScore(0, 5, 4, false, scores);
 			assertEquals(Integer.valueOf(-6), scores.get(0));
 			assertEquals(Integer.valueOf(4), scores.get(1));
 		} catch (GameRuleException e) {
@@ -567,7 +567,7 @@ public class TDMatrixTest extends TestCase {
 
 		try {
 
-			// 0th row 
+			// 0th row
 
 			matrix.putComponent(Tile.newTile(TileType.RESOURCE, "resource", 3),
 
@@ -678,8 +678,6 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(4, 4));
 			matrix.putComponent(Tile.newTile(TileType.RESOURCE, "resource", 2),
 					TDCoordinate.newInstance(4, 5));
-
-			List<Integer> scores = Lists.newArrayList();
 
 			Map<Color, Score> finalScore = matrix.score();
 
