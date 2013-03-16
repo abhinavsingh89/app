@@ -200,7 +200,6 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 		if (!"".equals(fileName)) {
 			this.fileName = fileName;
 		}
-
 	}
 
 	public boolean isTileBankEmpty() {

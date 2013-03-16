@@ -1,11 +1,14 @@
 package org.concordia.kingdoms.board;
 
+import org.pojomatic.annotations.AutoProperty;
+
 /**
  * A 2-D coordinate to identified by the row and column
  * @author Team K
  * @since 1.1
  */
 
+@AutoProperty
 public class TDCoordinate implements ICoordinate {
 
 	private int row;

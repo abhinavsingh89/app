@@ -19,8 +19,10 @@ import org.concordia.kingdoms.exceptions.GameRuleException;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+
 /**
  * This class is used for two dimensional matrix.
+ * 
  * @author Team K
  * @since 1.1
  */
@@ -44,7 +46,7 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 
 	private IDecorator goldmineDecorator;
 
-	private IDecorator doNothingDecorator;
+	private IDecorator simpleTileDecorator;
 
 	private IDecorator dragonGoldMineDecorator;
 
@@ -60,12 +62,17 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		this.tileFinder = new TileFinder(tileTypes);
 		this.dragonDecorator = new DragonDecorator(null);
 		this.goldmineDecorator = new GoldMineDecorator(null);
-		this.doNothingDecorator = new SimpleTileDecorator(null);
+		this.simpleTileDecorator = new SimpleTileDecorator(null);
 		this.dragonGoldMineDecorator = new DragonGoldMineDecorator();
 		this.rowsScores = Lists.newArrayList();
 		this.columnsScores = Lists.newArrayList();
 		this.initEntries();
 	}
+
+	/**
+	 * initialize every entry with a null component and a coordinate in 2D
+	 * matrix
+	 */
 
 	private void initEntries() {
 		this.entries = Lists.newArrayList();
@@ -80,6 +87,11 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		}
 	}
 
+	/**
+	 * put the component on the board, for given coordinate; before the
+	 * component is placed on the board, checks to see if the coordinate is
+	 * invalid position, and a space is available
+	 */
 	public void putComponent(Component component, TDCoordinate coordinate)
 			throws GameRuleException {
 
@@ -99,6 +111,9 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		this.componentsOnBoard++;
 	}
 
+	/**
+	 * checks if the given coordinate is within mXn matrix coordinates
+	 */
 	public boolean isValidPosition(final TDCoordinate coordinate) {
 
 		final int row = coordinate.getRow();
@@ -124,6 +139,9 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		return this.componentsOnBoard < MAX_ROWS * MAX_COLUMNS;
 	}
 
+	/**
+	 * check if the entry is empty or not for the given coordinate
+	 */
 	public boolean isEmpty(final TDCoordinate coordinate) {
 
 		final int row = coordinate.getRow();
@@ -132,6 +150,11 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 
 		return this.entries.get(row).get(column).isEmpty();
 	}
+
+	/**
+	 * entries returned as an Iterator where first n entries represent a row for
+	 * m times, giving mXn board
+	 */
 
 	public Iterator<Entry<TDCoordinate>> getEntries() {
 
@@ -145,6 +168,9 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		return Collections.unmodifiableList(entriesList).iterator();
 	}
 
+	/**
+	 * score calculated on this board
+	 */
 	public Map<Color, Score> score() {
 
 		List<List<Map<Color, Integer>>> rowsRanks = Lists.newArrayList();
@@ -155,11 +181,11 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 
 		for (int row = 0; row < MAX_ROWS; row++) {
 			final List<Integer> scores = Lists.newArrayList();
-			getScore(0, MAX_COLUMNS, row, true, scores);
+			getTilesScore(0, MAX_COLUMNS, row, true, scores);
 			this.rowsScores.add(scores);
 			List<Map<Color, Integer>> rowRanks = Lists.newArrayList();
 			rowsRanks.add(rowRanks);
-			this.calculateScore(0, MAX_COLUMNS, row, true, rowRanks);
+			this.getCastleRankScore(0, MAX_COLUMNS, row, true, rowRanks);
 		}
 
 		List<List<Map<Color, Integer>>> columnsRanks = Lists.newArrayList();
@@ -167,11 +193,11 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		for (int column = 0; column < MAX_COLUMNS; column++) {
 
 			final List<Integer> scores = Lists.newArrayList();
-			getScore(0, MAX_ROWS, column, false, scores);
+			getTilesScore(0, MAX_ROWS, column, false, scores);
 			this.columnsScores.add(scores);
 			List<Map<Color, Integer>> columnRanks = Lists.newArrayList();
 			columnsRanks.add(columnRanks);
-			this.calculateScore(0, MAX_ROWS, column, false, columnRanks);
+			this.getCastleRankScore(0, MAX_ROWS, column, false, columnRanks);
 
 		}
 
@@ -183,6 +209,11 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		return finalScore;
 	}
 
+	/**
+	 * print cumulative row,column and total score
+	 * 
+	 * @param finalScore
+	 */
 	public void printFinalScore(Map<Color, Score> finalScore) {
 		if (finalScore == null) {
 			System.out.println("No Entry Found");
@@ -199,6 +230,15 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		}
 	}
 
+	/**
+	 * calculates the cumulative score for all the rows or columns score
+	 * multiplied by each castle rank
+	 * 
+	 * @param rowsOrColumnsRanks
+	 * @param finalScore
+	 * @param isRow
+	 * @param rowsOrColumnsScores
+	 */
 	private void extractFinalScore(
 			List<List<Map<Color, Integer>>> rowsOrColumnsRanks,
 			Map<Color, Score> finalScore, boolean isRow,
@@ -239,86 +279,106 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		}
 	}
 
-	public void getScore(int start, int end, int rowOrColumnNumber,
+	/**
+	 * calculates the tile's score whose value is influenced by dragon, goldmine
+	 * tile. mountain tile divides the row or column into the left side and
+	 * right side and a recursive call is made on both sides
+	 * 
+	 * @param start
+	 *            - range start
+	 * @param end
+	 *            - range end
+	 * @param rowOrColumnNumber
+	 *            - row or column starting index
+	 * @param isRow
+	 *            - true if the score is for row, false otherwise
+	 * @param scores
+	 *            - score for each part, divided by mountain if any
+	 */
+	public void getTilesScore(int start, int end, int rowOrColumnNumber,
 			boolean isRow, List<Integer> scores) {
+
 		if (start == end) {
 			return;
 		}
-		int mountainAt = mountainAt(start, end, rowOrColumnNumber, isRow);
+		int mountainAt = tileFinder.mountainAt(start, end, rowOrColumnNumber,
+				isRow);
 		if (mountainAt == -1) {
 
-			if (hasDragon(start, end, rowOrColumnNumber, isRow)) {
-				// dragon decorator
-				if (hasGoldMine(start, end, rowOrColumnNumber, isRow)) {
-					// goldmine decorator
+			// when dragon is in the range
+			if (tileFinder.hasDragon(start, end, rowOrColumnNumber, isRow)) {
+				// when goldmine is in the range
+				if (tileFinder
+						.hasGoldMine(start, end, rowOrColumnNumber, isRow)) {
+					// dragon nullifies the resource tile value and goldmine
+					// doubles the tile value; apply both the rules using the
+					// decorator
 					if (isRow) {
-						scores.add(rowScore(start, end, rowOrColumnNumber,
+						scores.add(tileRowScore(start, end, rowOrColumnNumber,
 								dragonGoldMineDecorator));
 					} else {
-						scores.add(columnScore(start, end, rowOrColumnNumber,
-								dragonGoldMineDecorator));
+						scores.add(tileColumnScore(start, end,
+								rowOrColumnNumber, dragonGoldMineDecorator));
 					}
 
 				} else {
 					if (isRow) {
-						scores.add(rowScore(start, end, rowOrColumnNumber,
+						scores.add(tileRowScore(start, end, rowOrColumnNumber,
 								dragonDecorator));
 					} else {
-						scores.add(columnScore(start, end, rowOrColumnNumber,
-								dragonDecorator));
+						scores.add(tileColumnScore(start, end,
+								rowOrColumnNumber, dragonDecorator));
 					}
 				}
 
 			} else {
-				if (hasGoldMine(start, end, rowOrColumnNumber, isRow)) {
+				if (tileFinder
+						.hasGoldMine(start, end, rowOrColumnNumber, isRow)) {
 					// goldmine decorator
 					if (isRow) {
-						scores.add(rowScore(start, end, rowOrColumnNumber,
+						scores.add(tileRowScore(start, end, rowOrColumnNumber,
 								goldmineDecorator));
 					} else {
-						scores.add(columnScore(start, end, rowOrColumnNumber,
-								goldmineDecorator));
+						scores.add(tileColumnScore(start, end,
+								rowOrColumnNumber, goldmineDecorator));
 					}
 
 				} else {
-					// do nothing decorator
+					// simple tile decorator,which gives just the component
+					// value, when no dragon or goldmine is
+					// found
 					if (isRow) {
-						scores.add(rowScore(start, end, rowOrColumnNumber,
-								doNothingDecorator));
+						scores.add(tileRowScore(start, end, rowOrColumnNumber,
+								simpleTileDecorator));
 					} else {
-						scores.add(columnScore(start, end, rowOrColumnNumber,
-								doNothingDecorator));
+						scores.add(tileColumnScore(start, end,
+								rowOrColumnNumber, simpleTileDecorator));
 					}
 				}
 			}
 		} else {
-			getScore(start, mountainAt, rowOrColumnNumber, isRow, scores);
-			getScore(mountainAt + 1, end, rowOrColumnNumber, isRow, scores);
+			// left side of mountain
+			getTilesScore(start, mountainAt, rowOrColumnNumber, isRow, scores);
+			// right side of mountain
+			getTilesScore(mountainAt + 1, end, rowOrColumnNumber, isRow, scores);
 		}
 	}
 
-	private int mountainAt(int start, int end, int rowOrColumnNumber,
-			boolean isRow) {
-		int idx = tileFinder.tileAt(rowOrColumnNumber, isRow, start, end,
-				TileType.MOUNTAIN);
-		return idx;
-	}
-
-	private boolean hasDragon(int start, int end, int rowOrColumnNumber,
-			boolean isRow) {
-		int idx = tileFinder.tileAt(rowOrColumnNumber, isRow, start, end,
-				TileType.DRAGON);
-		return idx != -1;
-	}
-
-	private boolean hasGoldMine(int start, int end, int rowOrColumnNumber,
-			boolean isRow) {
-		int idx = tileFinder.tileAt(rowOrColumnNumber, isRow, start, end,
-				TileType.GOLDMINE);
-		return idx != -1;
-	}
-
-	private int columnScore(int start, int end, int column, IDecorator decorator) {
+	/**
+	 * total score for the given column within start to end range
+	 * 
+	 * @param start
+	 *            - range starting point
+	 * @param end
+	 *            - range ending point
+	 * @param column
+	 *            - column number
+	 * @param decorator
+	 *            - {@link IDecorator}
+	 * @return
+	 */
+	private int tileColumnScore(int start, int end, int column,
+			IDecorator decorator) {
 		int columnScore = 0;
 		for (int row = start; row < end; row++) {
 			columnScore += getEntryValue(row, column, decorator);
@@ -326,7 +386,20 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		return columnScore;
 	}
 
-	private int rowScore(int start, int end, int row, IDecorator decorator) {
+	/**
+	 * total score for the given row within start to end range
+	 * 
+	 * @param start
+	 *            - range starating point
+	 * @param end
+	 *            - range ending point
+	 * @param row
+	 *            - row number
+	 * @param decorator
+	 *            - {@link IDecorator}
+	 * @return
+	 */
+	private int tileRowScore(int start, int end, int row, IDecorator decorator) {
 		int columnScore = 0;
 		for (int column = start; column < end; column++) {
 			columnScore += getEntryValue(row, column, decorator);
@@ -334,6 +407,17 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		return columnScore;
 	}
 
+	/**
+	 * calculates effective component's value
+	 * 
+	 * @param row
+	 *            - row number
+	 * @param column
+	 *            - column number
+	 * @param decorator
+	 *            - gives the final component value
+	 * @return - effective entry's component value
+	 */
 	private int getEntryValue(int row, int column, IDecorator decorator) {
 		int totalValue = 0;
 		final Entry<TDCoordinate> entry = getEntry(row, column);
@@ -345,82 +429,149 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		return totalValue;
 	}
 
-	private Entry<TDCoordinate> getEntry(int row, int column) {
-		return this.entries.get(row).get(column);
-	}
-
-	private void calculateScore(int start, int end, int rowOrColumnNumber,
+	/**
+	 * calculate each castel's rank for a given row or column. A row or column
+	 * may be divided into two or more, if the mountain tile is in the range.
+	 * This is a recursive call if the mountain is in between, and divided into
+	 * the left side of the mountain and to the right side of the mountain.
+	 * 
+	 * @param start
+	 *            - range starting index
+	 * @param end
+	 *            - range ending index
+	 * @param rowOrColumnNumber
+	 *            - row or column starting index
+	 * @param isRow
+	 *            - true if the method is being called for calculating row,
+	 *            false for column
+	 * @param rowRanks
+	 *            - resolved castle rank map
+	 */
+	private void getCastleRankScore(int start, int end, int rowOrColumnNumber,
 			boolean isRow, List<Map<Color, Integer>> rowRanks) {
+
+		// when mountain is to the extreme left, extreme right, or side by side
+		// mountains
 		if (start == end) {
 			return;
 		}
-		int mountainAt = mountainAt(start, end, rowOrColumnNumber, isRow);
+		// check mountain index
+		int mountainAt = tileFinder.mountainAt(start, end, rowOrColumnNumber,
+				isRow);
 
+		// when no mountain is available , calculate the score for the elements
+		// within this range
 		if (mountainAt == -1) {
 
 			Map<Color, Integer> map = Maps.newHashMap();
 			rowRanks.add(map);
 			if (isRow) {
-				calcRowScore(start, end, rowOrColumnNumber, map);
+				getCastleRowRankScore(start, end, rowOrColumnNumber, map);
 			} else {
-				calcColumnScore(start, end, rowOrColumnNumber, map);
+				getCastleColumnRankScore(start, end, rowOrColumnNumber, map);
 			}
 		} else {
-			calculateScore(start, mountainAt, rowOrColumnNumber, isRow,
+			// to the left side of the mountain
+			getCastleRankScore(start, mountainAt, rowOrColumnNumber, isRow,
 					rowRanks);
-			calculateScore(mountainAt + 1, end, rowOrColumnNumber, isRow,
+			// to the right side of the mountain
+			getCastleRankScore(mountainAt + 1, end, rowOrColumnNumber, isRow,
 					rowRanks);
 		}
 	}
 
-	private void calcRowScore(int start, int end, int row,
+	/**
+	 * iterates over all the castles within the given row range from start to
+	 * end. calculate each castle rank , double its rank if any wizard
+	 * orthogonal to this castle.
+	 * 
+	 * @param start
+	 *            - range starting
+	 * @param end
+	 *            - range ending
+	 * @param column
+	 *            - castles lying in this row
+	 * @param rankMap
+	 *            - resolved map, castles color and calculated rank
+	 */
+	private void getCastleRowRankScore(int start, int end, int row,
 			Map<Color, Integer> rankMap) {
 		for (int column = start; column < end; column++) {
 			final Entry<TDCoordinate> entry = getEntry(row, column);
-			final Component component = entry.getComponent();
-			if (component instanceof Castle) {
-				final Castle castle = (Castle) component;
-				final Color color = castle.getColor();
-				final boolean hasWizardOrthogonal = this.tileFinder
-						.hasWizardOrthogonal(entry.getCoordinate());
-				int rank = castle.getValue();
-				if (hasWizardOrthogonal) {
-					rank = 2 * rank;
-				}
-				if (rankMap.get(color) != null) {
-					rank = rank + rankMap.get(color);
-					rankMap.put(color, rank);
-				} else {
-					rankMap.put(color, rank);
-				}
-			}
+			resolveCastleRanks(rankMap, entry);
 		}
 	}
 
-	private void calcColumnScore(int start, int end, int column,
+	/**
+	 * iterates over all the castles within the given column range from start to
+	 * end. calculate each castle rank , double its rank if any wizard
+	 * orthogonal to this castle.
+	 * 
+	 * @param start
+	 *            - range starting
+	 * @param end
+	 *            - range ending
+	 * @param column
+	 *            - castles lying in this column
+	 * @param rankMap
+	 *            - resolved map, castles color and calculated rank
+	 */
+	private void getCastleColumnRankScore(int start, int end, int column,
 			Map<Color, Integer> rankMap) {
+		// runs through the elements within the range
 		for (int row = start; row < end; row++) {
+			// column entry
 			final Entry<TDCoordinate> entry = getEntry(row, column);
-			final Component component = entry.getComponent();
-			if (component instanceof Castle) {
-				final Castle castle = (Castle) component;
-				final Color color = castle.getColor();
-				final boolean hasWizardOrthogonal = this.tileFinder
-						.hasWizardOrthogonal(entry.getCoordinate());
-				int rank = castle.getValue();
-				if (hasWizardOrthogonal) {
-					rank = 2 * rank;
-				}
-				if (rankMap.get(color) != null) {
-					rank = rank + rankMap.get(color);
-					rankMap.put(color, rank);
-				} else {
-					rankMap.put(color, rank);
-				}
+			resolveCastleRanks(rankMap, entry);
+		}
+	}
+
+	/**
+	 * resolves the castle's rank with respect to the wizard tile position
+	 * 
+	 * @param rankMap
+	 *            - resolved map, castles color and calculated rank
+	 * @param entry
+	 *            - @see {@link Entry}
+	 */
+	private void resolveCastleRanks(Map<Color, Integer> rankMap,
+			final Entry<TDCoordinate> entry) {
+		final Component component = entry.getComponent();
+		// check for castle
+		if (component instanceof Castle) {
+			final Castle castle = (Castle) component;
+			final Color color = castle.getColor();
+			// check if any wizard is orthogonal
+			final boolean hasWizardOrthogonal = this.tileFinder
+					.hasWizardOrthogonal(entry.getCoordinate());
+			int rank = castle.getValue();
+			// effective castle rank=double the castle rank
+			if (hasWizardOrthogonal) {
+				rank = 2 * rank;
+			}
+			if (rankMap.get(color) != null) {
+				rank = rank + rankMap.get(color);
+				rankMap.put(color, rank);
+			} else {
+				rankMap.put(color, rank);
 			}
 		}
 	}
 
+	/**
+	 * @param row
+	 *            - row number
+	 * @param column
+	 *            - column number
+	 * @return Entry
+	 */
+	private Entry<TDCoordinate> getEntry(int row, int column) {
+		return this.entries.get(row).get(column);
+	}
+
+	/**
+	 * gives the total number of components already on the board.
+	 */
 	public int getTotalComponents() {
 		return this.componentsOnBoard;
 	}

@@ -10,8 +10,10 @@ import org.concordia.kingdoms.domain.TileType;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
 /**
  * This class is used to convert domain class object to Jaxb objects..
+ * 
  * @author Team K
  * @since 1.1
  */
@@ -118,4 +120,26 @@ public class TileFinder {
 		}
 		return false;
 	}
+
+	public int mountainAt(int start, int end, int rowOrColumnNumber,
+			boolean isRow) {
+		int idx = this.tileAt(rowOrColumnNumber, isRow, start, end,
+				TileType.MOUNTAIN);
+		return idx;
+	}
+
+	public boolean hasDragon(int start, int end, int rowOrColumnNumber,
+			boolean isRow) {
+		int idx = this.tileAt(rowOrColumnNumber, isRow, start, end,
+				TileType.DRAGON);
+		return idx != -1;
+	}
+
+	public boolean hasGoldMine(int start, int end, int rowOrColumnNumber,
+			boolean isRow) {
+		int idx = this.tileAt(rowOrColumnNumber, isRow, start, end,
+				TileType.GOLDMINE);
+		return idx != -1;
+	}
+
 }
