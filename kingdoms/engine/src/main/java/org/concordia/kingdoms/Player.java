@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.concordia.kingdoms.board.Board;
+import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.ICoordinate;
 import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.TDCoordinate;
@@ -17,6 +18,7 @@ import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameRuleException;
+import org.concordia.kingdoms.strategies.IStrategy;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -45,6 +47,8 @@ public class Player<T extends ICoordinate> {
 
 	private Board<T> board;
 
+	private IStrategy<T> playStrategy;
+
 	/**
 	 * Constructor for player
 	 * 
@@ -64,6 +68,12 @@ public class Player<T extends ICoordinate> {
 		this.isStartingTileUsed = false;
 	}
 
+	public void myTurn() {
+		// Entry<T> entry = playStrategy
+		// .getEntry(tiles, castles, emptyCoordinates);
+		// this.board.putComponent(entry.getComponent(), entry.getCoordinate());
+	}
+
 	/**
 	 * method used to put tile
 	 * 
@@ -75,6 +85,7 @@ public class Player<T extends ICoordinate> {
 	 *            - row column
 	 */
 	public void putTile(Tile tile, T coordinate) throws GameRuleException {
+		// Entry entry = playStrategy.getEntry(null, castles, null);
 		this.board.putComponent(tile, coordinate);
 	}
 
@@ -119,6 +130,16 @@ public class Player<T extends ICoordinate> {
 
 	}
 
+	/**
+	 * removes the first occurence of castle from the players account
+	 * 
+	 * @param rank
+	 *            - castle's rank
+	 * @return {@link Castle}
+	 * @throws GameRuleException
+	 *             - throws when no castle with the given rank is available with
+	 *             this player
+	 */
 	public Castle removeCastle(int rank) throws GameRuleException {
 
 		final List<Castle> castlesList = this.castles.get(rank);
@@ -128,50 +149,6 @@ public class Player<T extends ICoordinate> {
 			throw new GameRuleException("No castle with rank " + rank
 					+ "available with this player");
 		}
-	}
-
-	public Castle getCastle(int rank) {
-		final List<Castle> rankCastles = this.castles.get(rank);
-		if (rankCastles != null && !rankCastles.isEmpty()) {
-			return rankCastles.get(0);
-		}
-		return null;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Color getChosenColor() {
-		return this.chosenColor;
-	}
-
-	public Tile getStartingTile() {
-		return startingTile;
-	}
-
-	public void setStartingTile(Tile startingTile) {
-		this.startingTile = startingTile;
-	}
-
-	public Map<CoinType, List<Coin>> getCoins() {
-		return coins;
-	}
-
-	public void setCoins(Map<CoinType, List<Coin>> coins) {
-		this.coins = coins;
-	}
-
-	public Board<T> getBoard() {
-		return this.board;
-	}
-
-	public void setBoard(Board<T> board) {
-		this.board = board;
 	}
 
 	public static Player<TDCoordinate> newPlayer(String name,
@@ -196,10 +173,21 @@ public class Player<T extends ICoordinate> {
 		return Collections.unmodifiableMap(retMap);
 	}
 
+	/**
+	 * new entry for scores list
+	 * 
+	 * @param newScore
+	 */
 	public void addNewScore(Score newScore) {
 		this.scores.add(newScore);
 	}
 
+	/**
+	 * sum of all the scores from each individual level, plus 50 the one
+	 * assigned before the game begin
+	 * 
+	 * @return total score
+	 */
 	public int getTotalScore() {
 		int total = 50;
 		for (Score score : scores) {
@@ -223,6 +211,10 @@ public class Player<T extends ICoordinate> {
 		return retScores;
 	}
 
+	/**
+	 * @return return true, if atleast one castle is available with the player
+	 *         under any rank, false otherwise
+	 */
 	public boolean hasAnyCastleAvailable() {
 
 		Iterator<Integer> itr = this.castles.keySet().iterator();
@@ -236,6 +228,107 @@ public class Player<T extends ICoordinate> {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return true if the player has already took the starting tile, false
+	 *         otherwise
+	 */
+	public boolean isStartingTileUsed() {
+		return isStartingTileUsed;
+	}
+
+	public void setStartingTileUsed(boolean isStartingTileUsed) {
+		this.isStartingTileUsed = isStartingTileUsed;
+	}
+
+	/**
+	 * 
+	 * @param rank
+	 *            - castle rank
+	 * @return -first occurence of the castle with the given rank from this
+	 *         player's account, null if no castle of given rank available
+	 */
+	public Castle getCastle(int rank) {
+		final List<Castle> rankCastles = this.castles.get(rank);
+		if (rankCastles != null && !rankCastles.isEmpty()) {
+			return rankCastles.get(0);
+		}
+		return null;
+	}
+
+	/**
+	 * name associated with the given player
+	 * 
+	 * @return name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * set a name for player
+	 * 
+	 * @param name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * player's chosen color
+	 * 
+	 * @return {@link Color}
+	 */
+	public Color getChosenColor() {
+		return this.chosenColor;
+	}
+
+	/**
+	 * starting tile assigned to this player
+	 * 
+	 * @return null if starting tile has not yet assigned or have already used
+	 *         it
+	 */
+	public Tile getStartingTile() {
+		return startingTile;
+	}
+
+	/**
+	 * 
+	 * @param startingTile
+	 * @throws GameRuleException
+	 */
+	public void setStartingTile(Tile startingTile) throws GameRuleException {
+		if (!this.isStartingTileUsed) {
+			this.startingTile = startingTile;
+			return;
+		}
+		throw new GameRuleException("Starting Tile has already been taken");
+
+	}
+
+	public Map<CoinType, List<Coin>> getCoins() {
+		return coins;
+	}
+
+	public void setCoins(Map<CoinType, List<Coin>> coins) {
+		this.coins = coins;
+	}
+
+	public Board<T> getBoard() {
+		return this.board;
+	}
+
+	public void setBoard(Board<T> board) {
+		this.board = board;
+	}
+
+	/**
+	 * sorts the players based on their total scores in descending order
+	 * 
+	 * @author Pavan
+	 * 
+	 */
 	public static class PlayerComparator implements Comparator<Player<?>> {
 
 		public static final PlayerComparator INSTANCE = new PlayerComparator();
@@ -245,11 +338,7 @@ public class Player<T extends ICoordinate> {
 		}
 	}
 
-	public boolean isStartingTileUsed() {
-		return isStartingTileUsed;
-	}
-
-	public void setStartingTileUsed(boolean isStartingTileUsed) {
-		this.isStartingTileUsed = isStartingTileUsed;
+	public void setPlayStrategy(IStrategy<T> playStrategy) {
+		this.playStrategy = playStrategy;
 	}
 }

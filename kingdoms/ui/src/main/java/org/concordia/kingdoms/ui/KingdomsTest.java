@@ -20,13 +20,14 @@ import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.exceptions.GameRuleException;
+import org.concordia.kingdoms.strategies.RandomStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
 /**
- * Initializer class for the game.
+ * Game Client
  * 
  * @author Team K
  * @since 1.0
@@ -41,15 +42,22 @@ public class KingdomsTest {
 	 * Entry point function
 	 */
 	public static void main(String[] args) throws IOException, GameException {
+		// 2 dimensional kingdoms game with 3 levels
 		final Kingdoms<TDCoordinate> kingdoms = new TDKingdoms(
 				new TDBoardBuilder(), 3);
+		// players
 		List<Player<TDCoordinate>> players = Lists.newArrayList();
+
 		String input = "";
+
 		System.out.println("1.Resume the saved game - Press 1");
 		System.out.println("2.New Game - Press  2 to continue");
+
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
 				System.in));
-		String reply = br.readLine();
+
+		final String reply = br.readLine();
+
 		if ("1".equals(reply)) {
 			System.out
 					.println("Give Absolute path to the file you saved the xml");
@@ -57,6 +65,7 @@ public class KingdomsTest {
 			kingdoms.resume(new File(filePath));
 			players = kingdoms.getPlayers();
 		}
+
 		if ("2".equals(reply)) {
 			initializePlayers(br, players);
 			kingdoms.start(players);
@@ -296,9 +305,26 @@ public class KingdomsTest {
 		return row;
 	}
 
+	/**
+	 * initialize players
+	 * 
+	 * @param br
+	 *            - {@link BufferedReader}
+	 * @param players
+	 * @throws IOException
+	 */
 	private static void initializePlayers(BufferedReader br,
 			List<Player<TDCoordinate>> players) throws IOException {
+
+		// Player<TDCoordinate> randomStrategyPlayer = Player.newPlayer(null,
+		// Color.BLUE);
+		// randomStrategyPlayer.setPlayStrategy(new RandomStrategy());
+		// players.add(randomStrategyPlayer);
+
+		log.debug("Random Strategy Player is in the Game");
+
 		log.debug("Enter number of Players");
+
 		boolean isValidInput = false;
 		while (!isValidInput) {
 			try {

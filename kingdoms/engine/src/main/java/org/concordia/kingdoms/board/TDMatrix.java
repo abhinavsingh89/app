@@ -575,4 +575,9 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 	public int getTotalComponents() {
 		return this.componentsOnBoard;
 	}
+
+	public Set<TDCoordinate> getAvailableCoordinates() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

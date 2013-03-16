@@ -3,23 +3,17 @@ package org.concordia.kingdoms.strategies;
 import java.util.List;
 import java.util.Random;
 
-import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.Tile;
 
-public class RandomStrategy implements IStrategy {
+public class RandomStrategy implements IStrategy<TDCoordinate> {
 
-	private Board board;
-
-	public RandomStrategy(Board board) {
-		this.board = board;
-	}
-
-	public Entry getEntry(List<Tile> tiles, List<Castle> castles,
+	public Entry<TDCoordinate> getEntry(List<Tile> tiles, List<Castle> castles,
 			List<TDCoordinate> emptyCoordinates) {
+
 		int totalTiles = tiles.size();
 		int totalCastles = castles.size();
 
@@ -46,7 +40,7 @@ public class RandomStrategy implements IStrategy {
 		int rand = new Random().nextInt(totalEmptyCoordinates);
 		TDCoordinate coordinate = emptyCoordinates.get(rand);
 
-		return new Entry(coordinate, component);
+		return new Entry<TDCoordinate>(coordinate, component);
 
 	}
 }

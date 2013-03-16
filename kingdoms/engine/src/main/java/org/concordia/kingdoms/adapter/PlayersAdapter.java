@@ -12,6 +12,9 @@ import org.concordia.kingdoms.domain.Coin;
 import org.concordia.kingdoms.domain.CoinType;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Tile;
+import org.concordia.kingdoms.exceptions.GameRuleException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
@@ -24,6 +27,9 @@ import com.google.common.collect.Lists;
 public class PlayersAdapter
 		implements
 		IAdapter<List<Player<TDCoordinate>>, List<org.concordia.kingdoms.jaxb.Player>> {
+
+	private static final Logger log = LoggerFactory
+			.getLogger(PlayersAdapter.class);
 
 	public List<org.concordia.kingdoms.jaxb.Player> convertTo(
 			List<Player<TDCoordinate>> players) {
@@ -85,8 +91,12 @@ public class PlayersAdapter
 			for (Score score : scores) {
 				player.addNewScore(score);
 			}
-
-			player.setStartingTile(AdapterUtil.newTile(startTile));
+			try {
+				player.setStartingTile(AdapterUtil.newTile(startTile));
+			} catch (GameRuleException e) {
+				log.error(e.getMessage());
+				throw new RuntimeException(e.getMessage());
+			}
 			player.setStartingTileUsed(jaxbPlayer.isStartingTileUsed());
 			Map<Integer, List<Castle>> castleMap = AdapterUtil
 					.reoslveCastles(AdapterUtil.newCastles(jaxbCastles));
