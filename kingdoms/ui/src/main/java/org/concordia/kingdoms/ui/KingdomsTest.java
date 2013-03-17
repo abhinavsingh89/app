@@ -47,7 +47,7 @@ public class KingdomsTest {
 		List<Player<TDCoordinate>> players = Lists.newArrayList();
 
 		System.out.println("1.Resume the saved game - Press r");
-		System.out.println("2.New Game - Press  n ");
+		System.out.println("2.New Game - Press  any key");
 
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
 				System.in));
@@ -62,7 +62,7 @@ public class KingdomsTest {
 			players = kingdoms.getPlayers();
 		}
 
-		if ("n".equals(reply.toLowerCase().trim())) {
+		else {
 			initializePlayers(br, players);
 			kingdoms.start(players);
 			for (Player<?> player : players) {
@@ -189,10 +189,10 @@ public class KingdomsTest {
 			name = "default";
 			log.debug("Assigned default name " + name);
 		}
-		
+
 		final Color[] colors = Color.values();
 		boolean isValidColor = false;
-		
+
 		while (!isValidColor) {
 			try {
 				log.debug("Choose one color: " + Arrays.toString(colors));
