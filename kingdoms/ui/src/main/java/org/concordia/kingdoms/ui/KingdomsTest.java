@@ -15,12 +15,10 @@ import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.board.factory.TDBoardBuilder;
-import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Color;
-import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameException;
-import org.concordia.kingdoms.exceptions.GameRuleException;
 import org.concordia.kingdoms.strategies.RandomStrategy;
+import org.concordia.kingdoms.strategies.UserInputStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,17 +46,15 @@ public class KingdomsTest {
 		// players
 		List<Player<TDCoordinate>> players = Lists.newArrayList();
 
-		String input = "";
-
-		System.out.println("1.Resume the saved game - Press 1");
-		System.out.println("2.New Game - Press  2 to continue");
+		System.out.println("1.Resume the saved game - Press r");
+		System.out.println("2.New Game - Press  n ");
 
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
 				System.in));
 
 		final String reply = br.readLine();
 
-		if ("1".equals(reply)) {
+		if ("r".equals(reply.toLowerCase().trim())) {
 			System.out
 					.println("Give Absolute path to the file you saved the xml");
 			String filePath = br.readLine();
@@ -66,28 +62,35 @@ public class KingdomsTest {
 			players = kingdoms.getPlayers();
 		}
 
-		if ("2".equals(reply)) {
+		if ("n".equals(reply.toLowerCase().trim())) {
 			initializePlayers(br, players);
 			kingdoms.start(players);
-			for (Player player : players) {
+			for (Player<?> player : players) {
 				if (!player.isStartingTileUsed()) {
 					player.setStartingTile(kingdoms.drawTile());
 				}
 			}
-
 		}
 
 		Presentable presentable = new Console<TDCoordinate>(
 				kingdoms.getEntries());
-		System.out.println("Current Level: "
-				+ kingdoms.getEpochCounter().getCurrentLevel());
+
+		log.info("Level: " + kingdoms.getEpochCounter().getCurrentLevel());
+
 		presentable.present();
+
 		System.out.println();
 		System.out.println();
 
 		while (kingdoms.getEpochCounter().isNextAvailable()) {
 			while (!kingdoms.isLevelCompleted()) {
 				for (final Player<TDCoordinate> player : players) {
+					log.info("Save Game - Press s");
+					final String str = br.readLine();
+					if ("s".equals(str.toLowerCase().trim())) {
+						saveMyGame(br, kingdoms);
+					}
+					log.info(player.getName() + ">");
 					player.myTurn();
 					presentable.present();
 					System.out.println();
@@ -111,31 +114,6 @@ public class KingdomsTest {
 			}
 		}
 		System.out.println("----GAME FINISHED----");
-	}
-
-	private static void placeStartingTile(Kingdoms<TDCoordinate> kingdoms,
-			BufferedReader br, Player<TDCoordinate> player) throws IOException,
-			GameRuleException {
-
-		// show the random tile picked up from
-		// the tile bank
-		System.out.println(player.getStartingTile().show());
-		int row = getRow(br);
-		int column = getColumn(br);
-
-		// player must chose valid position to
-		// place the tile
-		while (!kingdoms.isValidPosition(TDCoordinate.newInstance(row, column))) {
-			System.out.println("Not a Valid Position");
-			row = getRow(br);
-			column = getColumn(br);
-		}
-
-		player.putTile(player.getStartingTile(),
-				TDCoordinate.newInstance(row, column));
-		player.setStartingTile(null);
-		player.setStartingTileUsed(true);
-
 	}
 
 	public static void printFinalScore(List<Player<TDCoordinate>> players,
@@ -176,67 +154,6 @@ public class KingdomsTest {
 		}
 	}
 
-	private static void placeCastle(final Kingdoms<TDCoordinate> kingdoms,
-			final BufferedReader br, final Player<TDCoordinate> player)
-			throws IOException {
-		boolean isValidCastle = false;
-		while (!isValidCastle) {
-			try {
-				System.out.println("Enter Castle Rank");
-				int rank = Integer.parseInt(br.readLine());
-				int row = getRow(br);
-				int column = getColumn(br);
-
-				// player must chose valid position to
-				// place the tile
-				while (!kingdoms.isValidPosition(TDCoordinate.newInstance(row,
-						column))) {
-					System.out.println("Not a Valid Position");
-					row = getRow(br);
-					column = getColumn(br);
-				}
-				boolean hasAnyCastleAvailable = player.hasAnyCastleAvailable();
-				if (!hasAnyCastleAvailable) {
-					log.error("No Castles Available");
-					break;
-				}
-				Castle castle = player.getCastle(rank);
-				if (castle == null) {
-					log.error("No Castle with that rank available(you must have used all castles of that Rank)");
-					isValidCastle = false;
-				} else {
-					// get a ranked castle and put it on
-					// board
-					player.putCastle(castle,
-							TDCoordinate.newInstance(row, column));
-					isValidCastle = true;
-				}
-			} catch (GameRuleException ex) {
-				log.error(ex.getMessage());
-			}
-		}// castle while ending
-	}
-
-	private static void placeTile(final Kingdoms<TDCoordinate> kingdoms,
-			final BufferedReader br, final Player<TDCoordinate> player)
-			throws IOException, GameRuleException {
-		// show the random tile picked up from
-		// the tile bank
-		final Tile tile = kingdoms.drawTile();
-		System.out.println(tile.show());
-		int row = getRow(br);
-		int column = getColumn(br);
-
-		// player must chose valid position to
-		// place the tile
-		while (!kingdoms.isValidPosition(TDCoordinate.newInstance(row, column))) {
-			System.out.println("Not a Valid Position");
-			row = getRow(br);
-			column = getColumn(br);
-		}
-		player.putTile(tile, TDCoordinate.newInstance(row, column));
-	}
-
 	private static void saveMyGame(BufferedReader br, final Kingdoms kingdoms)
 			throws GameException, IOException {
 		log.debug("Give a name to file");
@@ -244,36 +161,6 @@ public class KingdomsTest {
 		kingdoms.setFileName(fileName);
 		kingdoms.save();
 		log.debug("Game Saved successfully");
-	}
-
-	private static int getColumn(final BufferedReader br) throws IOException {
-		log.debug("Enter an empty space column ");
-		int column = 0;
-		boolean flag = true;
-		while (flag) {
-			try {
-				column = Integer.parseInt(br.readLine());
-				flag = false;
-			} catch (NumberFormatException e) {
-				log.error("Invalid input for column");
-			}
-		}
-		return column;
-	}
-
-	private static int getRow(final BufferedReader br) throws IOException {
-		log.debug("Enter an empty space row ");
-		int row = 0;
-		boolean flag = true;
-		while (flag) {
-			try {
-				row = Integer.parseInt(br.readLine());
-				flag = false;
-			} catch (NumberFormatException e) {
-				log.error("Invalid input for row");
-			}
-		}
-		return row;
 	}
 
 	/**
@@ -296,38 +183,27 @@ public class KingdomsTest {
 
 		log.debug("Random Strategy Player is in the Game");
 
-		log.debug("Enter number of Players");
-
-		boolean isValidInput = false;
-		while (!isValidInput) {
+		log.debug("Enter your Name:");
+		String name = br.readLine();
+		if ("".equals(name.trim())) {
+			name = "default";
+			log.debug("Assigned default name " + name);
+		}
+		
+		final Color[] colors = Color.values();
+		boolean isValidColor = false;
+		
+		while (!isValidColor) {
 			try {
-				int playersCount = Integer.parseInt(br.readLine());
-				for (int i = 0; i < playersCount; i++) {
-					log.debug("Enter Player " + (i + 1) + " Name:");
-					String name = br.readLine();
-					if ("".equals(name)) {
-						name = "Player" + i;
-						log.debug("Assigned default name " + name);
-					}
-					final Color[] colors = Color.values();
-					boolean isValidColor = false;
-					while (!isValidColor) {
-						try {
-							log.debug("Choose one color: "
-									+ Arrays.toString(colors));
-							final String chosenColor = br.readLine();
-							final Color playerColor = stringToColor(chosenColor);
-							Player player = Player.newPlayer(name, playerColor);
-							player.setPlayStrategy(new RandomStrategy());
-							players.add(player);
-							isValidColor = true;
-						} catch (GameException ex) {
-							log.error(ex.getMessage());
-						}
-					}
-				}
-				isValidInput = true;
-			} catch (NumberFormatException ex) {
+				log.debug("Choose one color: " + Arrays.toString(colors));
+				final String chosenColor = br.readLine();
+				final Color playerColor = stringToColor(chosenColor);
+				Player<TDCoordinate> player = Player.newPlayer(name,
+						playerColor);
+				player.setPlayStrategy(new UserInputStrategy());
+				players.add(player);
+				isValidColor = true;
+			} catch (GameException ex) {
 				log.error(ex.getMessage());
 			}
 		}

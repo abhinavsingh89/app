@@ -80,7 +80,6 @@ public class Player<T extends ICoordinate> {
 			tilesToChose.add(startingTile);
 		}
 
-		boolean invalid = true;
 		final List<Castle> castlesList = getCastlesAsList();
 		Entry<T> entry = null;
 		try {
@@ -89,23 +88,19 @@ public class Player<T extends ICoordinate> {
 		} catch (GameRuleException e1) {
 			log.error(e1.getMessage());
 		}
-		while (invalid) {
-			try {
-				if (entry.getComponent() instanceof Castle) {
-					putCastle((Castle) entry.getComponent(),
-							entry.getCoordinate());
-				} else {
-					final Tile tile = (Tile) entry.getComponent();
-					putTile(tile, entry.getCoordinate());
-					if (tile.equals(startingTile)) {
-						startingTile = null;
-						isStartingTileUsed = true;
-					}
+		try {
+			if (entry.getComponent() instanceof Castle) {
+				putCastle((Castle) entry.getComponent(), entry.getCoordinate());
+			} else {
+				final Tile tile = (Tile) entry.getComponent();
+				putTile(tile, entry.getCoordinate());
+				if (tile.equals(startingTile)) {
+					startingTile = null;
+					isStartingTileUsed = true;
 				}
-				invalid = false;
-			} catch (GameRuleException e) {
-				log.error(e.getMessage());
 			}
+		} catch (GameRuleException e) {
+			log.error(e.getMessage());
 		}
 
 	}
@@ -388,7 +383,7 @@ public class Player<T extends ICoordinate> {
 		this.playStrategy = playStrategy;
 	}
 
-	public Component drawTile() {
+	public Tile drawTile() {
 		return board.drawTile();
 	}
 }
