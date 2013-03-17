@@ -379,6 +379,10 @@ public class Player<T extends ICoordinate> {
 		}
 	}
 
+	public IStrategy<T> getPlayStrategy() {
+		return playStrategy;
+	}
+
 	public void setPlayStrategy(IStrategy<T> playStrategy) {
 		this.playStrategy = playStrategy;
 	}

@@ -25,14 +25,15 @@ public class UserInputStrategy implements IStrategy<TDCoordinate> {
 
 		Entry<TDCoordinate> entry = null;
 
-		System.out.println("Press 1 for Starting Tile");
-		System.out.println("Press 2 for Castle");
-		System.out.println("Press 3 to draw facedown Tile");
-
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			boolean invalidInput = true;
 			while (invalidInput) {
+
+				System.out.println("Press 1 for Starting Tile");
+				System.out.println("Press 2 for Castle");
+				System.out.println("Press 3 to draw facedown Tile");
+
 				String input = br.readLine();
 				// choose starting tile
 				if ("1".equals(input.trim())) {
@@ -45,6 +46,7 @@ public class UserInputStrategy implements IStrategy<TDCoordinate> {
 						final Tile startingTile = player.getStartingTile();
 						entry = new Entry<TDCoordinate>(coordinate,
 								startingTile);
+						return entry;
 					}
 				}
 				// choose castle
@@ -65,27 +67,28 @@ public class UserInputStrategy implements IStrategy<TDCoordinate> {
 							continue;
 						}
 						entry = new Entry<TDCoordinate>(coordinate, castle);
-						invalidCastle = false;
+						return entry;
 					}
+
 				}
 				// draw a tile
 				if ("3".equals(input.trim())) {
-					
+
 					final Tile tile = player.drawTile();
 					log.info(tile.show());
-					
+
 					final TDCoordinate coordinate = getCoordinate(
 							emptyCoordinates, br);
 
 					entry = new Entry<TDCoordinate>(coordinate, tile);
+					return entry;
 				}
-				invalidInput = false;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			log.error(e.getMessage());
 		}
-		return entry;
+		return null;
 	}
 
 	private TDCoordinate getCoordinate(List<TDCoordinate> emptyCoordinates,

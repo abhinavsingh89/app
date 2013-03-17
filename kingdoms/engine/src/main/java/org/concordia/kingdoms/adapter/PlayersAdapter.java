@@ -13,6 +13,7 @@ import org.concordia.kingdoms.domain.CoinType;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameRuleException;
+import org.concordia.kingdoms.strategies.IStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +52,8 @@ public class PlayersAdapter
 				jaxbPlayer.setStartingTile(AdapterUtil.newJaxbTile(startTile));
 			}
 			jaxbPlayer.setStartingTileUsed(isStartingTileUsed);
+			jaxbPlayer.setStrategyName(player.getPlayStrategy().getClass()
+					.getName());
 			Iterator<Integer> castleItr = castles.keySet().iterator();
 			List<org.concordia.kingdoms.jaxb.Castle> jaxbCastles = Lists
 					.newArrayList();
@@ -91,13 +94,28 @@ public class PlayersAdapter
 			for (Score score : scores) {
 				player.addNewScore(score);
 			}
-			try {
-				player.setStartingTile(AdapterUtil.newTile(startTile));
-			} catch (GameRuleException e) {
-				log.error(e.getMessage());
-				throw new RuntimeException(e.getMessage());
+			if (!jaxbPlayer.isStartingTileUsed()) {
+				try {
+					player.setStartingTile(AdapterUtil.newTile(startTile));
+				} catch (GameRuleException e) {
+					e.printStackTrace();
+				}
 			}
+			IStrategy<TDCoordinate> strategy = null;
+			try {
+				strategy = (IStrategy<TDCoordinate>) Class.forName(
+						jaxbPlayer.getStrategyName()).newInstance();
+			} catch (InstantiationException e) {
+				log.error(e.getMessage());
+			} catch (IllegalAccessException e) {
+				log.error(e.getMessage());
+			} catch (ClassNotFoundException e) {
+				log.error(e.getMessage());
+			}
+			player.setPlayStrategy(strategy);
+			
 			player.setStartingTileUsed(jaxbPlayer.isStartingTileUsed());
+
 			Map<Integer, List<Castle>> castleMap = AdapterUtil
 					.reoslveCastles(AdapterUtil.newCastles(jaxbCastles));
 			Iterator<Integer> itr = castleMap.keySet().iterator();

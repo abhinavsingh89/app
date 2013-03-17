@@ -103,8 +103,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 		List<Entry<T>> entries = Lists.newArrayList(this.board.getEntries());
 		gameState.setEntries(entries);
 		gameState.setPlayers(this.board.getPlayers());
-		gameState.setTileBank(SpringContainer.INSTANCE.getBean("tileBank",
-				TileBank.class).getTiles());
+		gameState.setTileBank(board.getTileBank().getTiles());
 		gameState.setEpochCounter(epochCounter);
 		this.save(gameState);
 	}
