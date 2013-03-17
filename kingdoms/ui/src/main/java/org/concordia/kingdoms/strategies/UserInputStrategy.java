@@ -30,7 +30,10 @@ public class UserInputStrategy implements IStrategy<TDCoordinate> {
 			boolean invalidInput = true;
 			while (invalidInput) {
 
-				System.out.println("Press 1 for Starting Tile");
+				if (!player.isStartingTileUsed()) {
+					System.out.print("Press 1 for Starting Tile");
+					System.out.println("- " + player.getStartingTile().show());
+				}
 				System.out.println("Press 2 for Castle");
 				System.out.println("Press 3 to draw facedown Tile");
 
