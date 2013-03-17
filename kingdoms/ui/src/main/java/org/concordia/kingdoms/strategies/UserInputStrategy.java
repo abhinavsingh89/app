@@ -70,9 +70,13 @@ public class UserInputStrategy implements IStrategy<TDCoordinate> {
 				}
 				// draw a tile
 				if ("3".equals(input.trim())) {
+					
+					final Tile tile = player.drawTile();
+					log.info(tile.show());
+					
 					final TDCoordinate coordinate = getCoordinate(
 							emptyCoordinates, br);
-					final Tile tile = player.drawTile();
+
 					entry = new Entry<TDCoordinate>(coordinate, tile);
 				}
 				invalidInput = false;
