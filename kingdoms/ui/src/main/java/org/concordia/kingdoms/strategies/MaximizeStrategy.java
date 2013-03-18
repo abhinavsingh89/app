@@ -150,10 +150,17 @@ public class MaximizeStrategy implements IStrategy<TDCoordinate> {
 		} else {
 			Tile tile = player.drawTile();
 			TDCoordinate coordinate = null;
-			if (tile.getValue() != null && tile.getValue() > 0) {
-				coordinate = getMaxCoordinate(coordinateScores);
+			if (tile == null) {
+				if (!player.isStartingTileUsed()) {
+					tile = player.getStartingTile();
+					return new Entry<TDCoordinate>(maxCoordinate, tile);
+				}
 			} else {
-				coordinate = getMinCoordinate(coordinateScores);
+				if (tile.getValue() != null && tile.getValue() > 0) {
+					coordinate = getMaxCoordinate(coordinateScores);
+				} else {
+					coordinate = getMinCoordinate(coordinateScores);
+				}
 			}
 			Entry<TDCoordinate> entry = new Entry<TDCoordinate>(coordinate,
 					tile);

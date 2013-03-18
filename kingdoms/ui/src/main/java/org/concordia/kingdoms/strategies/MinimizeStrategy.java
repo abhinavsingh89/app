@@ -86,7 +86,15 @@ public class MinimizeStrategy implements IStrategy<TDCoordinate> {
 		int drawTileOrCastle = new Random().nextInt(2);
 
 		if (drawTileOrCastle == 0) {
-			return drawTile(player, coordinateScores, maxCoordinate);
+			Entry entry = drawTile(player, coordinateScores, maxCoordinate);
+			if (entry.getComponent() == null) {
+				if (castles.size() > 0) {
+					Castle castle = castles.remove(castles.size() - 1);
+					return new Entry<TDCoordinate>(maxCoordinate, castle);
+				}
+			} else {
+				return entry;
+			}
 		} else {
 			if (castles.size() > 0) {
 				Castle castle = castles.remove(castles.size() - 1);
@@ -95,18 +103,27 @@ public class MinimizeStrategy implements IStrategy<TDCoordinate> {
 				return drawTile(player, coordinateScores, maxCoordinate);
 			}
 		}
+		return null;
 	}
 
 	private Entry<TDCoordinate> drawTile(Player<TDCoordinate> player,
 			Map<TDCoordinate, Integer> coordinateScores,
 			TDCoordinate maxCoordinate) {
 		Tile tile = player.drawTile();
-		if (tile.getValue() == null || tile.getValue() < 0) {
-			return new Entry<TDCoordinate>(maxCoordinate, tile);
+		if (tile == null) {
+			if (!player.isStartingTileUsed()) {
+				tile = player.getStartingTile();
+				return new Entry<TDCoordinate>(maxCoordinate, tile);
+			}
 		} else {
-			TDCoordinate coordinate = getMinCoordinate(coordinateScores);
-			return new Entry<TDCoordinate>(coordinate, tile);
+			if (tile.getValue() == null || tile.getValue() < 0) {
+				return new Entry<TDCoordinate>(maxCoordinate, tile);
+			} else {
+				TDCoordinate coordinate = getMinCoordinate(coordinateScores);
+				return new Entry<TDCoordinate>(coordinate, tile);
+			}
 		}
+		return null;
 	}
 
 	private boolean isStartingTileNegative(Player<TDCoordinate> player) {

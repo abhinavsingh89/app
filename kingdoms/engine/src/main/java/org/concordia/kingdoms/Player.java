@@ -85,6 +85,11 @@ public class Player<T extends ICoordinate> {
 		try {
 			entry = playStrategy.getEntry(this, tilesToChose, castlesList,
 					board.getAvailableCoordinates());
+			if (entry == null || entry.getComponent() == null
+					|| entry.getCoordinate() == null) {
+				log.info("Player " + this.getName() + " ran out possible moves");
+				return;
+			}
 		} catch (GameRuleException e1) {
 			log.error(e1.getMessage());
 		}

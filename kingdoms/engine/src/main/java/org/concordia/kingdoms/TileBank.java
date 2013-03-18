@@ -47,6 +47,9 @@ public class TileBank {
 	 * @return tile
 	 */
 	public Tile drawTile() {
+		if (tiles.isEmpty()) {
+			return null;
+		}
 		return tiles.remove(tiles.size() - 1);
 	}
 
