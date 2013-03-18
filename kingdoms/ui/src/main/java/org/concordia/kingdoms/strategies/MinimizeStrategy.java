@@ -88,16 +88,13 @@ public class MinimizeStrategy implements IStrategy<TDCoordinate> {
 		if (drawTileOrCastle == 0) {
 			return drawTile(player, coordinateScores, maxCoordinate);
 		} else {
-
 			if (castles.size() > 0) {
 				Castle castle = castles.remove(castles.size() - 1);
 				return new Entry<TDCoordinate>(maxCoordinate, castle);
-
 			} else {
 				return drawTile(player, coordinateScores, maxCoordinate);
 			}
 		}
-
 	}
 
 	private Entry<TDCoordinate> drawTile(Player<TDCoordinate> player,
@@ -176,7 +173,7 @@ public class MinimizeStrategy implements IStrategy<TDCoordinate> {
 		while (itr.hasNext()) {
 			TDCoordinate tdCoordinate = itr.next();
 			int value = coordinateScores.get(tdCoordinate);
-			if (minValue > value) {
+			if (minValue >= value) {
 				minValue = value;
 				minCoordinate = tdCoordinate;
 			}

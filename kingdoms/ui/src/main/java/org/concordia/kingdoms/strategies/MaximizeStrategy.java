@@ -188,7 +188,7 @@ public class MaximizeStrategy implements IStrategy<TDCoordinate> {
 		while (itr.hasNext()) {
 			TDCoordinate tdCoordinate = itr.next();
 			int value = coordinateScores.get(tdCoordinate);
-			if (minValue > value) {
+			if (minValue >= value) {
 				minValue = value;
 				minCoordinate = tdCoordinate;
 			}

@@ -140,6 +140,9 @@ public class KingdomsTest {
 		while (kingdoms.getEpochCounter().isNextAvailable()) {
 			while (!kingdoms.isLevelCompleted()) {
 				for (final Player<TDCoordinate> player : players) {
+					if (kingdoms.isLevelCompleted()) {
+						break;
+					}
 					log.info("Save Game - Press s");
 					final String str = br.readLine();
 					if ("s".equals(str.toLowerCase().trim())) {
