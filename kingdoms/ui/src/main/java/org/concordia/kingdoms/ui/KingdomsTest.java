@@ -17,6 +17,7 @@ import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.board.factory.TDBoardBuilder;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.exceptions.GameException;
+import org.concordia.kingdoms.strategies.DumbStrategy;
 import org.concordia.kingdoms.strategies.MaximizeStrategy;
 import org.concordia.kingdoms.strategies.MinimizeStrategy;
 import org.concordia.kingdoms.strategies.RandomStrategy;
@@ -82,7 +83,7 @@ public class KingdomsTest {
 		}
 
 		else {
-			initializePlayers(br, players);
+			// initializePlayers(br, players);
 
 			Player<TDCoordinate> randomStrategyPlayer = Player.newPlayer(
 					"random_player", Color.BLUE);
@@ -99,6 +100,10 @@ public class KingdomsTest {
 					"minimize_player", Color.GREEN);
 
 			players.add(minimizeStrategyPlayer);
+
+			Player<TDCoordinate> dumbStrategyPlayer = Player.newPlayer(
+					"dumb_player", Color.YELLOW);
+			players.add(dumbStrategyPlayer);
 
 			log.debug("Random Strategy Player is in the Game");
 			log.debug("Maximize Strategy Player is in the Game");
@@ -117,6 +122,8 @@ public class KingdomsTest {
 			MinimizeStrategy minimizeStrategy = new MinimizeStrategy();
 			minimizeStrategy.setEntries(kingdoms.getEntries());
 			minimizeStrategyPlayer.setPlayStrategy(minimizeStrategy);
+			DumbStrategy dumbStrategy = new DumbStrategy();
+			dumbStrategyPlayer.setPlayStrategy(dumbStrategy);
 
 		}
 
