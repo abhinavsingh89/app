@@ -1,5 +1,7 @@
 /**
  * Class for castle per players
+ * @author Team K
+ * @since 1.1
  */
 
 package org.concordia.kingdoms;
