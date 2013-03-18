@@ -16,7 +16,6 @@ import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.exceptions.GameRuleException;
-import org.concordia.kingdoms.spring.SpringContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -128,6 +127,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 			} else {
 				// initialize the board with empty entries
 				this.initBoard(gameState);
+				this.epochCounter = gameState.getEpochCounter();
 			}
 		} else {
 			// when game is already in progress, resume the game but not start

@@ -72,7 +72,7 @@ public class KingdomsTest {
 					maximizeStrategy.setEntries(kingdoms.getEntries());
 				} else {
 					if (player.getPlayStrategy().getClass().getName()
-							.equals(MaximizeStrategy.class.getName())) {
+							.equals(MinimizeStrategy.class.getName())) {
 						MinimizeStrategy minimizeStrategy = (MinimizeStrategy) player
 								.getPlayStrategy();
 						minimizeStrategy.setEntries(kingdoms.getEntries());
@@ -162,6 +162,11 @@ public class KingdomsTest {
 					+ " Level Completed!!");
 			Map<Color, Score> scoreCard = kingdoms.score();
 			assignScore(players, scoreCard);
+			
+			for (Player player : players) {
+				kingdoms.getEpochCounter().addNewScore(player, scoreCard);
+			}
+
 			printFinalScore(players, scoreCard);
 			Collections.sort(players, Player.PlayerComparator.INSTANCE);
 			if (kingdoms.getEpochCounter().isNextAvailable()) {

@@ -78,7 +78,8 @@ public class EpochCounter {
 		return currentLevel;
 	}
 
-	public void addNewScore(Player<?> players, Map<Color, Score> newScore) {
+	public void addNewScore(Player<? extends ICoordinate> players,
+			Map<Color, Score> newScore) {
 		Iterator<Color> itr = newScore.keySet().iterator();
 		final List<Score> scores = Lists.newArrayList();
 		while (itr.hasNext()) {

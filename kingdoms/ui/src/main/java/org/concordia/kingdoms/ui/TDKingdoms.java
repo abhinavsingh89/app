@@ -112,6 +112,9 @@ public class TDKingdoms extends Kingdoms<TDCoordinate> {
 			List<Tile> tiles = AdapterUtil
 					.newTiles(jaxbGameState.getTileBank());
 
+			gameState.setEpochCounter(AdapterUtil.newEpochCounter(jaxbGameState
+					.getEpochCounter()));
+
 			gameState.setComponentsOnBoard(componentsOnBoard);
 			gameState.setEntries(Lists.newArrayList(entries));
 			gameState.setMAX_COLUMNS(MAX_COLUMNS);
