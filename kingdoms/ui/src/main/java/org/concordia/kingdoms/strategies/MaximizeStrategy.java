@@ -136,9 +136,8 @@ public class MaximizeStrategy implements IStrategy<TDCoordinate> {
 					castle);
 			return entry;
 		}
-
-		if (tiles.size() != 0 && player.getStartingTile().getValue() > 0) {
-
+		Tile startTile = player.getStartingTile();
+		if (tiles.size() != 0 && startTile.getValue() != null && startTile.getValue() > 0) {
 			Entry<TDCoordinate> entry = new Entry<TDCoordinate>(maxCoordinate,
 					player.getStartingTile());
 			return entry;
