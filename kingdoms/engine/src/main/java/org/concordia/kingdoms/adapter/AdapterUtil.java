@@ -116,7 +116,7 @@ public class AdapterUtil {
 	public static List<Castle> newCastles(
 			List<org.concordia.kingdoms.jaxb.Castle> jaxbCastles) {
 		if (jaxbCastles == null) {
-			return null;
+			return Lists.newArrayList();
 		}
 		List<Castle> castles = Lists.newArrayList();
 		for (org.concordia.kingdoms.jaxb.Castle jaxbCastle : jaxbCastles) {
@@ -135,7 +135,7 @@ public class AdapterUtil {
 	public static List<org.concordia.kingdoms.jaxb.Tile> newJaxbTiles(
 			List<Tile> tiles) {
 		if (tiles == null) {
-			return null;
+			return Lists.newArrayList();
 		}
 		List<org.concordia.kingdoms.jaxb.Tile> jaxbTiles = Lists.newArrayList();
 
@@ -163,7 +163,7 @@ public class AdapterUtil {
 	public static List<org.concordia.kingdoms.jaxb.Castle> newJaxbCastles(
 			List<Castle> castles) {
 		if (castles == null) {
-			return null;
+			return Lists.newArrayList();
 		}
 		List<org.concordia.kingdoms.jaxb.Castle> jaxbCastles = Lists
 				.newArrayList();
@@ -226,7 +226,7 @@ public class AdapterUtil {
 	public static List<org.concordia.kingdoms.jaxb.Score> newJaxbScores(
 			List<Score> scores) {
 		if (scores == null) {
-			return null;
+			return Lists.newArrayList();
 		}
 		List<org.concordia.kingdoms.jaxb.Score> jaxbScores = Lists
 				.newArrayList();
@@ -248,7 +248,7 @@ public class AdapterUtil {
 	public static List<Score> newScores(
 			List<org.concordia.kingdoms.jaxb.Score> jaxbScores) {
 		if (jaxbScores == null) {
-			return null;
+			return Lists.newArrayList();
 		}
 		List<Score> scores = Lists.newArrayList();
 		for (org.concordia.kingdoms.jaxb.Score jaxbScore : jaxbScores) {

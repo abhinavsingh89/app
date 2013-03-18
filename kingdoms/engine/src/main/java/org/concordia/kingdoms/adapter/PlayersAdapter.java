@@ -113,7 +113,7 @@ public class PlayersAdapter
 				log.error(e.getMessage());
 			}
 			player.setPlayStrategy(strategy);
-			
+
 			player.setStartingTileUsed(jaxbPlayer.isStartingTileUsed());
 
 			Map<Integer, List<Castle>> castleMap = AdapterUtil
