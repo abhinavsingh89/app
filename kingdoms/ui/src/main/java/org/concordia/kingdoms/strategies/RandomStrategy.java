@@ -10,7 +10,11 @@ import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameRuleException;
-
+/**
+ * This class is used to implement strategy of the random player
+ * @author Team K
+ * @since 1.1
+ */
 public class RandomStrategy implements IStrategy<TDCoordinate> {
 
 	public Entry<TDCoordinate> getEntry(Player<TDCoordinate> player,
