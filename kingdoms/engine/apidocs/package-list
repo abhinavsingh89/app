@@ -1,0 +1,8 @@
+org.concordia.kingdoms
+org.concordia.kingdoms.adapter
+org.concordia.kingdoms.board
+org.concordia.kingdoms.board.factory
+org.concordia.kingdoms.board.score
+org.concordia.kingdoms.exceptions
+org.concordia.kingdoms.spring
+org.concordia.kingdoms.strategies

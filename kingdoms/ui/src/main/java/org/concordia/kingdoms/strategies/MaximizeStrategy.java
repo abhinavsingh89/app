@@ -20,8 +20,8 @@ public class MaximizeStrategy implements IStrategy<TDCoordinate> {
 
 	private VirtualTDMatrix tdMatrix;
 
-	public MaximizeStrategy(Iterator<Entry<TDCoordinate>> entries) {
-		this.tdMatrix = new VirtualTDMatrix(entries, 5, 6);
+	public MaximizeStrategy() {
+
 	}
 
 	public Entry<TDCoordinate> getEntry(Player<TDCoordinate> player,
@@ -130,29 +130,31 @@ public class MaximizeStrategy implements IStrategy<TDCoordinate> {
 		// }
 
 		TDCoordinate maxCoordinate = getMaxCoordinate(coordinateScores);
+
 		if (castles.size() != 0) {
 			Castle castle = castles.remove(castles.size() - 1);
 			Entry<TDCoordinate> entry = new Entry<TDCoordinate>(maxCoordinate,
 					castle);
 			return entry;
 		}
+
 		Tile startTile = player.getStartingTile();
-		if (tiles.size() != 0 && startTile.getValue() != null && startTile.getValue() > 0) {
+
+		if (tiles.size() != 0 && startTile.getValue() != null
+				&& startTile.getValue() > 0) {
 			Entry<TDCoordinate> entry = new Entry<TDCoordinate>(maxCoordinate,
 					player.getStartingTile());
 			return entry;
 		} else {
 			Tile tile = player.drawTile();
 			TDCoordinate coordinate = null;
-			if (tile == null) {
-				System.out.println("OUT OF TILES");
-			}
 			if (tile.getValue() != null && tile.getValue() > 0) {
 				coordinate = getMaxCoordinate(coordinateScores);
 			} else {
 				coordinate = getMinCoordinate(coordinateScores);
 			}
-			Entry entry = new Entry<TDCoordinate>(coordinate, tile);
+			Entry<TDCoordinate> entry = new Entry<TDCoordinate>(coordinate,
+					tile);
 			return entry;
 		}
 
@@ -191,4 +193,9 @@ public class MaximizeStrategy implements IStrategy<TDCoordinate> {
 		}
 		return minCoordinate;
 	}
+
+	public void setEntries(Iterator<Entry<TDCoordinate>> entries) {
+		this.tdMatrix = new VirtualTDMatrix(entries, 5, 6);
+	}
+
 }

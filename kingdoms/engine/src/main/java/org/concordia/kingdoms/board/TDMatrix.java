@@ -450,7 +450,7 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 	 * @param rowRanks
 	 *            - resolved castle rank map
 	 */
-	private void getCastleRankScore(int start, int end, int rowOrColumnNumber,
+	public void getCastleRankScore(int start, int end, int rowOrColumnNumber,
 			boolean isRow, List<Map<Color, Integer>> rowRanks) {
 
 		// when mountain is to the extreme left, extreme right, or side by side

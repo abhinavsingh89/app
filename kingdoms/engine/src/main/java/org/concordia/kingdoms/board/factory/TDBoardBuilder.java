@@ -89,6 +89,7 @@ public class TDBoardBuilder implements BoardBuilder<TDCoordinate> {
 				board.putComponent(entry.getComponent(), entry.getCoordinate());
 			}
 		}
+		
 
 		TileBank tileBank = new TileBank();
 		tileBank.addTiles(gameState.getTileBank());

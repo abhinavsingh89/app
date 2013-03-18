@@ -61,6 +61,16 @@ public class KingdomsTest {
 			String filePath = br.readLine();
 			kingdoms.resume(new File(filePath));
 			players = kingdoms.getPlayers();
+
+			for (Player player : players) {
+				if (player.getPlayStrategy().getClass().getName()
+						.equals(MaximizeStrategy.class.getName())) {
+					MaximizeStrategy maximizeStrategy = (MaximizeStrategy) player
+							.getPlayStrategy();
+					maximizeStrategy.setEntries(kingdoms.getEntries());
+				}
+			}
+
 		}
 
 		else {
@@ -85,9 +95,9 @@ public class KingdomsTest {
 					player.setStartingTile(kingdoms.drawTile());
 				}
 			}
-			
-			maximizeStrategyPlayer.setPlayStrategy(new MaximizeStrategy(
-					kingdoms.getEntries()));
+			MaximizeStrategy maximizeStrategy = new MaximizeStrategy();
+			maximizeStrategy.setEntries(kingdoms.getEntries());
+			maximizeStrategyPlayer.setPlayStrategy(maximizeStrategy);
 
 		}
 
