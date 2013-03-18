@@ -16,13 +16,15 @@ import org.concordia.kingdoms.domain.Tile;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+/**
+ * This class is used to implement Maximize strategy
+ * 
+ * @author Team K
+ * @since 1.1
+ */
 public class MaximizeStrategy implements IStrategy<TDCoordinate> {
 
 	private VirtualTDMatrix tdMatrix;
-
-	public MaximizeStrategy() {
-
-	}
 
 	public Entry<TDCoordinate> getEntry(Player<TDCoordinate> player,
 			List<Tile> tiles, List<Castle> castles,

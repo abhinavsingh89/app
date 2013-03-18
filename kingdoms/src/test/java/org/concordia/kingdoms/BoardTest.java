@@ -1,3 +1,8 @@
+/**
+ *Class for testing of Board.
+ *@author Team K
+ *@since version 1.0
+*/
 package org.concordia.kingdoms;
 
 import java.util.List;
@@ -14,7 +19,9 @@ import org.concordia.kingdoms.tokens.Color;
 import com.google.common.collect.Lists;
 
 public class BoardTest extends TestCase {
-
+/**
+ * Function to check for empty space on board.
+*/
 	public void testHasAnyEmptySpace() {
 		BoardBuilder boardBuilder = KingdomBoardBuilder
 				.newKingdomBoardBuilder();
@@ -42,6 +49,10 @@ public class BoardTest extends TestCase {
 		}
 		board.resetBoard();
 	}
+	
+	/**
+	 * Function for entry empty testing
+	 */
 
 	public void testIsEntryEmpty() {
 		BoardBuilder boardBuilder = KingdomBoardBuilder
@@ -69,6 +80,10 @@ public class BoardTest extends TestCase {
 		}
 		board.resetBoard();
 	}
+	
+	/**
+	 * Function for testing of valid position entered by user.
+	 */
 
 	public void testIsValidPosition() {
 		List<Player> players4 = Lists.newArrayList();

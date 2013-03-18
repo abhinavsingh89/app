@@ -2,124 +2,152 @@
 <ns2:kingdoms xmlns:ns2="org.concordia.kingdoms">
     <rows>5</rows>
     <columns>6</columns>
-    <tokensCount>6</tokensCount>
-    <entries>
-        <entry column="1" row="0">
-            <castle color="BLUE">
-                <name>CASTLE</name>
-                <rank>1</rank>
-            </castle>
-        </entry>
-        <entry column="1" row="1">
-            <tile type="dragon">
-                <name>RED_DRAGON</name>
-            </tile>
-        </entry>
-        <entry column="2" row="2">
-            <castle color="RED">
-                <name>CASTLE</name>
-                <rank>2</rank>
-            </castle>
-        </entry>
-        <entry column="3" row="3">
-            <tile type="resource">
-                <name>farms</name>
-                <value>2</value>
-            </tile>
-        </entry>
-        <entry column="5" row="3">
-            <tile type="resource">
-                <name>cities</name>
-                <value>6</value>
-            </tile>
-        </entry>
-        <entry column="0" row="4">
-            <tile type="resource">
-                <name>village</name>
-                <value>6</value>
-            </tile>
-        </entry>
-    </entries>
+    <tokensCount>0</tokensCount>
+    <entries/>
     <tilesBank>
-        <tile type="hazard">
-            <name>LION</name>
-            <value>-4</value>
-        </tile>
-        <tile type="resource">
-            <name>village</name>
-            <value>2</value>
-        </tile>
-        <tile type="resource">
-            <name>cities</name>
-            <value>5</value>
-        </tile>
-        <tile type="goldmine">
-            <name>GOLDMINE</name>
-        </tile>
-        <tile type="hazard">
-            <name>THUNDER</name>
-            <value>-1</value>
-        </tile>
-        <tile type="hazard">
-            <name>HYNA</name>
-            <value>-5</value>
-        </tile>
         <tile type="hazard">
             <name>BEAR</name>
             <value>-6</value>
         </tile>
+        <tile type="mountain">
+            <name>ALPES</name>
+        </tile>
         <tile type="resource">
-            <name>farms</name>
-            <value>1</value>
+            <name>village</name>
+            <value>6</value>
         </tile>
         <tile type="resource">
             <name>farms</name>
-            <value>5</value>
+            <value>2</value>
+        </tile>
+        <tile type="resource">
+            <name>cities</name>
+            <value>6</value>
+        </tile>
+        <tile type="resource">
+            <name>cities</name>
+            <value>4</value>
         </tile>
         <tile type="resource">
             <name>cities</name>
             <value>3</value>
-        </tile>
-        <tile type="mountain">
-            <name>EVEREST</name>
         </tile>
         <tile type="wizard">
             <name>WIZARD</name>
         </tile>
         <tile type="resource">
             <name>village</name>
-            <value>5</value>
+            <value>1</value>
         </tile>
         <tile type="resource">
-            <name>cities</name>
-            <value>4</value>
+            <name>farms</name>
+            <value>5</value>
         </tile>
         <tile type="hazard">
             <name>TIGER</name>
             <value>-3</value>
         </tile>
         <tile type="resource">
-            <name>village</name>
-            <value>1</value>
+            <name>cities</name>
+            <value>5</value>
         </tile>
-        <tile type="mountain">
-            <name>ALPES</name>
+        <tile type="resource">
+            <name>village</name>
+            <value>5</value>
+        </tile>
+        <tile type="hazard">
+            <name>HYNA</name>
+            <value>-5</value>
+        </tile>
+        <tile type="resource">
+            <name>farms</name>
+            <value>1</value>
         </tile>
         <tile type="hazard">
             <name>VULTURE</name>
             <value>-2</value>
         </tile>
+        <tile type="mountain">
+            <name>EVEREST</name>
+        </tile>
+        <tile type="goldmine">
+            <name>GOLDMINE</name>
+        </tile>
+        <tile type="dragon">
+            <name>RED_DRAGON</name>
+        </tile>
         <tile type="resource">
-            <name>farms</name>
-            <value>3</value>
+            <name>village</name>
+            <value>2</value>
+        </tile>
+        <tile type="hazard">
+            <name>THUNDER</name>
+            <value>-1</value>
         </tile>
     </tilesBank>
     <players>
         <player>
-            <name>red</name>
+            <name>random_player</name>
+            <chosenColor>BLUE</chosenColor>
+            <scores/>
+            <startingTile type="hazard">
+                <name>LION</name>
+                <value>-4</value>
+            </startingTile>
+            <isStartingTileUsed>false</isStartingTileUsed>
+            <strategyName>org.concordia.kingdoms.strategies.RandomStrategy</strategyName>
+            <castles>
+                <castle color="BLUE">
+                    <name>CASTLE</name>
+                    <rank>1</rank>
+                </castle>
+                <castle color="BLUE">
+                    <name>CASTLE</name>
+                    <rank>1</rank>
+                </castle>
+                <castle color="BLUE">
+                    <name>CASTLE</name>
+                    <rank>1</rank>
+                </castle>
+                <castle color="BLUE">
+                    <name>CASTLE</name>
+                    <rank>1</rank>
+                </castle>
+                <castle color="BLUE">
+                    <name>CASTLE</name>
+                    <rank>2</rank>
+                </castle>
+                <castle color="BLUE">
+                    <name>CASTLE</name>
+                    <rank>2</rank>
+                </castle>
+                <castle color="BLUE">
+                    <name>CASTLE</name>
+                    <rank>2</rank>
+                </castle>
+                <castle color="BLUE">
+                    <name>CASTLE</name>
+                    <rank>3</rank>
+                </castle>
+                <castle color="BLUE">
+                    <name>CASTLE</name>
+                    <rank>3</rank>
+                </castle>
+                <castle color="BLUE">
+                    <name>CASTLE</name>
+                    <rank>4</rank>
+                </castle>
+            </castles>
+        </player>
+        <player>
+            <name>vik</name>
             <chosenColor>RED</chosenColor>
             <scores/>
-            <isStartingTileUsed>true</isStartingTileUsed>
+            <startingTile type="resource">
+                <name>farms</name>
+                <value>3</value>
+            </startingTile>
+            <isStartingTileUsed>false</isStartingTileUsed>
             <strategyName>org.concordia.kingdoms.strategies.UserInputStrategy</strategyName>
             <castles>
                 <castle color="RED">
@@ -148,7 +176,7 @@
                 </castle>
                 <castle color="RED">
                     <name>CASTLE</name>
-                    <rank>3</rank>
+                    <rank>2</rank>
                 </castle>
                 <castle color="RED">
                     <name>CASTLE</name>
@@ -156,50 +184,9 @@
                 </castle>
                 <castle color="RED">
                     <name>CASTLE</name>
-                    <rank>4</rank>
-                </castle>
-            </castles>
-        </player>
-        <player>
-            <name>random_player</name>
-            <chosenColor>BLUE</chosenColor>
-            <scores/>
-            <isStartingTileUsed>true</isStartingTileUsed>
-            <strategyName>org.concordia.kingdoms.strategies.RandomStrategy</strategyName>
-            <castles>
-                <castle color="BLUE">
-                    <name>CASTLE</name>
-                    <rank>1</rank>
-                </castle>
-                <castle color="BLUE">
-                    <name>CASTLE</name>
-                    <rank>1</rank>
-                </castle>
-                <castle color="BLUE">
-                    <name>CASTLE</name>
-                    <rank>1</rank>
-                </castle>
-                <castle color="BLUE">
-                    <name>CASTLE</name>
-                    <rank>2</rank>
-                </castle>
-                <castle color="BLUE">
-                    <name>CASTLE</name>
-                    <rank>2</rank>
-                </castle>
-                <castle color="BLUE">
-                    <name>CASTLE</name>
-                    <rank>2</rank>
-                </castle>
-                <castle color="BLUE">
-                    <name>CASTLE</name>
                     <rank>3</rank>
                 </castle>
-                <castle color="BLUE">
-                    <name>CASTLE</name>
-                    <rank>3</rank>
-                </castle>
-                <castle color="BLUE">
+                <castle color="RED">
                     <name>CASTLE</name>
                     <rank>4</rank>
                 </castle>
@@ -209,5 +196,5 @@
     <epoch totalLevels="3" currentLevel="1">
         <scoreCards/>
     </epoch>
-    <fileName>pavan</fileName>
+    <fileName>run</fileName>
 </ns2:kingdoms>

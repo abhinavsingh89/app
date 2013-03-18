@@ -13,7 +13,11 @@ import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ * This class is used to implement strategy of human player
+ * @author Team K
+ * @since 1.1
+ */
 public class UserInputStrategy implements IStrategy<TDCoordinate> {
 
 	private static final Logger log = LoggerFactory

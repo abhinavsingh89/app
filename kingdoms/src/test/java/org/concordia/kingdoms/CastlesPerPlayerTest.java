@@ -1,3 +1,9 @@
+/**
+ * Class for castle per players
+ * @author Team K
+ * @since 1.1
+ */
+
 package org.concordia.kingdoms;
 
 import java.util.List;
@@ -45,6 +51,10 @@ public class CastlesPerPlayerTest extends TestCase {
 		testPlayerAsssignedEnoughCastles(2,players4);
 	}
 
+	/**
+	 * Function to test player assigned proper castles
+	 * @param rankOneCastles, Players 
+	 */
 	private void testPlayerAsssignedEnoughCastles(int rankOneCastles, List<Player> players) {
 
 		BoardBuilder boardBuilder = KingdomBoardBuilder
