@@ -1,3 +1,9 @@
+/**
+ * Gamebox TestCase class
+ * @author Team K
+ * @since 1.0
+ */
+
 package org.concordia.kingdoms;
 
 import java.util.List;
@@ -9,8 +15,11 @@ import org.concordia.kingdoms.tokens.TileType;
 
 import com.google.common.collect.Lists;
 
-public class GameBoxTest extends TestCase {
-
+public class GameBoxTest extends TestCase 
+{
+	/**
+	 * Function to test if tiles are initialized.
+	 */
 	public void testTilesInitialized() {
 		GameBox gameBox = GameBox.newGameBox();
 		for (TileType type : TileType.values()) {
@@ -22,6 +31,9 @@ public class GameBoxTest extends TestCase {
 		}
 	}
 
+	/**
+	 * Function to test for tiles count.
+	 */
 	public void testTilesCount() {
 		GameBox gameBox = GameBox.newGameBox();
 		List<Tile> allTiles = Lists.newArrayList();
