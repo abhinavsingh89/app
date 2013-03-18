@@ -1,6 +1,5 @@
 package org.concordia.kingdoms.board;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -169,7 +168,7 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 				entriesList.add(column);
 			}
 		}
-		return Collections.unmodifiableList(entriesList).iterator();
+		return entriesList.iterator();
 	}
 
 	/**
@@ -591,5 +590,13 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 				this.availableCoordinates.add(TDCoordinate.newInstance(i, j));
 			}
 		}
+	}
+
+	protected void setEntries(List<List<Entry<TDCoordinate>>> entries) {
+		this.entries = entries;
+	}
+
+	public TileFinder getTileFinder() {
+		return tileFinder;
 	}
 }

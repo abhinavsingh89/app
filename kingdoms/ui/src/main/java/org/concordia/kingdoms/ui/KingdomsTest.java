@@ -17,6 +17,7 @@ import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.board.factory.TDBoardBuilder;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.exceptions.GameException;
+import org.concordia.kingdoms.strategies.MaximizeStrategy;
 import org.concordia.kingdoms.strategies.RandomStrategy;
 import org.concordia.kingdoms.strategies.UserInputStrategy;
 import org.slf4j.Logger;
@@ -64,12 +65,30 @@ public class KingdomsTest {
 
 		else {
 			initializePlayers(br, players);
+
+			Player<TDCoordinate> randomStrategyPlayer = Player.newPlayer(
+					"random_player", Color.BLUE);
+
+			randomStrategyPlayer.setPlayStrategy(new RandomStrategy());
+			players.add(randomStrategyPlayer);
+
+			Player<TDCoordinate> maximizeStrategyPlayer = Player.newPlayer(
+					"maximize_player", Color.RED);
+
+			players.add(maximizeStrategyPlayer);
+
+			log.debug("Random Strategy Player is in the Game");
+
 			kingdoms.start(players);
 			for (Player<?> player : players) {
 				if (!player.isStartingTileUsed()) {
 					player.setStartingTile(kingdoms.drawTile());
 				}
 			}
+			
+			maximizeStrategyPlayer.setPlayStrategy(new MaximizeStrategy(
+					kingdoms.getEntries()));
+
 		}
 
 		Presentable presentable = new Console<TDCoordinate>(
@@ -174,37 +193,34 @@ public class KingdomsTest {
 	private static void initializePlayers(BufferedReader br,
 			List<Player<TDCoordinate>> players) throws IOException {
 
-		Player<TDCoordinate> randomStrategyPlayer = Player.newPlayer(null,
-				Color.BLUE);
+		log.info("You want to play: press y");
 
-		randomStrategyPlayer.setName("random_player");
-		randomStrategyPlayer.setPlayStrategy(new RandomStrategy());
-		players.add(randomStrategyPlayer);
+		boolean humanPlayer = "y".equals(br.readLine().toLowerCase().trim());
 
-		log.debug("Random Strategy Player is in the Game");
+		if (humanPlayer) {
+			log.debug("Enter your Name:");
+			String name = br.readLine();
+			if ("".equals(name.trim())) {
+				name = "default";
+				log.debug("Assigned default name " + name);
+			}
 
-		log.debug("Enter your Name:");
-		String name = br.readLine();
-		if ("".equals(name.trim())) {
-			name = "default";
-			log.debug("Assigned default name " + name);
-		}
+			final Color[] colors = Color.values();
+			boolean isValidColor = false;
 
-		final Color[] colors = Color.values();
-		boolean isValidColor = false;
-
-		while (!isValidColor) {
-			try {
-				log.debug("Choose one color: " + Arrays.toString(colors));
-				final String chosenColor = br.readLine();
-				final Color playerColor = stringToColor(chosenColor);
-				Player<TDCoordinate> player = Player.newPlayer(name,
-						playerColor);
-				player.setPlayStrategy(new UserInputStrategy());
-				players.add(player);
-				isValidColor = true;
-			} catch (GameException ex) {
-				log.error(ex.getMessage());
+			while (!isValidColor) {
+				try {
+					log.debug("Choose one color: " + Arrays.toString(colors));
+					final String chosenColor = br.readLine();
+					final Color playerColor = stringToColor(chosenColor);
+					Player<TDCoordinate> player = Player.newPlayer(name,
+							playerColor);
+					player.setPlayStrategy(new UserInputStrategy());
+					players.add(player);
+					isValidColor = true;
+				} catch (GameException ex) {
+					log.error(ex.getMessage());
+				}
 			}
 		}
 
