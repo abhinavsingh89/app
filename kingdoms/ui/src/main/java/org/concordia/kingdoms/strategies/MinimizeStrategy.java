@@ -86,20 +86,30 @@ public class MinimizeStrategy implements IStrategy<TDCoordinate> {
 		int drawTileOrCastle = new Random().nextInt(2);
 
 		if (drawTileOrCastle == 0) {
-			Tile tile = player.drawTile();
-			if (tile.getValue() == null || tile.getValue() < 0) {
-				TDCoordinate coordinate = getMaxCoordinate(coordinateScores);
-				return new Entry<TDCoordinate>(coordinate, tile);
-			} else {
-				TDCoordinate coordinate = getMinCoordinate(coordinateScores);
-				return new Entry<TDCoordinate>(coordinate, tile);
-			}
+			return drawTile(player, coordinateScores, maxCoordinate);
 		} else {
-			Castle castle = castles.remove(castles.size() - 1);
-			TDCoordinate coordinate = getMaxCoordinate(coordinateScores);
-			return new Entry<TDCoordinate>(coordinate, castle);
+
+			if (castles.size() > 0) {
+				Castle castle = castles.remove(castles.size() - 1);
+				return new Entry<TDCoordinate>(maxCoordinate, castle);
+
+			} else {
+				return drawTile(player, coordinateScores, maxCoordinate);
+			}
 		}
 
+	}
+
+	private Entry<TDCoordinate> drawTile(Player<TDCoordinate> player,
+			Map<TDCoordinate, Integer> coordinateScores,
+			TDCoordinate maxCoordinate) {
+		Tile tile = player.drawTile();
+		if (tile.getValue() == null || tile.getValue() < 0) {
+			return new Entry<TDCoordinate>(maxCoordinate, tile);
+		} else {
+			TDCoordinate coordinate = getMinCoordinate(coordinateScores);
+			return new Entry<TDCoordinate>(coordinate, tile);
+		}
 	}
 
 	private boolean isStartingTileNegative(Player<TDCoordinate> player) {
