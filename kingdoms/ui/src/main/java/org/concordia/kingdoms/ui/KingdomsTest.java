@@ -138,6 +138,7 @@ public class KingdomsTest {
 		System.out.println();
 
 		while (kingdoms.getEpochCounter().isNextAvailable()) {
+			log.info("Level: " + kingdoms.getEpochCounter().getCurrentLevel());
 			while (!kingdoms.isLevelCompleted()) {
 				for (final Player<TDCoordinate> player : players) {
 					if (kingdoms.isLevelCompleted()) {
