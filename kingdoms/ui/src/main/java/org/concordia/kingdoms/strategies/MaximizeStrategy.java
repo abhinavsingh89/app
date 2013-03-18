@@ -23,7 +23,7 @@ import com.google.common.collect.Maps;
 public class MaximizeStrategy implements IStrategy<TDCoordinate> {
 
 	private VirtualTDMatrix tdMatrix;
-
+	
 	public MaximizeStrategy(Iterator<Entry<TDCoordinate>> entries) {
 		this.tdMatrix = new VirtualTDMatrix(entries, 5, 6);
 	}
