@@ -18,6 +18,7 @@ import org.concordia.kingdoms.board.factory.TDBoardBuilder;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.strategies.MaximizeStrategy;
+import org.concordia.kingdoms.strategies.MinimizeStrategy;
 import org.concordia.kingdoms.strategies.RandomStrategy;
 import org.concordia.kingdoms.strategies.UserInputStrategy;
 import org.slf4j.Logger;
@@ -68,6 +69,13 @@ public class KingdomsTest {
 					MaximizeStrategy maximizeStrategy = (MaximizeStrategy) player
 							.getPlayStrategy();
 					maximizeStrategy.setEntries(kingdoms.getEntries());
+				} else {
+					if (player.getPlayStrategy().getClass().getName()
+							.equals(MaximizeStrategy.class.getName())) {
+						MinimizeStrategy minimizeStrategy = (MinimizeStrategy) player
+								.getPlayStrategy();
+						minimizeStrategy.setEntries(kingdoms.getEntries());
+					}
 				}
 			}
 
@@ -87,7 +95,14 @@ public class KingdomsTest {
 
 			players.add(maximizeStrategyPlayer);
 
+			Player<TDCoordinate> minimizeStrategyPlayer = Player.newPlayer(
+					"minimize_player", Color.GREEN);
+
+			players.add(minimizeStrategyPlayer);
+
 			log.debug("Random Strategy Player is in the Game");
+			log.debug("Maximize Strategy Player is in the Game");
+			log.debug("Minimize Strategy Player is in the Game");
 
 			kingdoms.start(players);
 			for (Player<?> player : players) {
@@ -98,6 +113,10 @@ public class KingdomsTest {
 			MaximizeStrategy maximizeStrategy = new MaximizeStrategy();
 			maximizeStrategy.setEntries(kingdoms.getEntries());
 			maximizeStrategyPlayer.setPlayStrategy(maximizeStrategy);
+
+			MinimizeStrategy minimizeStrategy = new MinimizeStrategy();
+			minimizeStrategy.setEntries(kingdoms.getEntries());
+			minimizeStrategyPlayer.setPlayStrategy(minimizeStrategy);
 
 		}
 

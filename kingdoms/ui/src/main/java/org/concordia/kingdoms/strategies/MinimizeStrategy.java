@@ -58,7 +58,7 @@ public class MinimizeStrategy implements IStrategy<TDCoordinate> {
 
 		for (int i = 0; i < Board.MAX_COLUMNS; i++) {
 			List<Map<Color, Integer>> columnCastlesRanks = Lists.newArrayList();
-			tdMatrix.getCastleRankScore(0, Board.MAX_COLUMNS, i, true,
+			tdMatrix.getCastleRankScore(0, Board.MAX_ROWS, i, false,
 					columnCastlesRanks);
 			columnsCastlesRanks.add(columnCastlesRanks);
 		}
