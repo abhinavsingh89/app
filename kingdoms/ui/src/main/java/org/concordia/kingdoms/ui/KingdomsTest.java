@@ -19,8 +19,6 @@ import org.concordia.kingdoms.board.factory.TDBoardBuilder;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.strategies.IStrategy;
-import org.concordia.kingdoms.strategies.MaximizeStrategy;
-import org.concordia.kingdoms.strategies.MinimizeStrategy;
 import org.concordia.kingdoms.strategies.UserInputStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +37,7 @@ public class KingdomsTest {
 	private static final Logger log = LoggerFactory
 			.getLogger(KingdomsTest.class);
 
-	Kingdoms<TDCoordinate> kingdoms;
+	private Kingdoms<TDCoordinate> kingdoms;
 
 	public void start() throws IOException, GameException,
 			InstantiationException, IllegalAccessException,
@@ -63,53 +61,13 @@ public class KingdomsTest {
 			String filePath = br.readLine();
 			kingdoms.resume(new File(filePath));
 			players = kingdoms.getPlayers();
-
-			for (Player player : players) {
-				if (player.getPlayStrategy().getClass().getName()
-						.equals(MaximizeStrategy.class.getName())) {
-					MaximizeStrategy maximizeStrategy = (MaximizeStrategy) player
-							.getPlayStrategy();
-					maximizeStrategy.setEntries(kingdoms.getEntries());
-				} else {
-					if (player.getPlayStrategy().getClass().getName()
-							.equals(MinimizeStrategy.class.getName())) {
-						MinimizeStrategy minimizeStrategy = (MinimizeStrategy) player
-								.getPlayStrategy();
-						minimizeStrategy.setEntries(kingdoms.getEntries());
-					}
-				}
-			}
-
+			assignStrategies(players, br);
 		}
 
 		else {
 			players = initPlayers(br);
-
-			// Player<TDCoordinate> randomStrategyPlayer = Player.newPlayer(
-			// "random_player", Color.BLUE);
-			//
-			// randomStrategyPlayer.setPlayStrategy(new RandomStrategy());
-			// players.add(randomStrategyPlayer);
-			//
-			// Player<TDCoordinate> maximizeStrategyPlayer = Player.newPlayer(
-			// "maximize_player", Color.RED);
-			//
-			// players.add(maximizeStrategyPlayer);
-			//
-			// Player<TDCoordinate> minimizeStrategyPlayer = Player.newPlayer(
-			// "minimize_player", Color.GREEN);
-			//
-			// players.add(minimizeStrategyPlayer);
-			//
-			// Player<TDCoordinate> dumbStrategyPlayer = Player.newPlayer(
-			// "dumb_player", Color.YELLOW);
-			// players.add(dumbStrategyPlayer);
-			//
-			// log.debug("Random Strategy Player is in the Game");
-			// log.debug("Maximize Strategy Player is in the Game");
-			// log.debug("Minimize Strategy Player is in the Game");
-
 			kingdoms.start(players);
+			assignStrategies(players, br);
 			for (Player<?> player : players) {
 				if (!player.isStartingTileUsed()) {
 					player.setStartingTile(kingdoms.drawTile());
@@ -171,6 +129,18 @@ public class KingdomsTest {
 
 	}
 
+	private void assignStrategies(List<Player<TDCoordinate>> players,
+			final BufferedReader br) throws IOException,
+			InstantiationException, IllegalAccessException,
+			ClassNotFoundException {
+		for (Player player : players) {
+
+			Console.print("Choose a Strategy for player :" + player.getName()
+					+ ">");
+			player.setPlayStrategy(readStrategy(br));
+		}
+	}
+
 	public static void printFinalScore(List<Player<TDCoordinate>> players,
 			Map<Color, Score> finalScore) {
 		if (finalScore == null) {
@@ -188,8 +158,7 @@ public class KingdomsTest {
 			Console.print(score.getColumnScore() + " ");
 			Console.print(score.score() + "");
 		}
-		System.out
-				.print("--------------------------------------------------------------------------");
+		Console.print("--------------------------------------------------------------------------");
 		Console.print("Player's Score:");
 
 		for (Player<?> player : players) {
@@ -289,17 +258,10 @@ public class KingdomsTest {
 			}
 			final Color color = choseColor(br);
 			Player<TDCoordinate> player = Player.newPlayer(name, color);
-			player.setPlayStrategy(choseStrategy(br));
 			players.add(player);
 			totalPlayers--;
 		}
 		return players;
-	}
-
-	private IStrategy<TDCoordinate> choseStrategy(BufferedReader br)
-			throws IOException, InstantiationException, IllegalAccessException,
-			ClassNotFoundException {
-		return readStrategy(br);
 	}
 
 	private IStrategy<TDCoordinate> readStrategy(BufferedReader br)

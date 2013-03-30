@@ -287,12 +287,14 @@ public class AdapterUtil {
 
 		List<ScoreCard> scoreCards = Lists.newArrayList();
 
-		for (org.concordia.kingdoms.jaxb.ScoreCard jaxbScoreCard : jaxbScoreCards) {
-			List<org.concordia.kingdoms.jaxb.Score> scores = jaxbScoreCard
-					.getScores();
-			ScoreCard scoreCard = new ScoreCard(jaxbScoreCard.getLevel(),
-					newScores(scores));
-			scoreCards.add(scoreCard);
+		if (jaxbScoreCards != null) {
+			for (org.concordia.kingdoms.jaxb.ScoreCard jaxbScoreCard : jaxbScoreCards) {
+				List<org.concordia.kingdoms.jaxb.Score> scores = jaxbScoreCard
+						.getScores();
+				ScoreCard scoreCard = new ScoreCard(jaxbScoreCard.getLevel(),
+						newScores(scores));
+				scoreCards.add(scoreCard);
+			}
 		}
 
 		EpochCounter epochCounter = new EpochCounter(
