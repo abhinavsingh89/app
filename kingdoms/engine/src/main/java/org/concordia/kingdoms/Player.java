@@ -8,9 +8,9 @@ import java.util.Map;
 
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.Entry;
+import org.concordia.kingdoms.board.IBoardAware;
 import org.concordia.kingdoms.board.ICoordinate;
 import org.concordia.kingdoms.board.Score;
-import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Coin;
 import org.concordia.kingdoms.domain.CoinType;
@@ -31,7 +31,7 @@ import com.google.common.collect.Maps;
  * @since 1.0
  * 
  */
-public class Player<T extends ICoordinate> {
+public class Player<T extends ICoordinate> implements IBoardAware<T> {
 
 	private static final Logger log = LoggerFactory.getLogger(Player.class);
 
@@ -74,29 +74,37 @@ public class Player<T extends ICoordinate> {
 
 	public void takeTurn() {
 
+		// tile available with this player to chose
 		final List<Tile> tilesToChose = Lists.newArrayList();
-
+		// if starting tile is already used then it is not a candidate key to
+		// chose again
 		if (!isStartingTileUsed) {
 			tilesToChose.add(startingTile);
 		}
-
+		// all the castles associated with this castles
 		final List<Castle> castlesList = getCastlesAsList();
 		Entry<T> entry = null;
 		try {
+			// strategy determined entry
 			entry = playStrategy.getEntry(this, tilesToChose, castlesList,
 					board.getAvailableCoordinates());
+			// when strategy couldn't resolve the component or the coordinate
+			// skipping the player's turn, this turn is consumed as a no action
 			if (entry == null || entry.getComponent() == null
 					|| entry.getCoordinate() == null) {
-				log.info("Player " + this.getName() + " ran out possible moves");
+				log.info("Player " + this.getName()
+						+ " ran out of possible moves");
 				return;
 			}
 		} catch (GameRuleException e1) {
 			log.error(e1.getMessage());
 		}
 		try {
+			// if the component determined by strategy is a castle
 			if (entry.getComponent() instanceof Castle) {
 				putCastle((Castle) entry.getComponent(), entry.getCoordinate());
 			} else {
+				// if the component determined by strategy is a tile
 				final Tile tile = (Tile) entry.getComponent();
 				putTile(tile, entry.getCoordinate());
 				if (tile.equals(startingTile)) {
@@ -107,7 +115,6 @@ public class Player<T extends ICoordinate> {
 		} catch (GameRuleException e) {
 			log.error(e.getMessage());
 		}
-
 	}
 
 	private List<Castle> getCastlesAsList() {
@@ -173,7 +180,6 @@ public class Player<T extends ICoordinate> {
 		} else {
 			this.castles.put(rank, kastles);
 		}
-
 	}
 
 	/**

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.EpochCounter;
+import org.concordia.kingdoms.board.IBoardAware;
 import org.concordia.kingdoms.board.ICoordinate;
 import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.factory.BoardBuilder;

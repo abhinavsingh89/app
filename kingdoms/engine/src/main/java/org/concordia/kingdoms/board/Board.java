@@ -192,17 +192,11 @@ public class Board<T extends ICoordinate> {
 			final Component component = entry.getComponent();
 			// if component is castle
 			if (component instanceof Castle) {
-				// if rank 1 castle
-				if (component.getValue() == 1) {
-					// castle's color
-					final Color color = ((Castle) component).getColor();
-					// give it back to the player
-					playersColor.get(color).addCastle(1,
-							Lists.newArrayList(((Castle) component)));
-				} else {
-					// return the castle to gamebox
-					gameBox.returnCastles((Castle) component);
-				}
+				// castle's color
+				final Color color = ((Castle) component).getColor();
+				// give it back to the player
+				playersColor.get(color).addCastle(component.getValue(),
+						Lists.newArrayList(((Castle) component)));
 			} else {
 				retTiles.add((Tile) component);
 			}
