@@ -72,7 +72,7 @@ public class Player<T extends ICoordinate> {
 		this.isStartingTileUsed = false;
 	}
 
-	public void myTurn() {
+	public void takeTurn() {
 
 		final List<Tile> tilesToChose = Lists.newArrayList();
 

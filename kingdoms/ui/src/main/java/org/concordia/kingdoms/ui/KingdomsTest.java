@@ -99,7 +99,7 @@ public class KingdomsTest {
 						saveMyGame(br);
 					}
 					log.info(player.getName() + ">");
-					player.myTurn();
+					player.takeTurn();
 					presentable.present();
 					Console.print("");
 					Console.print("________________________________________________________________________________");

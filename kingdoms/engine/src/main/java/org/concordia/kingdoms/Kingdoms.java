@@ -40,6 +40,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 
 	private boolean isGameInProgress = false;
 
+	// default name used in case no filename mentioned
 	private String fileName = "kingdoms-jaxb.xml";
 
 	/**
@@ -61,8 +62,9 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	 * @param players
 	 *            - Number of players
 	 */
-	public void start(List<Player<T>> players) throws GameException {
+	public void start(final List<Player<T>> players) throws GameException {
 		// if the game is not in progress then initialize everything
+		log.debug("About to start a new Game");
 		if (!this.isGameInProgress) {
 			// Game expects atleast 2 and a maximum of 4 players only
 			if (players.size() < 2 || players.size() > 4) {
@@ -71,10 +73,11 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 			} else {
 				// initialize the board with empty entries
 				this.initBoard(players);
+				log.debug("Board iniitalized Successfully");
 			}
 		} else {
 			// when game is already in progress, resume the game but not start
-			throw new GameException("Game is Already in Progress");
+			throw new GameException("Game Already in Progress");
 		}
 	}
 
@@ -93,27 +96,30 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	 * save the game state
 	 */
 	public void save() throws GameException {
-		org.concordia.kingdoms.GameState<T> gameState = new org.concordia.kingdoms.GameState<T>();
-		gameState.setFileName(fileName);
-		saveCoordinate(gameState);
 
+		org.concordia.kingdoms.GameState<T> gameState = new org.concordia.kingdoms.GameState<T>();
+		// its own filename
+		gameState.setFileName(fileName);
+		// save's ICoordinate impl
+		saveCoordinate(gameState);
+		// total number of components on the board
 		gameState.setComponentsOnBoard(this.board.getComponentsOnBoard());
-		gameState.setComponentsOnBoard(this.board.getComponentsOnBoard());
+		// actual entries on the board
 		List<Entry<T>> entries = Lists.newArrayList(this.board.getEntries());
+		// save the entries
 		gameState.setEntries(entries);
+		// players who are part of this game
 		gameState.setPlayers(this.board.getPlayers());
+		// tile bank
 		gameState.setTileBank(board.getTileBank().getTiles());
+		// running epoch for this game
 		gameState.setEpochCounter(epochCounter);
 		this.save(gameState);
 	}
 
-	protected abstract void saveCoordinate(GameState<T> gameState);
-
-	protected void save(org.concordia.kingdoms.GameState<T> gameState)
-			throws GameException {
-		//
-	}
-
+	/**
+	 * re-build the game from the file
+	 */
 	public void resume(File file) throws GameException {
 		GameState<T> gameState = loadGameState(file);
 		// if the game is not in progress then initialize everything
@@ -136,73 +142,152 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 
 	}
 
+	/**
+	 * builds new board from the given gameState
+	 * 
+	 * @param gameState
+	 * @see {@link GameState}
+	 * @throws GameException
+	 */
 	private void initBoard(GameState<T> gameState) throws GameException {
 		// build a mXn board for game entries
 		this.board = this.builder.buildBoard(newCoordinate(), gameState);
 	}
 
+	/**
+	 * subclass knows how to parse file, fill and return GameState
+	 * 
+	 * @param file
+	 * @return
+	 * @throws GameException
+	 */
 	protected abstract org.concordia.kingdoms.GameState<T> loadGameState(
 			File file) throws GameException;
 
-	public void exit() {
-		//
-	}
-
+	/**
+	 * Game Name
+	 */
 	public String getName() {
-		/**
-		 * get from properties file
-		 */
 		return "Kingdoms";
 	}
 
+	/**
+	 * Game description
+	 */
 	public String getDescription() {
 		return "Kingdoms descritpion";
 	}
 
+	/**
+	 * @return @see EpochCounter
+	 */
 	public EpochCounter getEpochCounter() {
 		return this.epochCounter;
 	}
+
+	/**
+	 * returns true if we reached the level end
+	 */
 
 	@Override
 	public boolean isLevelCompleted() {
 		return !this.board.isEmpty();
 	}
 
+	/**
+	 * use this method before placing a component on the board to determine if
+	 * it is a valid position or not
+	 * 
+	 * @param coordinate
+	 * @return
+	 */
 	public boolean isValidPosition(T coordinate) {
 		return this.board.isValidPosition(coordinate);
 	}
 
+	/**
+	 * actual entries on the board
+	 * 
+	 * @return
+	 */
 	public Iterator<Entry<T>> getEntries() {
 		return this.board.getEntries();
 	}
 
+	/**
+	 * score as of now on the board
+	 * 
+	 * @return
+	 */
 	public Map<Color, Score> score() {
 		return this.board.score();
 	}
 
+	/**
+	 * prepares the board to move to next level, this includes updating the
+	 * epoch, returning tiles,castles etc.
+	 * 
+	 * @throws GameRuleException
+	 */
 	public void moveToNextLevel() throws GameRuleException {
 		this.epochCounter.goNextLevel();
 		this.board.levelChange(newCoordinate(), builder);
 	}
 
+	/**
+	 * {@link Player}(s) in the Game
+	 * 
+	 * @return
+	 */
 	public List<Player<T>> getPlayers() {
 		return this.board.getPlayers();
 	}
 
-	protected abstract T newCoordinate();
-
+	/**
+	 * returns a tile from the tile bank, null if no tiles available
+	 * 
+	 * @return
+	 */
 	public Tile drawTile() {
 		return this.board.drawTile();
 	}
 
+	/**
+	 * a name assigned to the game state file
+	 * 
+	 * @param fileName
+	 */
 	public void setFileName(String fileName) {
 		if (!"".equals(fileName)) {
 			this.fileName = fileName;
 		}
 	}
 
+	/**
+	 * returns true if the tile bank ran out of tiles
+	 * 
+	 * @return
+	 */
 	public boolean isTileBankEmpty() {
 		return this.board.isTileBankEmpty();
+	}
+
+	/**
+	 * {@link ICoordinate}
+	 * 
+	 * @return
+	 */
+	protected abstract T newCoordinate();
+
+	protected abstract void saveCoordinate(GameState<T> gameState);
+
+	protected void save(org.concordia.kingdoms.GameState<T> gameState)
+			throws GameException {
+		// NOTHING TO DO ; SUBCLASS WILL TAKE CARE OF HOW TO save
+	}
+
+	public void exit() {
+		// NOTHING TO DO ; SUBCLASS WILL TAKE CARE OF HOW TO exit
 	}
 
 }
