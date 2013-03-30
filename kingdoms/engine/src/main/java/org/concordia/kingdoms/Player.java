@@ -197,9 +197,9 @@ public class Player<T extends ICoordinate> {
 		}
 	}
 
-	public static Player<TDCoordinate> newPlayer(String name,
+	public static <T extends ICoordinate> Player<T> newPlayer(String name,
 			final Color chosenColor) {
-		return new Player<TDCoordinate>(name, chosenColor);
+		return new Player<T>(name, chosenColor);
 	}
 
 	/**

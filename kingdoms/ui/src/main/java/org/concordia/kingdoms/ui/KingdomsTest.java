@@ -12,15 +12,15 @@ import java.util.Map;
 
 import org.concordia.kingdoms.Kingdoms;
 import org.concordia.kingdoms.Player;
+import org.concordia.kingdoms.board.IEntriesAware;
 import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.board.factory.TDBoardBuilder;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.exceptions.GameException;
-import org.concordia.kingdoms.strategies.DumbStrategy;
+import org.concordia.kingdoms.strategies.IStrategy;
 import org.concordia.kingdoms.strategies.MaximizeStrategy;
 import org.concordia.kingdoms.strategies.MinimizeStrategy;
-import org.concordia.kingdoms.strategies.RandomStrategy;
 import org.concordia.kingdoms.strategies.UserInputStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,27 +39,27 @@ public class KingdomsTest {
 	private static final Logger log = LoggerFactory
 			.getLogger(KingdomsTest.class);
 
-	/**
-	 * Entry point function
-	 */
-	public static void main(String[] args) throws IOException, GameException {
+	Kingdoms<TDCoordinate> kingdoms;
+
+	public void start() throws IOException, GameException,
+			InstantiationException, IllegalAccessException,
+			ClassNotFoundException {
+
 		// 2 dimensional kingdoms game with 3 levels
-		final Kingdoms<TDCoordinate> kingdoms = new TDKingdoms(
-				new TDBoardBuilder(), 3);
+		kingdoms = new TDKingdoms(new TDBoardBuilder(), 3);
 		// players
 		List<Player<TDCoordinate>> players = Lists.newArrayList();
 
-		System.out.println("1.Resume the saved game - Press r");
-		System.out.println("2.New Game - Press  any key");
+		Console.print("1.Resume the saved game - Press r");
+		Console.print("2.New Game - Press  any key");
 
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
 				System.in));
 
-		final String reply = br.readLine();
+		final String reply = Console.readString(br, "");
 
 		if ("r".equals(reply.toLowerCase().trim())) {
-			System.out
-					.println("Give Absolute path to the file you saved the xml");
+			Console.print("Give Absolute path to the file you saved the xml");
 			String filePath = br.readLine();
 			kingdoms.resume(new File(filePath));
 			players = kingdoms.getPlayers();
@@ -83,31 +83,31 @@ public class KingdomsTest {
 		}
 
 		else {
-			// initializePlayers(br, players);
+			players = initPlayers(br);
 
-			Player<TDCoordinate> randomStrategyPlayer = Player.newPlayer(
-					"random_player", Color.BLUE);
-
-			randomStrategyPlayer.setPlayStrategy(new RandomStrategy());
-			players.add(randomStrategyPlayer);
-
-			Player<TDCoordinate> maximizeStrategyPlayer = Player.newPlayer(
-					"maximize_player", Color.RED);
-
-			players.add(maximizeStrategyPlayer);
-
-			Player<TDCoordinate> minimizeStrategyPlayer = Player.newPlayer(
-					"minimize_player", Color.GREEN);
-
-			players.add(minimizeStrategyPlayer);
-
-			Player<TDCoordinate> dumbStrategyPlayer = Player.newPlayer(
-					"dumb_player", Color.YELLOW);
-			players.add(dumbStrategyPlayer);
-
-			log.debug("Random Strategy Player is in the Game");
-			log.debug("Maximize Strategy Player is in the Game");
-			log.debug("Minimize Strategy Player is in the Game");
+			// Player<TDCoordinate> randomStrategyPlayer = Player.newPlayer(
+			// "random_player", Color.BLUE);
+			//
+			// randomStrategyPlayer.setPlayStrategy(new RandomStrategy());
+			// players.add(randomStrategyPlayer);
+			//
+			// Player<TDCoordinate> maximizeStrategyPlayer = Player.newPlayer(
+			// "maximize_player", Color.RED);
+			//
+			// players.add(maximizeStrategyPlayer);
+			//
+			// Player<TDCoordinate> minimizeStrategyPlayer = Player.newPlayer(
+			// "minimize_player", Color.GREEN);
+			//
+			// players.add(minimizeStrategyPlayer);
+			//
+			// Player<TDCoordinate> dumbStrategyPlayer = Player.newPlayer(
+			// "dumb_player", Color.YELLOW);
+			// players.add(dumbStrategyPlayer);
+			//
+			// log.debug("Random Strategy Player is in the Game");
+			// log.debug("Maximize Strategy Player is in the Game");
+			// log.debug("Minimize Strategy Player is in the Game");
 
 			kingdoms.start(players);
 			for (Player<?> player : players) {
@@ -115,15 +115,6 @@ public class KingdomsTest {
 					player.setStartingTile(kingdoms.drawTile());
 				}
 			}
-			MaximizeStrategy maximizeStrategy = new MaximizeStrategy();
-			maximizeStrategy.setEntries(kingdoms.getEntries());
-			maximizeStrategyPlayer.setPlayStrategy(maximizeStrategy);
-
-			MinimizeStrategy minimizeStrategy = new MinimizeStrategy();
-			minimizeStrategy.setEntries(kingdoms.getEntries());
-			minimizeStrategyPlayer.setPlayStrategy(minimizeStrategy);
-			DumbStrategy dumbStrategy = new DumbStrategy();
-			dumbStrategyPlayer.setPlayStrategy(dumbStrategy);
 
 		}
 
@@ -134,8 +125,8 @@ public class KingdomsTest {
 
 		presentable.present();
 
-		System.out.println();
-		System.out.println();
+		Console.print("");
+		Console.print("");
 
 		while (kingdoms.getEpochCounter().isNextAvailable()) {
 			log.info("Level: " + kingdoms.getEpochCounter().getCurrentLevel());
@@ -147,22 +138,21 @@ public class KingdomsTest {
 					log.info("Save Game - Press s");
 					final String str = br.readLine();
 					if ("s".equals(str.toLowerCase().trim())) {
-						saveMyGame(br, kingdoms);
+						saveMyGame(br);
 					}
 					log.info(player.getName() + ">");
 					player.myTurn();
 					presentable.present();
-					System.out.println();
-					System.out
-							.println("________________________________________________________________________________");
-					System.out.println();
+					Console.print("");
+					Console.print("________________________________________________________________________________");
+					Console.print("");
 				}
 			}
 			log.info(kingdoms.getEpochCounter().getCurrentLevel()
 					+ " Level Completed!!");
 			Map<Color, Score> scoreCard = kingdoms.score();
 			assignScore(players, scoreCard);
-			
+
 			for (Player player : players) {
 				kingdoms.getEpochCounter().addNewScore(player, scoreCard);
 			}
@@ -173,53 +163,53 @@ public class KingdomsTest {
 				kingdoms.moveToNextLevel();
 				presentable = new Console<TDCoordinate>(kingdoms.getEntries());
 				presentable.present();
-				System.out.println();
-				System.out.println();
+				Console.print("");
+				Console.print("");
 			}
 		}
-		System.out.println("----GAME FINISHED----");
+		Console.print("----GAME FINISHED----");
+
 	}
 
 	public static void printFinalScore(List<Player<TDCoordinate>> players,
 			Map<Color, Score> finalScore) {
 		if (finalScore == null) {
-			System.out.println("No Entry Found");
+			Console.print("No Entry Found");
 			return;
 		}
-		System.out
-				.println("============================================================================");
-		System.out.println("Current Level Score:");
+		Console.print("============================================================================");
+		Console.print("Current Level Score:");
 		Iterator<Color> itr = finalScore.keySet().iterator();
 		while (itr.hasNext()) {
 			Color color = itr.next();
 			Score score = finalScore.get(color);
-			System.out.print(color + " ");
-			System.out.print(score.getRowScore() + " ");
-			System.out.print(score.getColumnScore() + " ");
-			System.out.println(score.score());
+			Console.print(color + " ");
+			Console.print(score.getRowScore() + " ");
+			Console.print(score.getColumnScore() + " ");
+			Console.print(score.score() + "");
 		}
 		System.out
-				.println("--------------------------------------------------------------------------");
-		System.out.println("Player's Score:");
+				.print("--------------------------------------------------------------------------");
+		Console.print("Player's Score:");
 
 		for (Player<?> player : players) {
-			System.out.println("Name:" + player.getName());
-			System.out.println("Color:" + player.getChosenColor());
-			System.out.println("Score:" + player.getTotalScore());
+			Console.print("Name:" + player.getName());
+			Console.print("Color:" + player.getChosenColor());
+			Console.print("Score:" + player.getTotalScore());
 		}
 		System.out
-				.println("============================================================================");
+				.print("============================================================================");
 	}
 
-	private static void assignScore(final List<Player<TDCoordinate>> players,
+	private void assignScore(final List<Player<TDCoordinate>> players,
 			Map<Color, Score> scoreCard) {
 		for (Player<?> player : players) {
 			player.addNewScore(scoreCard.get(player.getChosenColor()));
 		}
 	}
 
-	private static void saveMyGame(BufferedReader br, final Kingdoms kingdoms)
-			throws GameException, IOException {
+	private void saveMyGame(BufferedReader br) throws GameException,
+			IOException {
 		log.debug("Give a name to file");
 		String fileName = br.readLine();
 		kingdoms.setFileName(fileName);
@@ -279,5 +269,104 @@ public class KingdomsTest {
 			}
 		}
 		throw new GameException("Choose valid color");
+	}
+
+	private List<Player<TDCoordinate>> initPlayers(BufferedReader br)
+			throws IOException, InstantiationException, IllegalAccessException,
+			ClassNotFoundException {
+
+		final List<Player<TDCoordinate>> players = Lists.newArrayList();
+
+		int totalPlayers = Console.readInt(br, "Enter Number of Players");
+
+		while (totalPlayers > 0) {
+			// give a name to player
+			log.info("Enter Player Name:");
+			String name = br.readLine();
+			if ("".equals(name)) {
+				name = "default" + totalPlayers;
+				log.debug("Assigned default name " + name);
+			}
+			final Color color = choseColor(br);
+			Player<TDCoordinate> player = Player.newPlayer(name, color);
+			player.setPlayStrategy(choseStrategy(br));
+			players.add(player);
+			totalPlayers--;
+		}
+		return players;
+	}
+
+	private IStrategy<TDCoordinate> choseStrategy(BufferedReader br)
+			throws IOException, InstantiationException, IllegalAccessException,
+			ClassNotFoundException {
+		return readStrategy(br);
+	}
+
+	private IStrategy<TDCoordinate> readStrategy(BufferedReader br)
+			throws IOException, InstantiationException, IllegalAccessException,
+			ClassNotFoundException {
+		// all the nick names for each strategy class
+		for (Strategy strategy : Strategy.values()) {
+			Console.print(strategy.name());
+		}
+		// pick a strategy
+		String strategyClass = null;
+		while (strategyClass == null) {
+			String strategyType = Console.readString(br, "Choose a Strategy:");
+			strategyClass = Strategy.valueOf(strategyType.toUpperCase())
+					.getClassName();
+		}
+		// create the object of that strategy
+		Object strategy = Class.forName(strategyClass).newInstance();
+		// in case the strategy needs to know about the entries
+		if (strategy instanceof IEntriesAware) {
+			((IEntriesAware) strategy).setEntries(kingdoms.getEntries());
+		}
+		return (IStrategy<TDCoordinate>) strategy;
+	}
+
+	private Color choseColor(BufferedReader br) throws IOException {
+		// give a color to player
+		final List<Color> colors = Arrays.asList(Color.values());
+		Color color = null;
+		boolean invalidColor = true;
+		while (invalidColor) {
+			color = readColor(br, colors);
+			if (color != null) {
+				invalidColor = false;
+			}
+		}// while end
+		return color;
+	}
+
+	private Color readColor(BufferedReader br, List<Color> colors)
+			throws IOException {
+
+		final String chosenColor = Console.readString(br, "Choose one color: "
+				+ colors);
+		Color retColor = null;
+		for (Color color : colors) {
+			if (chosenColor.equalsIgnoreCase(color.toString())) {
+				retColor = color;
+			}
+		}
+		if (retColor != null) {
+			colors.set(colors.indexOf(retColor), null);
+		}
+		return retColor;
+	}
+
+	/**
+	 * Entry point function
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 */
+	public static void main(String[] args) throws IOException, GameException,
+			InstantiationException, IllegalAccessException,
+			ClassNotFoundException {
+		KingdomsTest testUI = new KingdomsTest();
+		testUI.start();
 	}
 }

@@ -9,6 +9,7 @@ import java.util.Random;
 import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.Entry;
+import org.concordia.kingdoms.board.IEntriesAware;
 import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Tile;
@@ -22,7 +23,8 @@ import com.google.common.collect.Maps;
  * @author Team K
  * @since 1.1
  */
-public class MaximizeStrategy implements IStrategy<TDCoordinate> {
+public class MaximizeStrategy implements IStrategy<TDCoordinate>,
+		IEntriesAware<TDCoordinate> {
 
 	private VirtualTDMatrix tdMatrix;
 
