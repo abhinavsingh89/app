@@ -92,7 +92,4 @@ public class Console<T extends TDCoordinate> implements Presentable {
 		return input;
 	}
 
-	public static void print(String msg) {
-		System.out.println(msg);
-	}
 }

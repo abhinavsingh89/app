@@ -183,12 +183,14 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		columnsScores = Lists.newArrayList();
 
 		for (int row = 0; row < MAX_ROWS; row++) {
+
 			final List<Integer> scores = Lists.newArrayList();
 			getTilesScore(0, MAX_COLUMNS, row, true, scores);
 			this.rowsScores.add(scores);
 			List<Map<Color, Integer>> rowRanks = Lists.newArrayList();
 			rowsRanks.add(rowRanks);
 			this.getCastleRankScore(0, MAX_COLUMNS, row, true, rowRanks);
+
 		}
 
 		List<List<Map<Color, Integer>>> columnsRanks = Lists.newArrayList();
@@ -246,18 +248,26 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 			List<List<Map<Color, Integer>>> rowsOrColumnsRanks,
 			Map<Color, Score> finalScore, boolean isRow,
 			List<List<Integer>> rowsOrColumnsScores) {
+
 		for (int i = 0; i < rowsOrColumnsRanks.size(); i++) {
+
 			List<Map<Color, Integer>> rowOrColumnRanks = rowsOrColumnsRanks
 					.get(i);
 			for (int j = 0; j < rowOrColumnRanks.size(); j++) {
+
 				Map<Color, Integer> colorRanks = rowOrColumnRanks.get(j);
+
 				if (colorRanks.keySet().isEmpty()) {
 					continue;
 				}
+
 				Iterator<Color> colorItr = colorRanks.keySet().iterator();
+
 				while (colorItr.hasNext()) {
+
 					Color color = colorItr.next();
 					Integer finalRank = colorRanks.get(color);
+					// row or column score multiplied by the cumulative rank
 					int finalRowScore = finalRank
 							* rowsOrColumnsScores.get(i).get(j);
 					if (isRow) {

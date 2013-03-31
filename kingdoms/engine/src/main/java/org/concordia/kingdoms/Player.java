@@ -231,7 +231,9 @@ public class Player<T extends ICoordinate> implements IBoardAware<T> {
 	 * @param newScore
 	 */
 	public void addNewScore(Score newScore) {
-		this.scores.add(newScore);
+		if (newScore != null) {
+			this.scores.add(newScore);
+		}
 	}
 
 	/**

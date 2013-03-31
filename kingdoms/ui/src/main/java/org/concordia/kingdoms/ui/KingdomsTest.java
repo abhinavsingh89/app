@@ -47,8 +47,8 @@ public class KingdomsTest {
 		// players
 		List<Player<TDCoordinate>> players = Lists.newArrayList();
 
-		Console.print("1.Resume the saved game - Press r");
-		Console.print("2.New Game - Press  any key");
+		System.out.println("1.Resume the saved game - Press r");
+		System.out.println("2.New Game - Press  any key");
 
 		// console reader
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -58,7 +58,8 @@ public class KingdomsTest {
 		final String reply = Console.readString(br, "");
 		// if resume
 		if ("r".equals(reply.toLowerCase().trim())) {
-			Console.print("Give Absolute path to the file you saved the xml");
+			System.out
+					.println("Give Absolute path to the file you saved the xml");
 			String filePath = br.readLine();
 			kingdoms.resume(new File(filePath));
 			players = kingdoms.getPlayers();
@@ -74,7 +75,6 @@ public class KingdomsTest {
 					player.setStartingTile(kingdoms.drawTile());
 				}
 			}
-
 		}
 
 		Presentable presentable = new Console<TDCoordinate>(
@@ -82,8 +82,8 @@ public class KingdomsTest {
 
 		presentable.present();
 
-		Console.print("");
-		Console.print("");
+		System.out.println("");
+		System.out.println("");
 
 		while (kingdoms.isNextAvailable()) {
 
@@ -105,12 +105,18 @@ public class KingdomsTest {
 					if ("s".equals(str.toLowerCase().trim())) {
 						saveMyGame(br);
 					}
-					Console.print(player.getName() + ">");
+					System.out.println(player.getName() + ">");
 					player.takeTurn();
 					presentable.present();
-					Console.print("");
-					Console.print("________________________________________________________________________________");
-					Console.print("");
+					// calculate and show score after each turn
+					Map<Color, Score> scoreMap = kingdoms.score();
+					assignScore(players, scoreMap);
+					printFinalScore(players, scoreMap);
+
+					System.out.println("");
+					System.out
+							.println("________________________________________________________________________________");
+					System.out.println("");
 
 				}
 			}
@@ -131,11 +137,11 @@ public class KingdomsTest {
 				kingdoms.moveToNextLevel();
 				presentable = new Console<TDCoordinate>(kingdoms.getEntries());
 				presentable.present();
-				Console.print("");
-				Console.print("");
+				System.out.println("");
+				System.out.println("");
 			}
 		}
-		Console.print("----GAME FINISHED----");
+		System.out.println("----GAME FINISHED----");
 	}
 
 	private void assignStrategies(List<Player<TDCoordinate>> players,
@@ -144,8 +150,8 @@ public class KingdomsTest {
 			ClassNotFoundException {
 		for (Player<TDCoordinate> player : players) {
 
-			Console.print("Choose a Strategy for player :" + player.getName()
-					+ ">");
+			System.out.println("Choose a Strategy for player :"
+					+ player.getName() + ">");
 			player.setPlayStrategy(readStrategy(br));
 		}
 	}
@@ -153,35 +159,32 @@ public class KingdomsTest {
 	public static void printFinalScore(List<Player<TDCoordinate>> players,
 			Map<Color, Score> finalScore) {
 		if (finalScore == null) {
-			Console.print("No Entry Found");
+			System.out.println("No Entry Found");
 			return;
 		}
-		Console.print("============================================================================");
-		Console.print("Current Level Score:");
+		System.out.println("Current Level Score:");
 		Iterator<Color> itr = finalScore.keySet().iterator();
 		while (itr.hasNext()) {
 			Color color = itr.next();
 			Score score = finalScore.get(color);
-			Console.print(color + " ");
-			Console.print(score.getRowScore() + " ");
-			Console.print(score.getColumnScore() + " ");
-			Console.print(score.score() + "");
+			System.out.println(color + " ");
+			System.out.print(score.getRowScore() + " ");
+			System.out.print(score.getColumnScore() + " ");
+			System.out.print(score.score() + "");
 		}
-		Console.print("--------------------------------------------------------------------------");
-		Console.print("Player's Score:");
+		System.out.println("Player's Score:");
 
 		for (Player<?> player : players) {
-			Console.print("Name:" + player.getName());
-			Console.print("Color:" + player.getChosenColor());
-			Console.print("Score:" + player.getTotalScore());
+			System.out.println("Name:" + player.getName());
+			System.out.println("Color:" + player.getChosenColor());
+			System.out.println("Score:" + player.getTotalScore());
 		}
-		Console.print("============================================================================");
 	}
 
 	private void assignScore(final List<Player<TDCoordinate>> players,
-			Map<Color, Score> scoreCard) {
+			Map<Color, Score> scoreMap) {
 		for (Player<?> player : players) {
-			player.addNewScore(scoreCard.get(player.getChosenColor()));
+			player.addNewScore(scoreMap.get(player.getChosenColor()));
 		}
 	}
 
@@ -233,7 +236,7 @@ public class KingdomsTest {
 			ClassNotFoundException {
 		// all the nick names for each strategy class
 		for (Strategy strategy : Strategy.values()) {
-			Console.print(strategy.name());
+			System.out.println(strategy.name());
 		}
 		// pick a strategy
 		String strategyClass = null;
