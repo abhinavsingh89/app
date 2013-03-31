@@ -63,6 +63,12 @@ public class Entry<T extends ICoordinate> {
 		this.component = component;
 	}
 
+	Component setNull() {
+		Component removedComponent = this.component;
+		this.component = null;
+		return removedComponent;
+	}
+
 	/**
 	 * @return true if this entry holds a component otherwise false
 	 */

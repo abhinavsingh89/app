@@ -5,16 +5,17 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.EpochCounter;
-import org.concordia.kingdoms.board.IBoardAware;
 import org.concordia.kingdoms.board.ICoordinate;
 import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Tile;
+import org.concordia.kingdoms.domain.TileType;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 import org.slf4j.Logger;
@@ -75,11 +76,34 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 				// initialize the board with empty entries
 				this.initBoard(players);
 				log.debug("Board iniitalized Successfully");
+				this.putSpecialTilesOnBoard();
 			}
 		} else {
 			// when game is already in progress, resume the game but not start
 			throw new GameException("Game Already in Progress");
 		}
+	}
+
+	private void putSpecialTilesOnBoard() throws GameRuleException {
+		List<T> coordinates = this.board.getAvailableCoordinates();
+		/*
+		 * At the start of each epoch: The Wizard, Dragon and Gold Mine tiles
+		 * will all be placed on the board in randomly-selected locations
+		 */
+		Random random = new Random();
+		// first random integer
+		int r1 = random.nextInt(coordinates.size());
+		// random coordinate
+		T c1 = coordinates.get(r1);
+		this.board.putTileOnBoard(c1, TileType.WIZARD);
+		// second random integer
+		int r2 = random.nextInt(coordinates.size());
+		T c2 = coordinates.get(r2);
+		this.board.putTileOnBoard(c2, TileType.DRAGON);
+		// third random integer
+		int r3 = random.nextInt(coordinates.size());
+		T c3 = coordinates.get(r3);
+		this.board.putTileOnBoard(c3, TileType.GOLDMINE);
 	}
 
 	/**
@@ -192,7 +216,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 
 	@Override
 	public boolean isLevelCompleted() {
-		return !this.board.isEmpty();
+		return this.board.isFull();
 	}
 
 	/**
@@ -233,6 +257,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	public void moveToNextLevel() throws GameRuleException {
 		this.epochCounter.goNextLevel();
 		this.board.levelChange(newCoordinate(), builder);
+		putSpecialTilesOnBoard();
 	}
 
 	/**
@@ -271,6 +296,16 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	 */
 	public boolean isTileBankEmpty() {
 		return this.board.isTileBankEmpty();
+	}
+
+	/**
+	 * method used for checking if the next level is available.
+	 * 
+	 * @return true/false
+	 */
+	public boolean isNextAvailable() {
+
+		return getEpochCounter().isNextAvailable();
 	}
 
 	/**

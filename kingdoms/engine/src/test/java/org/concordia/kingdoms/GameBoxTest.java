@@ -6,6 +6,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.concordia.kingdoms.board.TileBank;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.domain.TileType;
 import org.concordia.kingdoms.spring.SpringContainer;

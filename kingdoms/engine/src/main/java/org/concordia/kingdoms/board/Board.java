@@ -15,12 +15,12 @@ import java.util.Map;
 import org.concordia.kingdoms.CoinBank;
 import org.concordia.kingdoms.GameBox;
 import org.concordia.kingdoms.Player;
-import org.concordia.kingdoms.TileBank;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
 import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.Tile;
+import org.concordia.kingdoms.domain.TileType;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 import org.concordia.kingdoms.spring.SpringContainer;
 
@@ -174,6 +174,10 @@ public class Board<T extends ICoordinate> {
 		return this.matrix.isEmpty();
 	}
 
+	public boolean isFull() {
+		return this.matrix.getAvailableCoordinates().size() == 0;
+	}
+
 	public Map<Color, Score> score() {
 		return this.matrix.score();
 	}
@@ -202,7 +206,7 @@ public class Board<T extends ICoordinate> {
 			}
 		}
 		this.tileBank.addTiles(retTiles);
-		this.matrix = boardBuilder.buildEmptyBoard(coordinate);
+		this.matrix.clearAllEntries();
 	}
 
 	private Map<Color, Player<?>> resolvePlayersColors() {
@@ -226,4 +230,9 @@ public class Board<T extends ICoordinate> {
 		return this.matrix.getAvailableCoordinates();
 	}
 
+	public void putTileOnBoard(T coordinate, TileType type)
+			throws GameRuleException {
+		Tile drawnTile = this.tileBank.drawTile(type);
+		putComponent(drawnTile, coordinate);
+	}
 }

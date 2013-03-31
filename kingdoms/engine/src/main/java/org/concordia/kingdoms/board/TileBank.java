@@ -3,11 +3,12 @@
  * @author Team K
  * @since 1.0
  */
-package org.concordia.kingdoms;
+package org.concordia.kingdoms.board;
 
 import java.util.Collections;
 import java.util.List;
 
+import org.concordia.kingdoms.GameBox;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.domain.TileType;
 import org.concordia.kingdoms.spring.SpringContainer;
@@ -63,10 +64,24 @@ public class TileBank {
 	}
 
 	/**
-	 * 
+	 * true if the tile bank ran out of all tiles
 	 */
 
 	public boolean isEmpty() {
 		return this.tiles.isEmpty();
+	}
+
+	Tile drawTile(TileType type) {
+		Tile retTile = null;
+		for (Tile tile : tiles) {
+			if (type.equals(tile.getType())) {
+				retTile = tile;
+				break;
+			}
+		}
+		if (retTile != null) {
+			this.tiles.remove(retTile);
+		}
+		return retTile;
 	}
 }

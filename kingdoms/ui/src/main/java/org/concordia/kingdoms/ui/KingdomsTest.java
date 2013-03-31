@@ -19,7 +19,6 @@ import org.concordia.kingdoms.board.factory.TDBoardBuilder;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.exceptions.GameException;
 import org.concordia.kingdoms.strategies.IStrategy;
-import org.concordia.kingdoms.strategies.UserInputStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,18 +43,20 @@ public class KingdomsTest {
 			ClassNotFoundException {
 
 		// 2 dimensional kingdoms game with 3 levels
-		kingdoms = new TDKingdoms(new TDBoardBuilder(), 3);
+		kingdoms = new TDKingdoms(new TDBoardBuilder(), 6);
 		// players
 		List<Player<TDCoordinate>> players = Lists.newArrayList();
 
 		Console.print("1.Resume the saved game - Press r");
 		Console.print("2.New Game - Press  any key");
 
+		// console reader
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
 				System.in));
 
+		// user input
 		final String reply = Console.readString(br, "");
-
+		// if resume
 		if ("r".equals(reply.toLowerCase().trim())) {
 			Console.print("Give Absolute path to the file you saved the xml");
 			String filePath = br.readLine();
@@ -63,7 +64,7 @@ public class KingdomsTest {
 			players = kingdoms.getPlayers();
 			assignStrategies(players, br);
 		}
-
+		// new game
 		else {
 			players = initPlayers(br);
 			kingdoms.start(players);
@@ -79,32 +80,38 @@ public class KingdomsTest {
 		Presentable presentable = new Console<TDCoordinate>(
 				kingdoms.getEntries());
 
-		log.info("Level: " + kingdoms.getEpochCounter().getCurrentLevel());
-
 		presentable.present();
 
 		Console.print("");
 		Console.print("");
 
-		while (kingdoms.getEpochCounter().isNextAvailable()) {
+		while (kingdoms.isNextAvailable()) {
+
 			log.info("Level: " + kingdoms.getEpochCounter().getCurrentLevel());
-			
+
 			while (!kingdoms.isLevelCompleted()) {
+
 				for (final Player<TDCoordinate> player : players) {
+
+					// break out of this loop; when the level finished, before
+					// all the players got a chance in clock wise
 					if (kingdoms.isLevelCompleted()) {
 						break;
 					}
+
 					log.info("Save Game - Press s");
+
 					final String str = br.readLine();
 					if ("s".equals(str.toLowerCase().trim())) {
 						saveMyGame(br);
 					}
-					log.info(player.getName() + ">");
+					Console.print(player.getName() + ">");
 					player.takeTurn();
 					presentable.present();
 					Console.print("");
 					Console.print("________________________________________________________________________________");
 					Console.print("");
+
 				}
 			}
 			log.info(kingdoms.getEpochCounter().getCurrentLevel()
@@ -112,12 +119,14 @@ public class KingdomsTest {
 			Map<Color, Score> scoreCard = kingdoms.score();
 			assignScore(players, scoreCard);
 
-			for (Player player : players) {
+			for (Player<?> player : players) {
 				kingdoms.getEpochCounter().addNewScore(player, scoreCard);
 			}
 
 			printFinalScore(players, scoreCard);
+
 			Collections.sort(players, Player.PlayerComparator.INSTANCE);
+
 			if (kingdoms.getEpochCounter().isNextAvailable()) {
 				kingdoms.moveToNextLevel();
 				presentable = new Console<TDCoordinate>(kingdoms.getEntries());
@@ -127,14 +136,13 @@ public class KingdomsTest {
 			}
 		}
 		Console.print("----GAME FINISHED----");
-
 	}
 
 	private void assignStrategies(List<Player<TDCoordinate>> players,
 			final BufferedReader br) throws IOException,
 			InstantiationException, IllegalAccessException,
 			ClassNotFoundException {
-		for (Player player : players) {
+		for (Player<TDCoordinate> player : players) {
 
 			Console.print("Choose a Strategy for player :" + player.getName()
 					+ ">");
@@ -167,8 +175,7 @@ public class KingdomsTest {
 			Console.print("Color:" + player.getChosenColor());
 			Console.print("Score:" + player.getTotalScore());
 		}
-		System.out
-				.print("============================================================================");
+		Console.print("============================================================================");
 	}
 
 	private void assignScore(final List<Player<TDCoordinate>> players,
@@ -188,58 +195,13 @@ public class KingdomsTest {
 	}
 
 	/**
-	 * initialize players
+	 * initialize players with the name and color
 	 * 
 	 * @param br
 	 *            - {@link BufferedReader}
 	 * @param players
 	 * @throws IOException
 	 */
-	private static void initializePlayers(BufferedReader br,
-			List<Player<TDCoordinate>> players) throws IOException {
-
-		log.info("You want to play: press y");
-
-		boolean humanPlayer = "y".equals(br.readLine().toLowerCase().trim());
-
-		if (humanPlayer) {
-			log.debug("Enter your Name:");
-			String name = br.readLine();
-			if ("".equals(name.trim())) {
-				name = "default";
-				log.debug("Assigned default name " + name);
-			}
-
-			final Color[] colors = Color.values();
-			boolean isValidColor = false;
-
-			while (!isValidColor) {
-				try {
-					log.debug("Choose one color: " + Arrays.toString(colors));
-					final String chosenColor = br.readLine();
-					final Color playerColor = stringToColor(chosenColor);
-					Player<TDCoordinate> player = Player.newPlayer(name,
-							playerColor);
-					player.setPlayStrategy(new UserInputStrategy());
-					players.add(player);
-					isValidColor = true;
-				} catch (GameException ex) {
-					log.error(ex.getMessage());
-				}
-			}
-		}
-
-		Collections.shuffle(players);
-	}
-
-	private static Color stringToColor(String chosenColor) throws GameException {
-		for (Color color : Color.values()) {
-			if (color.toString().equalsIgnoreCase(chosenColor)) {
-				return color;
-			}
-		}
-		throw new GameException("Choose valid color");
-	}
 
 	private List<Player<TDCoordinate>> initPlayers(BufferedReader br)
 			throws IOException, InstantiationException, IllegalAccessException,
@@ -262,6 +224,7 @@ public class KingdomsTest {
 			players.add(player);
 			totalPlayers--;
 		}
+		Collections.shuffle(players);
 		return players;
 	}
 

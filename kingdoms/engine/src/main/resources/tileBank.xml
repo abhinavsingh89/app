@@ -5,5 +5,5 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-	<bean name="tileBank" class="org.concordia.kingdoms.TileBank" />
+	<bean name="tileBank" class="org.concordia.kingdoms.board.TileBank" />
 </beans>

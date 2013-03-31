@@ -592,6 +592,17 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		}
 	}
 
+	public List<Component> clearAllEntries() {
+		List<Component> components = Lists.newArrayList();
+		Iterator<Entry<TDCoordinate>> entries = getEntries();
+		while (entries.hasNext()) {
+			Entry<TDCoordinate> entry = entries.next();
+			components.add(entry.setNull());
+		}
+		initAvailableCoordinates();
+		return components;
+	}
+
 	protected void setEntries(List<List<Entry<TDCoordinate>>> entries) {
 		this.entries = entries;
 	}
@@ -599,4 +610,5 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 	public TileFinder getTileFinder() {
 		return tileFinder;
 	}
+
 }
