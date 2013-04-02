@@ -240,12 +240,40 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	}
 
 	/**
-	 * score as of now on the board
+	 * score as of now on the board, and recalculates the score for each player
 	 * 
 	 * @return
 	 */
 	public Map<Color, Score> score() {
-		return this.board.score();
+		Map<Color, Score> scoreMap = this.board.score();
+		assignScore(this.getPlayers(), scoreMap);
+		return scoreMap;
+	}
+
+	/**
+	 * 
+	 * @param players
+	 * @param scoreMap
+	 */
+	private void assignScore(final List<Player<T>> players,
+			Map<Color, Score> scoreMap) {
+		for (Player<T> player : players) {
+			if (player.getScores().size() < this.getEpochCounter()
+					.getCurrentLevel()) {
+				Color chosenColor = player.getChosenColor();
+				Score newScore = new Score(chosenColor);
+				player.addNewScore(newScore);
+			}
+
+			List<Score> scores = player.getScores();
+			Score playerScore = scores.get(this.getEpochCounter()
+					.getCurrentLevel() - 1);
+			Score currentScore = scoreMap.get(player.getChosenColor());
+			if (currentScore != null) {
+				playerScore.setRowScore(currentScore.getRowScore());
+				playerScore.setColumnScore(currentScore.getColumnScore());
+			}
+		}
 	}
 
 	/**
@@ -306,6 +334,16 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	public boolean isNextAvailable() {
 
 		return getEpochCounter().isNextAvailable();
+	}
+
+	public boolean hasAnyPlayerReachedThresholdScore() {
+		Map<Color, Score> scores = score();
+		Iterator<Color> colorItr = scores.keySet().iterator();
+		while (colorItr.hasNext()) {
+			Color color = colorItr.next();
+			scores.get(color);
+		}
+		return false;
 	}
 
 	/**

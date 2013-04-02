@@ -110,8 +110,7 @@ public class KingdomsTest {
 					presentable.present();
 					// calculate and show score after each turn
 					Map<Color, Score> scoreMap = kingdoms.score();
-					assignScore(players, scoreMap);
-					printFinalScore(players, scoreMap);
+					printFinalScore(Lists.newArrayList(player), scoreMap);
 
 					System.out.println("");
 					System.out
@@ -122,14 +121,12 @@ public class KingdomsTest {
 			}
 			log.info(kingdoms.getEpochCounter().getCurrentLevel()
 					+ " Level Completed!!");
-			Map<Color, Score> scoreCard = kingdoms.score();
-			assignScore(players, scoreCard);
 
-			for (Player<?> player : players) {
-				kingdoms.getEpochCounter().addNewScore(player, scoreCard);
-			}
-
-			printFinalScore(players, scoreCard);
+			// calculate the score
+			Map<Color, Score> scoreMap = kingdoms.score();
+			// add the final level score to the epoch
+			kingdoms.getEpochCounter().addNewScore(scoreMap);
+			printFinalScore(players, scoreMap);
 
 			Collections.sort(players, Player.PlayerComparator.INSTANCE);
 
@@ -170,7 +167,7 @@ public class KingdomsTest {
 			System.out.println(color + " ");
 			System.out.print(score.getRowScore() + " ");
 			System.out.print(score.getColumnScore() + " ");
-			System.out.print(score.score() + "");
+			System.out.println(score.score() + "");
 		}
 		System.out.println("Player's Score:");
 
@@ -178,13 +175,6 @@ public class KingdomsTest {
 			System.out.println("Name:" + player.getName());
 			System.out.println("Color:" + player.getChosenColor());
 			System.out.println("Score:" + player.getTotalScore());
-		}
-	}
-
-	private void assignScore(final List<Player<TDCoordinate>> players,
-			Map<Color, Score> scoreMap) {
-		for (Player<?> player : players) {
-			player.addNewScore(scoreMap.get(player.getChosenColor()));
 		}
 	}
 

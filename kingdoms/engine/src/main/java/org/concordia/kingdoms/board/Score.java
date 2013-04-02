@@ -13,6 +13,8 @@ import org.concordia.kingdoms.domain.Color;
  */
 public class Score {
 
+	private int level;
+
 	private int rowScore;
 
 	private int columnScore;
@@ -39,8 +41,24 @@ public class Score {
 		return this;
 	}
 
+	public void setRowScore(int rowScore) {
+		this.rowScore = rowScore;
+	}
+
+	public void setColumnScore(int columnScore) {
+		this.columnScore = columnScore;
+	}
+
 	public int score() {
 		return rowScore + columnScore;
+	}
+
+	public int getLevel() {
+		return this.level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	public int getRowScore() {
@@ -64,4 +82,5 @@ public class Score {
 		}
 
 	}
+
 }

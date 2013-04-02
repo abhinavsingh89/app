@@ -168,7 +168,11 @@ public class MinimizeStrategy implements IStrategy<TDCoordinate>,
 
 	private TDCoordinate getMaxCoordinate(
 			Map<TDCoordinate, Integer> coordinateScores) {
-		int min = Collections.min(coordinateScores.values());
+		int min = 0;
+		if (!coordinateScores.isEmpty()) {
+			min = Collections.min(coordinateScores.values());
+		}
+
 		Iterator<TDCoordinate> itr = coordinateScores.keySet().iterator();
 		TDCoordinate maxCoordinate = null;
 		int maxValue = min;
@@ -185,7 +189,10 @@ public class MinimizeStrategy implements IStrategy<TDCoordinate>,
 
 	private TDCoordinate getMinCoordinate(
 			Map<TDCoordinate, Integer> coordinateScores) {
-		int max = Collections.max(coordinateScores.values());
+		int max = 0;
+		if (!coordinateScores.isEmpty()) {
+			max = Collections.min(coordinateScores.values());
+		}
 		Iterator<TDCoordinate> itr = coordinateScores.keySet().iterator();
 		TDCoordinate minCoordinate = null;
 		int minValue = max;

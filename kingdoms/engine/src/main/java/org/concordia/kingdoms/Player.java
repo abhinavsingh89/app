@@ -251,18 +251,12 @@ public class Player<T extends ICoordinate> implements IBoardAware<T> {
 	}
 
 	/**
-	 * score is a mutable object, so returns a list of new score objects
+	 * returns a list of score objects
 	 * 
 	 * @return
 	 */
 	public List<Score> getScores() {
-		List<Score> retScores = Lists.newArrayList();
-		for (Score score : scores) {
-			Score newScore = new Score(score.getColor());
-			newScore.incrementColumnScoreBy(score.getColumnScore());
-			newScore.incrementRowScoreBy(score.getRowScore());
-		}
-		return retScores;
+		return this.scores;
 	}
 
 	/**

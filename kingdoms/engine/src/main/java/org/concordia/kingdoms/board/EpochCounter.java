@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.board.score.ScoreCard;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.exceptions.GameRuleException;
@@ -78,8 +77,7 @@ public class EpochCounter {
 		return currentLevel;
 	}
 
-	public void addNewScore(Player<? extends ICoordinate> players,
-			Map<Color, Score> newScore) {
+	public void addNewScore(Map<Color, Score> newScore) {
 		Iterator<Color> itr = newScore.keySet().iterator();
 		final List<Score> scores = Lists.newArrayList();
 		while (itr.hasNext()) {
