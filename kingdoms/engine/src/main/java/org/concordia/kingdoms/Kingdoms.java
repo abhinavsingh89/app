@@ -42,6 +42,8 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 
 	private boolean isGameInProgress = false;
 
+	private static final int THRESHOLD_SCORE = 500;
+
 	// default name used in case no filename mentioned
 	private String fileName = "kingdoms-jaxb.xml";
 
@@ -216,7 +218,18 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 
 	@Override
 	public boolean isLevelCompleted() {
-		return this.board.isFull();
+		return hasReachedThresholdScore() || this.board.isFull();
+	}
+
+	private boolean hasReachedThresholdScore() {
+		List<Player<T>> players = getPlayers();
+		for (Player<T> player : players) {
+			int totalScore = player.getTotalScore();
+			if (totalScore >= THRESHOLD_SCORE) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -333,17 +346,10 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	 */
 	public boolean isNextAvailable() {
 
-		return getEpochCounter().isNextAvailable();
-	}
-
-	public boolean hasAnyPlayerReachedThresholdScore() {
-		Map<Color, Score> scores = score();
-		Iterator<Color> colorItr = scores.keySet().iterator();
-		while (colorItr.hasNext()) {
-			Color color = colorItr.next();
-			scores.get(color);
+		if (hasReachedThresholdScore()) {
+			return false;
 		}
-		return false;
+		return getEpochCounter().isNextAvailable();
 	}
 
 	/**

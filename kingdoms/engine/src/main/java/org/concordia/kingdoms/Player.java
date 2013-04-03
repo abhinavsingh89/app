@@ -33,6 +33,8 @@ import com.google.common.collect.Maps;
  */
 public class Player<T extends ICoordinate> implements IBoardAware<T> {
 
+	private static final int MINIMUM_SCORE = 450;
+
 	private static final Logger log = LoggerFactory.getLogger(Player.class);
 
 	private String name;
@@ -243,7 +245,7 @@ public class Player<T extends ICoordinate> implements IBoardAware<T> {
 	 * @return total score
 	 */
 	public int getTotalScore() {
-		int total = 50;
+		int total = MINIMUM_SCORE;
 		for (Score score : scores) {
 			total += score.score();
 		}

@@ -105,6 +105,7 @@ public class KingdomsTest {
 					if ("s".equals(str.toLowerCase().trim())) {
 						saveMyGame(br);
 					}
+
 					System.out.println(player.getName() + ">");
 					player.takeTurn();
 					presentable.present();
@@ -130,7 +131,7 @@ public class KingdomsTest {
 
 			Collections.sort(players, Player.PlayerComparator.INSTANCE);
 
-			if (kingdoms.getEpochCounter().isNextAvailable()) {
+			if (kingdoms.isNextAvailable()) {
 				kingdoms.moveToNextLevel();
 				presentable = new Console<TDCoordinate>(kingdoms.getEntries());
 				presentable.present();
