@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.Entry;
@@ -33,7 +34,9 @@ import com.google.common.collect.Maps;
  */
 public class Player<T extends ICoordinate> implements IBoardAware<T> {
 
-	private static final int MINIMUM_SCORE = 450;
+	private static final int TOTAL_FACE_DOWN_TILES = 3;
+
+	private static final int MINIMUM_SCORE = 50;
 
 	private static final Logger log = LoggerFactory.getLogger(Player.class);
 
@@ -46,6 +49,8 @@ public class Player<T extends ICoordinate> implements IBoardAware<T> {
 	private Tile startingTile;
 
 	private boolean isStartingTileUsed;
+
+	private Stack<Tile> possessedTiles;
 
 	private Map<CoinType, List<Coin>> coins;
 
@@ -72,6 +77,7 @@ public class Player<T extends ICoordinate> implements IBoardAware<T> {
 		this.coins = Maps.newHashMap();
 		this.castles = Maps.newHashMap();
 		this.isStartingTileUsed = false;
+		this.possessedTiles = new Stack<Tile>();
 	}
 
 	public void takeTurn() {
@@ -397,6 +403,11 @@ public class Player<T extends ICoordinate> implements IBoardAware<T> {
 	}
 
 	public Tile drawTile() {
-		return board.drawTile();
+		if (possessedTiles.isEmpty()) {
+			for (int i = 0; i < TOTAL_FACE_DOWN_TILES; i++) {
+				possessedTiles.add(board.drawTile());
+			}
+		}
+		return possessedTiles.pop();
 	}
 }
