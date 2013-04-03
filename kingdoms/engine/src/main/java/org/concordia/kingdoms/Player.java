@@ -405,7 +405,10 @@ public class Player<T extends ICoordinate> implements IBoardAware<T> {
 	public Tile drawTile() {
 		if (possessedTiles.isEmpty()) {
 			for (int i = 0; i < TOTAL_FACE_DOWN_TILES; i++) {
-				possessedTiles.add(board.drawTile());
+				Tile drawnTile = board.drawTile();
+				if (drawnTile != null) {
+					possessedTiles.add(drawnTile);
+				}
 			}
 		}
 		return possessedTiles.pop();
