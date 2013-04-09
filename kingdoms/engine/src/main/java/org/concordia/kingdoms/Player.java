@@ -50,7 +50,7 @@ public class Player<T extends ICoordinate> implements IBoardAware<T> {
 
 	private boolean isStartingTileUsed;
 
-	private Stack<Tile> possessedTiles;
+	private List<Tile> possessedTiles;
 
 	private Map<CoinType, List<Coin>> coins;
 
@@ -77,7 +77,7 @@ public class Player<T extends ICoordinate> implements IBoardAware<T> {
 		this.coins = Maps.newHashMap();
 		this.castles = Maps.newHashMap();
 		this.isStartingTileUsed = false;
-		this.possessedTiles = new Stack<Tile>();
+		this.possessedTiles = Lists.newArrayList();
 	}
 
 	public void takeTurn() {
@@ -402,15 +402,41 @@ public class Player<T extends ICoordinate> implements IBoardAware<T> {
 		this.playStrategy = playStrategy;
 	}
 
-	public Tile drawTile() {
-		if (possessedTiles.isEmpty()) {
-			for (int i = 0; i < TOTAL_FACE_DOWN_TILES; i++) {
-				Tile drawnTile = board.drawTile();
-				if (drawnTile != null) {
-					possessedTiles.add(drawnTile);
-				}
-			}
+	public Tile drawTopTile() {
+		return drawTile(0);
+	}
+
+	public Tile drawTile(int i) {
+		Tile tile = null;
+		if (!possessedTiles.isEmpty()) {
+			tile = this.possessedTiles.remove(i);
+			possessTile(1);
+		} else {
+			possessTile(3);
 		}
-		return possessedTiles.pop();
+
+		return tile;
+	}
+
+	private void possessTile(int i) {
+		while (i > 0) {
+			Tile drawnTile = board.drawTile();
+			if (drawnTile != null) {
+				this.possessedTiles.add(drawnTile);
+			}
+			i--;
+		}
+	}
+
+	public List<Tile> getPossessedTiles() {
+
+		int totalTilesAvailable = possessedTiles.size();
+		int diff = 3 - totalTilesAvailable;
+
+		if (diff > 0) {
+			possessTile(diff);
+		}
+
+		return possessedTiles;
 	}
 }

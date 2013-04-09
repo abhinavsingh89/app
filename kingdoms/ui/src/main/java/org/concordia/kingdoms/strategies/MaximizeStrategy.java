@@ -124,14 +124,7 @@ public class MaximizeStrategy implements IStrategy<TDCoordinate>,
 			}
 
 			coordinateScores.put(coordinate, rowScore + columnScore);
-		}// for loop
-			// Iterator<TDCoordinate> coordinates = coordinateScores.keySet()
-		// .iterator();
-		// while (coordinates.hasNext()) {
-		// TDCoordinate coord = coordinates.next();
-		// System.out.println("(" + coord.getRow() + "," + coord.getColumn()
-		// + ")-" + coordinateScores.get(coord));
-		// }
+		}
 
 		TDCoordinate maxCoordinate = getMaxCoordinate(coordinateScores);
 
@@ -150,22 +143,36 @@ public class MaximizeStrategy implements IStrategy<TDCoordinate>,
 					player.getStartingTile());
 			return entry;
 		} else {
-			Tile tile = player.drawTile();
+			List<Tile> possessedTiles = player.getPossessedTiles();
+			Tile retTile = null;
 			TDCoordinate coordinate = null;
-			if (tile == null) {
-				if (!player.isStartingTileUsed()) {
-					tile = player.getStartingTile();
-					return new Entry<TDCoordinate>(maxCoordinate, tile);
-				}
-			} else {
-				if (tile.getValue() != null && tile.getValue() > 0) {
-					coordinate = getMaxCoordinate(coordinateScores);
-				} else {
-					coordinate = getMinCoordinate(coordinateScores);
+
+			if (!player.isStartingTileUsed()) {
+				possessedTiles.add(player.getStartingTile());
+			}
+
+			int max = 0;
+
+			for (Tile possessedTile : possessedTiles) {
+				if (possessedTile.getValue() > max) {
+					retTile = possessedTile;
+					max = possessedTile.getValue();
 				}
 			}
+			if (retTile != null) {
+				coordinate = getMaxCoordinate(coordinateScores);
+			} else {
+				int min = 0;
+				for (Tile possessedTile : possessedTiles) {
+					if (possessedTile.getValue() <= min) {
+						retTile = possessedTile;
+						min = possessedTile.getValue();
+					}
+				}
+				coordinate = getMinCoordinate(coordinateScores);
+			}
 			Entry<TDCoordinate> entry = new Entry<TDCoordinate>(coordinate,
-					tile);
+					retTile);
 			return entry;
 		}
 

@@ -11,10 +11,13 @@ import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameRuleException;
+import org.concordia.kingdoms.ui.Console;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
  * This class is used to implement strategy of human player
+ * 
  * @author Team K
  * @since 1.1
  */
@@ -80,8 +83,18 @@ public class UserInputStrategy implements IStrategy<TDCoordinate> {
 				}
 				// draw a tile
 				if ("3".equals(input.trim())) {
+					final List<Tile> possessedTiles = player
+							.getPossessedTiles();
 
-					final Tile tile = player.drawTile();
+					int i = 0;
+					for (Tile tile : possessedTiles) {
+						log.info(i++ +" "+ tile.show());
+					}
+					
+					int in = Console.readInt(br,
+							"Choose any one Possesed tiles:");
+
+					final Tile tile = player.drawTile(in);
 					log.info(tile.show());
 
 					final TDCoordinate coordinate = getCoordinate(

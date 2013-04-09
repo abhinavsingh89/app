@@ -111,21 +111,20 @@ public class MinimizeStrategy implements IStrategy<TDCoordinate>,
 	private Entry<TDCoordinate> drawTile(Player<TDCoordinate> player,
 			Map<TDCoordinate, Integer> coordinateScores,
 			TDCoordinate maxCoordinate) {
-		Tile tile = player.drawTile();
-		if (tile == null) {
-			if (!player.isStartingTileUsed()) {
-				tile = player.getStartingTile();
-				return new Entry<TDCoordinate>(maxCoordinate, tile);
-			}
-		} else {
-			if (tile.getValue() == null || tile.getValue() < 0) {
-				return new Entry<TDCoordinate>(maxCoordinate, tile);
-			} else {
-				TDCoordinate coordinate = getMinCoordinate(coordinateScores);
-				return new Entry<TDCoordinate>(coordinate, tile);
+		List<Tile> possessedTiles = player.getPossessedTiles();
+		if (!player.isStartingTileUsed()) {
+			possessedTiles.add(player.getStartingTile());
+		}
+
+		int min = 7;
+		Tile retTile = null;
+		for (Tile tile : possessedTiles) {
+			if (tile.getValue() < min) {
+				retTile = tile;
+				min = tile.getValue();
 			}
 		}
-		return null;
+		return new Entry<TDCoordinate>(maxCoordinate, retTile);
 	}
 
 	private boolean isStartingTileNegative(Player<TDCoordinate> player) {

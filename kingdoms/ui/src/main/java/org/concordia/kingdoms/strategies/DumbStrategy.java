@@ -19,7 +19,7 @@ public class DumbStrategy implements IStrategy<TDCoordinate> {
 		int rand = new Random().nextInt(emptyCoordinates.size());
 		TDCoordinate coordinate = emptyCoordinates.get(rand);
 		if (!castles.isEmpty()) {
-			Castle castle = castles.remove(castles.size()-1);
+			Castle castle = castles.remove(castles.size() - 1);
 			return new Entry<TDCoordinate>(coordinate, castle);
 		}
 		if (!tiles.isEmpty()) {
@@ -28,7 +28,7 @@ public class DumbStrategy implements IStrategy<TDCoordinate> {
 						player.getStartingTile());
 			}
 		}
-		Tile tile = player.drawTile();
+		Tile tile = player.drawTopTile();
 		return new Entry<TDCoordinate>(coordinate, tile);
 	}
 }

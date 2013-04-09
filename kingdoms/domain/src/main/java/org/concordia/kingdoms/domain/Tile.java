@@ -91,8 +91,13 @@ public class Tile implements Component, Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "T:" + this.getName().substring(0, 3) + ":" + this.getValue()
-				+ ":" + this.getType().toString().charAt(0);
+		StringBuffer sb = new StringBuffer();
+		sb.append("T:" + this.getName().substring(0, 3));
+		if (this.getValue() != null) {
+			sb.append(":" + this.getValue());
+		}
+		sb.append(":" + this.getType().toString().charAt(0));
+		return sb.toString();
 	}
 
 	/**

@@ -8,8 +8,15 @@ import java.util.List;
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.TDCoordinate;
+import org.concordia.kingdoms.domain.Castle;
+import org.concordia.kingdoms.domain.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import print.color.Ansi.Attribute;
+import print.color.Ansi.BColor;
+import print.color.Ansi.FColor;
+import print.color.ColoredPrinter;
 
 import com.google.common.collect.Lists;
 
@@ -25,6 +32,10 @@ public class Console<T extends TDCoordinate> implements Presentable {
 	private static final Logger log = LoggerFactory.getLogger(Console.class);
 
 	private List<List<Entry<T>>> entries;
+
+	ColoredPrinter cp = new ColoredPrinter.Builder(1, false)
+			.foreground(FColor.WHITE).background(BColor.BLUE) // setting format
+			.build();
 
 	/**
 	 * Constructor for console
@@ -53,11 +64,22 @@ public class Console<T extends TDCoordinate> implements Presentable {
 	// It displays output on console
 	public void present() {
 		for (int i = 0; i < Board.MAX_ROWS; i++) {
-			System.out
-					.println("------------------------------------------------------------");
+			cp.println("");
 			for (int j = 0; j < Board.MAX_COLUMNS; j++) {
+				Entry entry = this.entries.get(i).get(j);
+				Component comp = entry.getComponent();
 
-				System.out.print(this.entries.get(i).get(j));
+				String color = "BLACK";
+				if (comp == null) {
+					color = "WHITE";
+				}
+				if (comp instanceof Castle) {
+					Castle kastle = (Castle) comp;
+					color = kastle.getColor().name();
+				}
+				cp.print(this.entries.get(i).get(j) + "      ", Attribute.BOLD,
+						FColor.WHITE, BColor.valueOf(color));
+				cp.clear();
 			}
 			System.out.println();
 		}

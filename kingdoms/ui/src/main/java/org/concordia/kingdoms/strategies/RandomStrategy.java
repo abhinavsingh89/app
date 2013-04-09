@@ -10,8 +10,10 @@ import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameRuleException;
+
 /**
  * This class is used to implement strategy of the random player
+ * 
  * @author Team K
  * @since 1.1
  */
@@ -23,41 +25,54 @@ public class RandomStrategy implements IStrategy<TDCoordinate> {
 
 		int tileOrCastle = new Random().nextInt(3);
 
-		Component component = null;
+		Component retComponent = null;
 
 		// if tile is to be chosen
 		if (tileOrCastle == 0) {
 			// if tiles are available
 			if (tiles.size() != 0) {
-				component = tiles.get(0);
+				retComponent = tiles.get(0);
 			} else {
 				// if no tiles are available , check with castles
 				if (castles.size() != 0) {
-					component = castles
-							.get(new Random().nextInt(castles.size()));
+					retComponent = castles.get(new Random().nextInt(castles
+							.size()));
 				} else {
 					// if no tiles or castles are available, then draw a tile
 					// from tilebank
-					component = player.drawTile();
+					List<Tile> possessedTiles = player.getPossessedTiles();
+					if (!possessedTiles.isEmpty()) {
+						retComponent = possessedTiles.get(new Random()
+								.nextInt(possessedTiles.size()));
+					}
 				}
 			}
 		} else if (tileOrCastle == 1) {// if castle is to be chosen
 			// if castles are available
 			if (castles.size() != 0) {
-				component = castles.get(new Random().nextInt(castles.size()));
+				retComponent = castles
+						.get(new Random().nextInt(castles.size()));
 			} else {
 				// if castles are not available
 				// if tiles are avaialble
 				if (tiles.size() != 0) {
-					component = tiles.get(0);
+					retComponent = tiles.get(0);
 				} else {
 					// if no tiles or castles are available, then draw a tile
 					// from tilebank
-					component = player.drawTile();
+					List<Tile> possessedTiles = player.getPossessedTiles();
+					if (!possessedTiles.isEmpty()) {
+						retComponent = possessedTiles.get(new Random()
+								.nextInt(possessedTiles.size()));
+					}
 				}
 			}
 		} else {
-			component = player.drawTile();
+			List<Tile> possessedTiles = player.getPossessedTiles();
+			if (!possessedTiles.isEmpty()) {
+				retComponent = possessedTiles.get(new Random()
+						.nextInt(possessedTiles.size()));
+			}
 		}
 
 		// random coordinate
@@ -65,7 +80,7 @@ public class RandomStrategy implements IStrategy<TDCoordinate> {
 
 		TDCoordinate coordinate = emptyCoordinates.get(rand);
 
-		return new Entry<TDCoordinate>(coordinate, component);
+		return new Entry<TDCoordinate>(coordinate, retComponent);
 
 	}
 }
