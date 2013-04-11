@@ -20,5 +20,19 @@
 			<artifactId>engine</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>print.color</groupId>
+			<artifactId>jansi</artifactId>
+			<version>1.4</version>
+			<scope>system</scope>
+			<systemPath>C:/git-clones/app/kingdoms/ui/JCDP-1.25-win/jansi-1.4.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>print.color</groupId>
+			<artifactId>JCDP-1.25-win</artifactId>
+			<version>1.25</version>
+			<scope>system</scope>
+			<systemPath>C:/git-clones/app/kingdoms/ui/JCDP-1.25-win/JCDP-1.25-win.jar</systemPath>
+		</dependency>
 	</dependencies>
 </project>

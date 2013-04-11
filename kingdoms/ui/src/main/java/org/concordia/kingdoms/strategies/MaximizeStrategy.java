@@ -32,10 +32,11 @@ public class MaximizeStrategy implements IStrategy<TDCoordinate>,
 			List<Tile> tiles, List<Castle> castles,
 			List<TDCoordinate> emptyCoordinates) {
 
-		// when board is empty
+		// when board is empty place a castle somewhere on the board
 		if (emptyCoordinates.size() == 30) {
 			Castle castle = castles.get(0);
 			int randomIdx = new Random().nextInt(emptyCoordinates.size());
+			// arbitrary position
 			TDCoordinate coordinate = emptyCoordinates.get(randomIdx);
 			return new Entry<TDCoordinate>(coordinate, castle);
 		}
@@ -180,13 +181,17 @@ public class MaximizeStrategy implements IStrategy<TDCoordinate>,
 
 	private TDCoordinate getMaxCoordinate(
 			Map<TDCoordinate, Integer> coordinateScores) {
+
 		int min = Collections.min(coordinateScores.values());
+		int max = Collections.max(coordinateScores.values());
+
 		Iterator<TDCoordinate> itr = coordinateScores.keySet().iterator();
 		TDCoordinate maxCoordinate = null;
 		int maxValue = min;
 		while (itr.hasNext()) {
 			TDCoordinate tdCoordinate = itr.next();
 			int value = coordinateScores.get(tdCoordinate);
+
 			if (maxValue <= value) {
 				maxValue = value;
 				maxCoordinate = tdCoordinate;
@@ -210,6 +215,13 @@ public class MaximizeStrategy implements IStrategy<TDCoordinate>,
 			}
 		}
 		return minCoordinate;
+	}
+
+	private void hasDragon(TDCoordinate coordinate) {
+		// find if there is a dragon if no mountain in between
+		// avoid this coordinate
+		// incase ran out of all possible coordinates and left with this place,
+		// go ahead and place here
 	}
 
 	public void setEntries(Iterator<Entry<TDCoordinate>> entries) {

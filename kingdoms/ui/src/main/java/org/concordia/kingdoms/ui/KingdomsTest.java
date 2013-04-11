@@ -22,10 +22,10 @@ import org.concordia.kingdoms.strategies.IStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import print.color.ColoredPrinter;
 import print.color.Ansi.Attribute;
 import print.color.Ansi.BColor;
 import print.color.Ansi.FColor;
+import print.color.ColoredPrinter;
 
 import com.google.common.collect.Lists;
 
@@ -43,6 +43,11 @@ public class KingdomsTest {
 
 	private Kingdoms<TDCoordinate> kingdoms;
 
+	static ColoredPrinter cp = new ColoredPrinter.Builder(1, false)
+			.foreground(FColor.BLACK).background(BColor.WHITE) // setting
+																// format
+			.build();
+
 	public void start() throws IOException, GameException,
 			InstantiationException, IllegalAccessException,
 			ClassNotFoundException {
@@ -51,14 +56,9 @@ public class KingdomsTest {
 		kingdoms = new TDKingdoms(new TDBoardBuilder(), 6);
 		// players
 		List<Player<TDCoordinate>> players = Lists.newArrayList();
-		// example of a Colored terminal Printer (WINDOWS or UNIX)
-		ColoredPrinter cp = new ColoredPrinter.Builder(1, false)
-				.foreground(FColor.BLACK).background(BColor.WHITE) // setting
-																		// format
-				.build();
-		cp.println("1.Resume the saved game - Press r");
-		cp.println("2.New Game - Press  any key");
-		cp.clear();
+
+		System.out.println("1.Resume the saved game - Press r");
+		System.out.println("2.New Game - Press  any key");
 		// console reader
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
 				System.in));
@@ -115,18 +115,14 @@ public class KingdomsTest {
 						saveMyGame(br);
 					}
 
-					System.out.println(player.getName() + ">");
+					cp.print(player.getName() + "\t", Attribute.BOLD,
+							FColor.WHITE,
+							BColor.valueOf(player.getChosenColor().name()));
 					player.takeTurn();
 					presentable.present();
 					// calculate and show score after each turn
 					Map<Color, Score> scoreMap = kingdoms.score();
 					printFinalScore(Lists.newArrayList(player), scoreMap);
-
-					System.out.println("");
-					System.out
-							.println("________________________________________________________________________________");
-					System.out.println("");
-
 				}
 			}
 			log.info(kingdoms.getEpochCounter().getCurrentLevel()
@@ -144,8 +140,6 @@ public class KingdomsTest {
 				kingdoms.moveToNextLevel();
 				presentable = new Console<TDCoordinate>(kingdoms.getEntries());
 				presentable.present();
-				System.out.println("");
-				System.out.println("");
 			}
 		}
 		System.out.println("----GAME FINISHED----");
@@ -169,22 +163,23 @@ public class KingdomsTest {
 			System.out.println("No Entry Found");
 			return;
 		}
-		System.out.println();
 		System.out.println("Current Level Score:");
 		Iterator<Color> itr = finalScore.keySet().iterator();
 		while (itr.hasNext()) {
 			Color color = itr.next();
 			Score score = finalScore.get(color);
-			System.out.print(color + " ");
-			System.out.print(score.getRowScore() + " ");
-			System.out.print(score.getColumnScore() + " ");
-			System.out.print(score.score() + "  ");
+
+			cp.print(score.getRowScore() + "\t" + score.getColumnScore() + "\t"
+					+ score.score(), Attribute.BOLD, FColor.WHITE,
+					BColor.valueOf(color.name()));
+
 		}
-		System.out.println();
 		for (Player<?> player : players) {
-			System.out.print("Name:" + player.getName() + "  ");
-			System.out.print("Color:" + player.getChosenColor() + " ");
-			System.out.println("Score:" + player.getTotalScore());
+			cp.print(player.getName() + "\t", Attribute.BOLD,
+					FColor.WHITE, BColor.BLACK);
+			cp.print(player.getTotalScore() + "   ", Attribute.BOLD,
+					FColor.BLACK, BColor.RED);
+			cp.clear();
 		}
 	}
 
