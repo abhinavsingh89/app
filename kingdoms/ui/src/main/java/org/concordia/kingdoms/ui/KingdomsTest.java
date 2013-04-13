@@ -118,8 +118,13 @@ public class KingdomsTest {
 					cp.print(player.getName() + "\t", Attribute.BOLD,
 							FColor.WHITE,
 							BColor.valueOf(player.getChosenColor().name()));
+					cp.clear();
 					player.takeTurn();
 					presentable.present();
+					for (int i = 0; i < 10; i++) {
+						System.out.println();
+					}
+
 					// calculate and show score after each turn
 					Map<Color, Score> scoreMap = kingdoms.score();
 					printFinalScore(Lists.newArrayList(player), scoreMap);
@@ -172,11 +177,11 @@ public class KingdomsTest {
 			cp.print(score.getRowScore() + "\t" + score.getColumnScore() + "\t"
 					+ score.score(), Attribute.BOLD, FColor.WHITE,
 					BColor.valueOf(color.name()));
-
+			cp.clear();
 		}
 		for (Player<?> player : players) {
-			cp.print(player.getName() + "\t", Attribute.BOLD,
-					FColor.WHITE, BColor.BLACK);
+			cp.print(player.getName() + "\t", Attribute.BOLD, FColor.WHITE,
+					BColor.BLACK);
 			cp.print(player.getTotalScore() + "   ", Attribute.BOLD,
 					FColor.BLACK, BColor.RED);
 			cp.clear();

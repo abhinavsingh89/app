@@ -14,6 +14,7 @@ import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Tile;
+import org.concordia.kingdoms.domain.TileType;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -119,6 +120,10 @@ public class MinimizeStrategy implements IStrategy<TDCoordinate>,
 		int min = 7;
 		Tile retTile = null;
 		for (Tile tile : possessedTiles) {
+			if (tile.getValue() == null) {
+				retTile = tile;
+				continue;
+			}
 			if (tile.getValue() < min) {
 				retTile = tile;
 				min = tile.getValue();
