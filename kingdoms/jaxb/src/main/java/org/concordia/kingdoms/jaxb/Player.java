@@ -43,6 +43,10 @@ public class Player {
 	@XmlElement(name = "castle")
 	private List<Castle> castles;
 
+	@XmlElementWrapper(name = "possessedTiles")
+	@XmlElement(name = "possessedTiles")
+	private List<Tile> possessedTiles;
+
 	public Player() {
 		this.scores = Lists.newArrayList();
 	}
@@ -101,6 +105,14 @@ public class Player {
 
 	public void setStrategyName(String strategyName) {
 		this.strategyName = strategyName;
+	}
+
+	public List<Tile> getPossessedTiles() {
+		return possessedTiles;
+	}
+
+	public void setPossessedTiles(List<Tile> possessedTiles) {
+		this.possessedTiles = possessedTiles;
 	}
 
 }

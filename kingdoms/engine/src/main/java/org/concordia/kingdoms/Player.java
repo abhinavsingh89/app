@@ -430,12 +430,22 @@ public class Player<T extends ICoordinate> implements IBoardAware<T> {
 	public List<Tile> getPossessedTiles() {
 
 		int totalTilesAvailable = possessedTiles.size();
-		int diff = 3 - totalTilesAvailable;
+		int diff = TOTAL_FACE_DOWN_TILES - totalTilesAvailable;
 
 		if (diff > 0) {
 			possessTile(diff);
 		}
 
 		return possessedTiles;
+	}
+
+	public void setPossessedTiles(List<Tile> tiles) {
+		int i = 0;
+		if (tiles != null) {
+			while (possessedTiles.size() < 3 && i < tiles.size()) {
+				possessedTiles.add(tiles.get(i));
+				i++;
+			}
+		}
 	}
 }

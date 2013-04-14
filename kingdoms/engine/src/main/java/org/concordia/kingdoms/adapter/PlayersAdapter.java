@@ -37,12 +37,15 @@ public class PlayersAdapter
 		List<org.concordia.kingdoms.jaxb.Player> jaxbPlayers = Lists
 				.newArrayList();
 		for (final Player<TDCoordinate> player : players) {
+			// player's name
 			String name = player.getName();
+			// player's scores
 			List<Score> scores = player.getScores();
+			// player's starting tile, null if already used
 			Tile startTile = player.getStartingTile();
 			boolean isStartingTileUsed = player.isStartingTileUsed();
-			Map<CoinType, List<Coin>> coins = player.getCoins();
 			Map<Integer, List<Castle>> castles = player.getCastles();
+			// player's chosen color
 			Color color = player.getChosenColor();
 
 			org.concordia.kingdoms.jaxb.Player jaxbPlayer = new org.concordia.kingdoms.jaxb.Player();
@@ -51,9 +54,16 @@ public class PlayersAdapter
 			if (startTile != null) {
 				jaxbPlayer.setStartingTile(AdapterUtil.newJaxbTile(startTile));
 			}
+			// starting tile used or not
 			jaxbPlayer.setStartingTileUsed(isStartingTileUsed);
+
+			// possessed tiles
+			jaxbPlayer.setPossessedTiles(AdapterUtil.newJaxbTiles(player
+					.getPossessedTiles()));
+			// player's IStrategy
 			jaxbPlayer.setStrategyName(player.getPlayStrategy().getClass()
 					.getName());
+			// player's holding castle(s)
 			Iterator<Integer> castleItr = castles.keySet().iterator();
 			List<org.concordia.kingdoms.jaxb.Castle> jaxbCastles = Lists
 					.newArrayList();
@@ -115,6 +125,9 @@ public class PlayersAdapter
 			player.setPlayStrategy(strategy);
 
 			player.setStartingTileUsed(jaxbPlayer.isStartingTileUsed());
+
+			player.setPossessedTiles(AdapterUtil.newTiles(jaxbPlayer
+					.getPossessedTiles()));
 
 			Map<Integer, List<Castle>> castleMap = AdapterUtil
 					.reoslveCastles(AdapterUtil.newCastles(jaxbCastles));
