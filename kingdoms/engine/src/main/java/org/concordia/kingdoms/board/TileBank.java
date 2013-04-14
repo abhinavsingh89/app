@@ -84,4 +84,8 @@ public class TileBank {
 		}
 		return retTile;
 	}
+
+	public void shuffleTiles() {
+		Collections.shuffle(tiles);
+	}
 }

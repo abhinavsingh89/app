@@ -278,6 +278,7 @@ public class Board<T extends ICoordinate> {
 			}
 		}
 		this.tileBank.addTiles(retTiles);
+		this.tileBank.shuffleTiles();
 	}
 
 	public void shuffle(Set<T> effectedCoordinates) throws GameRuleException {
