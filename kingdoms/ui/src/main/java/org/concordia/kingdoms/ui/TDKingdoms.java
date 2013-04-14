@@ -12,7 +12,10 @@ import org.concordia.kingdoms.adapter.AdapterUtil;
 import org.concordia.kingdoms.adapter.EntriesAdapter;
 import org.concordia.kingdoms.adapter.PlayersAdapter;
 import org.concordia.kingdoms.board.Board;
+import org.concordia.kingdoms.board.EarthQuake;
 import org.concordia.kingdoms.board.Entry;
+import org.concordia.kingdoms.board.IDisaster;
+import org.concordia.kingdoms.board.MudSlide;
 import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
 import org.concordia.kingdoms.board.factory.TDBoardBuilder;
@@ -127,5 +130,13 @@ public class TDKingdoms extends Kingdoms<TDCoordinate> {
 			throw new GameException(e.getMessage());
 		}
 		return gameState;
+	}
+
+	@Override
+	protected List<IDisaster<TDCoordinate>> getDisasters() {
+		List<IDisaster<TDCoordinate>> disasters = Lists.newArrayList();
+		disasters.add(new EarthQuake());
+		disasters.add(new MudSlide());
+		return disasters;
 	}
 }

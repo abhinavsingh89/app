@@ -8,9 +8,11 @@ package org.concordia.kingdoms.board;
  *
  */
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.concordia.kingdoms.CoinBank;
 import org.concordia.kingdoms.GameBox;
@@ -37,6 +39,8 @@ public class Board<T extends ICoordinate> {
 
 	private List<Player<T>> players;
 
+	private List<IDisaster<T>> disasters;
+
 	public static final int MAX_ROWS = 5;
 
 	public static final int MAX_COLUMNS = 6;
@@ -51,6 +55,7 @@ public class Board<T extends ICoordinate> {
 		this.tileBank = null;
 		this.coinBank = null;
 		this.players = Lists.newArrayList();
+		this.disasters = Lists.newArrayList();
 	}
 
 	/**
@@ -66,6 +71,10 @@ public class Board<T extends ICoordinate> {
 	public void putComponent(Component component, T coordinate)
 			throws GameRuleException {
 		this.matrix.putComponent(component, coordinate);
+		for (IDisaster<T> disaster : disasters) {
+			disaster.strike(this);
+		}
+
 	}
 
 	/**
@@ -175,7 +184,7 @@ public class Board<T extends ICoordinate> {
 	}
 
 	public boolean isFull() {
-		return this.matrix.getAvailableCoordinates().size() == 0;
+		return this.matrix.getAvailableCoordinates().isEmpty();
 	}
 
 	public Map<Color, Score> score() {
@@ -184,6 +193,7 @@ public class Board<T extends ICoordinate> {
 
 	public void levelChange(final T coordinate,
 			final BoardBuilder<T> boardBuilder) {
+
 		final Iterator<Entry<T>> entries = getEntries();
 		Map<Color, Player<?>> playersColor = resolvePlayersColors();
 		final GameBox gameBox = SpringContainer.INSTANCE.getBean("gameBox",
@@ -234,5 +244,63 @@ public class Board<T extends ICoordinate> {
 			throws GameRuleException {
 		Tile drawnTile = this.tileBank.drawTile(type);
 		putComponent(drawnTile, coordinate);
+	}
+
+	public void setDisasters(List<IDisaster<T>> disasters) {
+		this.disasters = disasters;
+	}
+
+	public void returnComponent(Set<T> effectedCoordinates,
+			List<TileType> tileTypes) {
+		List<Tile> retTiles = Lists.newArrayList();
+		for (T effectedCoordinate : effectedCoordinates) {
+			Component component = this.matrix.getComponent(effectedCoordinate);
+			if (component instanceof Tile) {
+				Tile tile = (Tile) component;
+				if (!tileTypes.contains(tile.getType())) {
+					this.matrix.removeComponent(effectedCoordinate);
+					retTiles.add(tile);
+				} else {
+					return;
+				}
+			}
+
+			Map<Color, Player<?>> playersColor = resolvePlayersColors();
+
+			// if component is castle
+			if (component instanceof Castle) {
+				// castle's color
+				final Color color = ((Castle) component).getColor();
+				// give it back to the player
+				playersColor.get(color).addCastle(component.getValue(),
+						Lists.newArrayList(((Castle) component)));
+				this.matrix.removeComponent(effectedCoordinate);
+			}
+		}
+		this.tileBank.addTiles(retTiles);
+	}
+
+	public void shuffle(Set<T> effectedCoordinates) throws GameRuleException {
+
+		List<T> coordList = Lists.newArrayList();
+		List<Component> compList = Lists.newArrayList();
+		for (T coord : effectedCoordinates) {
+			coordList.add(coord);
+		}
+
+		Collections.shuffle(coordList);
+
+		for (int i = 0; i < coordList.size(); i++) {
+			T t = coordList.get(i);
+			compList.add(matrix.removeComponent(t));
+		}
+
+		int i = 0;
+
+		for (T t : effectedCoordinates) {
+			this.matrix.putComponent(compList.get(i), t);
+			i++;
+		}
+
 	}
 }

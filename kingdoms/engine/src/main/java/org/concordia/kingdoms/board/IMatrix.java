@@ -7,8 +7,6 @@ import org.concordia.kingdoms.board.score.ScoreService;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.exceptions.GameRuleException;
 
-import com.google.common.collect.Lists;
-
 /**
  * @author Team K
  * @since 1.1
@@ -39,4 +37,7 @@ public interface IMatrix<T extends ICoordinate> extends ScoreService<T> {
 
 	List<Component> clearAllEntries();
 
+	Component removeComponent(T coordinate);
+
+	Component getComponent(T coordinate);
 }

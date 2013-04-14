@@ -68,7 +68,7 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		this.rowsScores = Lists.newArrayList();
 		this.columnsScores = Lists.newArrayList();
 		this.initEntries();
-		this.initAvailableCoordinates();
+
 	}
 
 	/**
@@ -87,6 +87,8 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 			}
 			this.entries.add(columns);
 		}
+		componentsOnBoard = 0;
+		this.initAvailableCoordinates();
 	}
 
 	/**
@@ -610,7 +612,20 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 			components.add(entry.setNull());
 		}
 		initAvailableCoordinates();
+		componentsOnBoard = 0;
 		return components;
+	}
+
+	public Component removeComponent(TDCoordinate coordinate) {
+		Entry<?> entry = this.entries.get(coordinate.getRow()).get(
+				coordinate.getColumn());
+		Component retComponent = entry.getComponent();
+		if (retComponent != null) {
+			entry.setNull();
+			availableCoordinates.add(coordinate);
+			componentsOnBoard--;
+		}
+		return retComponent;
 	}
 
 	protected void setEntries(List<List<Entry<TDCoordinate>>> entries) {
@@ -619,6 +634,11 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 
 	public TileFinder getTileFinder() {
 		return tileFinder;
+	}
+
+	public Component getComponent(TDCoordinate coordinate) {
+		return this.entries.get(coordinate.getRow())
+				.get(coordinate.getColumn()).getComponent();
 	}
 
 }

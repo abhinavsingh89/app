@@ -121,9 +121,6 @@ public class KingdomsTest {
 					cp.clear();
 					player.takeTurn();
 					presentable.present();
-					for (int i = 0; i < 10; i++) {
-						System.out.println();
-					}
 
 					// calculate and show score after each turn
 					Map<Color, Score> scoreMap = kingdoms.score();

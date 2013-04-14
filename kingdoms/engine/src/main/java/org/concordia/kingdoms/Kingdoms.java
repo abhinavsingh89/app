@@ -11,6 +11,7 @@ import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.EpochCounter;
 import org.concordia.kingdoms.board.ICoordinate;
+import org.concordia.kingdoms.board.IDisaster;
 import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.factory.BoardBuilder;
 import org.concordia.kingdoms.domain.Color;
@@ -77,6 +78,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 			} else {
 				// initialize the board with empty entries
 				this.initBoard(players);
+				this.board.setDisasters(getDisasters());
 				log.debug("Board iniitalized Successfully");
 				this.putSpecialTilesOnBoard();
 			}
@@ -360,6 +362,8 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	protected abstract T newCoordinate();
 
 	protected abstract void saveCoordinate(GameState<T> gameState);
+
+	protected abstract List<IDisaster<T>> getDisasters();
 
 	protected void save(org.concordia.kingdoms.GameState<T> gameState)
 			throws GameException {
