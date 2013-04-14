@@ -113,7 +113,10 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		this.entries.get(row).get(column).setComponent(component);
 		this.tileFinder.rememberCoordinate(component, coordinate);
 		this.componentsOnBoard++;
-		this.availableCoordinates.remove(coordinate);
+		if (component != null) {
+			this.availableCoordinates.remove(coordinate);
+		}
+
 	}
 
 	/**

@@ -36,10 +36,14 @@ public interface IDisaster<T extends ICoordinate> extends IDisasterTiming {
 			TDCoordinate randomCoordinate = TDCoordinate.newInstance(row,
 					column);
 
+			System.out.println("Disaster Coordinate:("
+					+ randomCoordinate.getRow() + ","
+					+ randomCoordinate.getColumn() + ")");
+
 			Set<TDCoordinate> coordinates = Sets.newHashSet();
 
 			int towardsHorizontal = random.nextInt(3);
-			int maxCoordinates = random.nextInt(4);
+			int maxCoordinates = random.nextInt(4) + 1;
 			if (towardsHorizontal == 0) {
 				// only left
 				getLeftCoordinates(randomCoordinate, maxCoordinates,
@@ -85,7 +89,7 @@ public interface IDisaster<T extends ICoordinate> extends IDisasterTiming {
 
 			int row = coordinate.getRow();
 			int column = coordinate.getColumn();
-			while (column > 0 && maxCoordinates > 0) {
+			while (column >= 0 && maxCoordinates > 0) {
 				TDCoordinate c = TDCoordinate.newInstance(row, column);
 				coordinates.add(c);
 				column--;
@@ -109,7 +113,7 @@ public interface IDisaster<T extends ICoordinate> extends IDisasterTiming {
 				int maxCoordinates, Set<TDCoordinate> coordinates) {
 			int row = coordinate.getRow();
 			int column = coordinate.getColumn();
-			while (row > 0 && maxCoordinates > 0) {
+			while (row >= 0 && maxCoordinates > 0) {
 				TDCoordinate c = TDCoordinate.newInstance(row, column);
 				coordinates.add(c);
 				row--;
@@ -128,6 +132,5 @@ public interface IDisaster<T extends ICoordinate> extends IDisasterTiming {
 				maxCoordinates--;
 			}
 		}
-
 	}
 }
