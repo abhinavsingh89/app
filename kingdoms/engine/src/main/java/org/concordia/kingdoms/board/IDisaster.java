@@ -43,26 +43,65 @@ public interface IDisaster<T extends ICoordinate> extends IDisasterTiming {
 			Set<TDCoordinate> coordinates = Sets.newHashSet();
 
 			int towardsHorizontal = random.nextInt(3);
-			int maxCoordinates = random.nextInt(4) + 1;
+			int towardsVertical = random.nextInt(3);
+			int maxVerticalCoordinates = random.nextInt(4) + 1;
+
 			if (towardsHorizontal == 0) {
 				// only left
-				getLeftCoordinates(randomCoordinate, maxCoordinates,
-						coordinates);
+				fillLeftVerticalThickness(row, column, coordinates,
+						towardsVertical, maxVerticalCoordinates);
 			}
 
 			if (towardsHorizontal == 1) {
-				getRightCoordinates(randomCoordinate, maxCoordinates,
-						coordinates);
+
+				fillRightVerticalThickness(row, column, coordinates,
+						towardsVertical, maxVerticalCoordinates);
 			}
 
 			if (towardsHorizontal == 2) {
-				getLeftCoordinates(randomCoordinate, maxCoordinates / 2,
-						coordinates);
-				getRightCoordinates(randomCoordinate, maxCoordinates
-						- maxCoordinates / 2, coordinates);
+
+				fillLeftVerticalThickness(row, column, coordinates,
+						towardsVertical, maxVerticalCoordinates / 2);
+
+				fillRightVerticalThickness(row, column, coordinates,
+						towardsVertical, maxVerticalCoordinates
+								- maxVerticalCoordinates / 2);
 			}
 
-			int towardsVertical = random.nextInt(3);
+			return coordinates;
+		}
+
+		private static void fillRightVerticalThickness(int row, int column,
+				Set<TDCoordinate> coordinates, int towardsVertical,
+				int maxVerticalCoordinates) {
+			int verticalThickness = maxVerticalCoordinates;
+			while (verticalThickness > 0) {
+				fillVerticalCoordinates(TDCoordinate.newInstance(row, column),
+						coordinates,
+						random.nextInt(maxVerticalCoordinates) + 1,
+						towardsVertical);
+				verticalThickness--;
+				column++;
+			}
+		}
+
+		private static void fillLeftVerticalThickness(int row, int column,
+				Set<TDCoordinate> coordinates, int towardsVertical,
+				int maxVerticalCoordinates) {
+			int verticalThickness = maxVerticalCoordinates;
+			while (verticalThickness > 0) {
+				fillVerticalCoordinates(TDCoordinate.newInstance(row, column),
+						coordinates,
+						random.nextInt(maxVerticalCoordinates) + 1,
+						towardsVertical);
+				verticalThickness--;
+				column--;
+			}
+		}
+
+		private static void fillVerticalCoordinates(
+				TDCoordinate randomCoordinate, Set<TDCoordinate> coordinates,
+				int maxCoordinates, int towardsVertical) {
 
 			if (towardsVertical == 0) {
 				// only top
@@ -80,8 +119,6 @@ public interface IDisaster<T extends ICoordinate> extends IDisasterTiming {
 				getBottomCoordinates(randomCoordinate, maxCoordinates
 						- maxCoordinates / 2, coordinates);
 			}
-
-			return coordinates;
 		}
 
 		private static void getLeftCoordinates(TDCoordinate coordinate,
