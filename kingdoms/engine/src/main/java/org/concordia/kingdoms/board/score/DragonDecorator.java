@@ -1,8 +1,5 @@
 package org.concordia.kingdoms.board.score;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-
 import org.concordia.kingdoms.board.IDecorator;
 import org.concordia.kingdoms.domain.Component;
 import org.concordia.kingdoms.domain.Tile;

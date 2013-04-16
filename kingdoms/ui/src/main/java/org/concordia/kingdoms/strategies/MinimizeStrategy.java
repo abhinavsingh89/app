@@ -14,7 +14,6 @@ import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.domain.Castle;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Tile;
-import org.concordia.kingdoms.domain.TileType;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -80,6 +79,12 @@ public class MinimizeStrategy implements IStrategy<TDCoordinate>,
 		}
 
 		TDCoordinate maxCoordinate = getMaxCoordinate(coordinateScores);
+		if (maxCoordinate == null) {
+			if (!emptyCoordinates.isEmpty()) {
+				maxCoordinate = emptyCoordinates
+						.remove(emptyCoordinates.size() - 1);
+			}
+		}
 
 		if (isStartingTileNegative(player)) {
 			return new Entry<TDCoordinate>(maxCoordinate,
@@ -179,12 +184,11 @@ public class MinimizeStrategy implements IStrategy<TDCoordinate>,
 
 		Iterator<TDCoordinate> itr = coordinateScores.keySet().iterator();
 		TDCoordinate maxCoordinate = null;
-		int maxValue = min;
 		while (itr.hasNext()) {
 			TDCoordinate tdCoordinate = itr.next();
 			int value = coordinateScores.get(tdCoordinate);
-			if (maxValue <= value) {
-				maxValue = value;
+			if (value >= min) {
+				min = value;
 				maxCoordinate = tdCoordinate;
 			}
 		}

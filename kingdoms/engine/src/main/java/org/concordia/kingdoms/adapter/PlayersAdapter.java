@@ -8,8 +8,6 @@ import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.board.Score;
 import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.domain.Castle;
-import org.concordia.kingdoms.domain.Coin;
-import org.concordia.kingdoms.domain.CoinType;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.domain.Tile;
 import org.concordia.kingdoms.exceptions.GameRuleException;
