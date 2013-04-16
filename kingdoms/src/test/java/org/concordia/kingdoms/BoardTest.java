@@ -1,5 +1,5 @@
 /**
- *Class for testing of Board.
+ *Class for testing of Kingdoms Board.
  *@author Team K
  *@since version 1.0
 */
