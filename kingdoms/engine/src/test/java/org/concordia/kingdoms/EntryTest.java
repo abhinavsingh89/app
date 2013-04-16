@@ -1,3 +1,8 @@
+/**
+ *Class for Entry test.
+ *@author Team K
+ *@since version 1.0
+*/
 package org.concordia.kingdoms;
 
 import junit.framework.TestCase;

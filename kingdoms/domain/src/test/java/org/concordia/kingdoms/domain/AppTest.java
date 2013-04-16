@@ -1,3 +1,8 @@
+/**
+ * Class for App Test
+ * @author Team K 
+ * @since 1.0
+ */
 package org.concordia.kingdoms.domain;
 
 import junit.framework.Test;

@@ -71,10 +71,10 @@ public class Board<T extends ICoordinate> {
 	public void putComponent(Component component, T coordinate)
 			throws GameRuleException {
 		this.matrix.putComponent(component, coordinate);
+		// all ready to fire disasters will be striken next
 		for (IDisaster<T> disaster : disasters) {
 			disaster.strike(this);
 		}
-
 	}
 
 	/**
@@ -191,6 +191,14 @@ public class Board<T extends ICoordinate> {
 		return this.matrix.score();
 	}
 
+	/**
+	 * when an epoch ends, and prepares for the next level, some cleanup on the
+	 * board must be done before moving on. which includes returning all the
+	 * castles on the board to the respective player(s).
+	 * 
+	 * @param coordinate
+	 * @param boardBuilder
+	 */
 	public void levelChange(final T coordinate,
 			final BoardBuilder<T> boardBuilder) {
 
@@ -198,9 +206,10 @@ public class Board<T extends ICoordinate> {
 		Map<Color, Player<?>> playersColor = resolvePlayersColors();
 		final GameBox gameBox = SpringContainer.INSTANCE.getBean("gameBox",
 				GameBox.class);
+		// tiles going to be returned to tilebank
 		List<Tile> retTiles = Lists.newArrayList();
+		// scan through all the entries on the board
 		while (entries.hasNext()) {
-
 			final Entry<T> entry = entries.next();
 
 			final Component component = entry.getComponent();
@@ -211,11 +220,16 @@ public class Board<T extends ICoordinate> {
 				// give it back to the player
 				playersColor.get(color).addCastle(component.getValue(),
 						Lists.newArrayList(((Castle) component)));
-			} else {
+			}
+			if (component instanceof Tile) {
 				retTiles.add((Tile) component);
 			}
 		}
+		// returning all the tiles from the board to the tilebank
 		this.tileBank.addTiles(retTiles);
+		// this method is important call without this the whole game will be
+		// inconsistent, because before calling the tiles are on the board and
+		// also in the tilebank
 		this.matrix.clearAllEntries();
 	}
 
@@ -250,6 +264,9 @@ public class Board<T extends ICoordinate> {
 		this.disasters = disasters;
 	}
 
+	// return the component back to the player if the component is a Castle
+	// otherwise if it is a tile return to Tilebank, leaving all those tiles
+	// which are immune to be returned.
 	public void returnComponent(Set<T> effectedCoordinates,
 			List<TileType> tileTypes) {
 		List<Tile> retTiles = Lists.newArrayList();
@@ -261,7 +278,7 @@ public class Board<T extends ICoordinate> {
 					this.matrix.removeComponent(effectedCoordinate);
 					retTiles.add(tile);
 				} else {
-					return;
+					continue;
 				}
 			}
 
@@ -281,8 +298,9 @@ public class Board<T extends ICoordinate> {
 		this.tileBank.shuffleTiles();
 	}
 
+	// shuffles the component(s) positions from its original position to a
+	// random location among themselves
 	public void shuffle(Set<T> effectedCoordinates) throws GameRuleException {
-
 		List<T> coordList = Lists.newArrayList();
 		List<Component> compList = Lists.newArrayList();
 		for (T coord : effectedCoordinates) {

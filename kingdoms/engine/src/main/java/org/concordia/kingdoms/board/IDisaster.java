@@ -75,7 +75,7 @@ public interface IDisaster<T extends ICoordinate> extends IDisasterTiming {
 				Set<TDCoordinate> coordinates, int towardsVertical,
 				int maxVerticalCoordinates) {
 			int verticalThickness = maxVerticalCoordinates;
-			while (verticalThickness > 0) {
+			while (verticalThickness > 0 && column < Board.MAX_COLUMNS) {
 				fillVerticalCoordinates(TDCoordinate.newInstance(row, column),
 						coordinates,
 						random.nextInt(maxVerticalCoordinates) + 1,
@@ -89,7 +89,7 @@ public interface IDisaster<T extends ICoordinate> extends IDisasterTiming {
 				Set<TDCoordinate> coordinates, int towardsVertical,
 				int maxVerticalCoordinates) {
 			int verticalThickness = maxVerticalCoordinates;
-			while (verticalThickness > 0) {
+			while (verticalThickness > 0 && column >= 0) {
 				fillVerticalCoordinates(TDCoordinate.newInstance(row, column),
 						coordinates,
 						random.nextInt(maxVerticalCoordinates) + 1,
@@ -118,31 +118,6 @@ public interface IDisaster<T extends ICoordinate> extends IDisasterTiming {
 						coordinates);
 				getBottomCoordinates(randomCoordinate, maxCoordinates
 						- maxCoordinates / 2, coordinates);
-			}
-		}
-
-		private static void getLeftCoordinates(TDCoordinate coordinate,
-				int maxCoordinates, Set<TDCoordinate> coordinates) {
-
-			int row = coordinate.getRow();
-			int column = coordinate.getColumn();
-			while (column >= 0 && maxCoordinates > 0) {
-				TDCoordinate c = TDCoordinate.newInstance(row, column);
-				coordinates.add(c);
-				column--;
-				maxCoordinates--;
-			}
-		}
-
-		private static void getRightCoordinates(TDCoordinate coordinate,
-				int maxCoordinates, Set<TDCoordinate> coordinates) {
-			int row = coordinate.getRow();
-			int column = coordinate.getColumn();
-			while (column < Board.MAX_COLUMNS && maxCoordinates > 0) {
-				TDCoordinate c = TDCoordinate.newInstance(row, column);
-				coordinates.add(c);
-				column++;
-				maxCoordinates--;
 			}
 		}
 
