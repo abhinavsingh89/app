@@ -300,7 +300,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	 */
 	public synchronized void moveToNextLevel() throws GameRuleException {
 		this.epochCounter.goNextLevel();
-		this.board.levelChange(newCoordinate(), builder);
+		this.board.levelChange(builder);
 		putSpecialTilesOnBoard();
 	}
 

@@ -120,9 +120,9 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		entry.setDisasterType(type);
 		entry.setComponent(component);
 		this.tileFinder.rememberCoordinate(component, coordinate);
-		this.componentsOnBoard++;
 		if (component != null) {
 			this.availableCoordinates.remove(coordinate);
+			this.componentsOnBoard++;
 		}
 
 	}

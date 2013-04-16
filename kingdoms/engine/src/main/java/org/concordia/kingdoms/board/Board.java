@@ -199,8 +199,7 @@ public class Board<T extends ICoordinate> {
 	 * @param coordinate
 	 * @param boardBuilder
 	 */
-	public synchronized void levelChange(final T coordinate,
-			final BoardBuilder<T> boardBuilder) {
+	public synchronized void levelChange(final BoardBuilder<T> boardBuilder) {
 
 		final Iterator<Entry<T>> entries = getEntries();
 		Map<Color, Player<?>> playersColor = resolvePlayersColors();

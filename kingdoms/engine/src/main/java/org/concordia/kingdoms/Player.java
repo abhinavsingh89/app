@@ -413,7 +413,9 @@ public class Player<T extends ICoordinate> implements IBoardAware<T> {
 		} else {
 			possessTile(3);
 		}
-
+		if (!possessedTiles.isEmpty()) {
+			tile = possessedTiles.get(0);
+		}
 		return tile;
 	}
 

@@ -141,8 +141,8 @@ public class TDBoardBuilder implements BoardBuilder<TDCoordinate> {
 			final Map<CoinType, List<Coin>> coinMap = Maps.newHashMap();
 			final GameBox gameBox = SpringContainer.INSTANCE
 					.getBean(GameBox.class);
-			coinMap.put(CoinType.GOLD_50,
-					gameBox.takeCoins(CoinType.GOLD_50, 1));
+			// coinMap.put(CoinType.GOLD_50,
+			// gameBox.takeCoins(CoinType.GOLD_50, 1));
 			player.setCoins(coinMap);
 			gameBox.assignRankOneCastles(player, players.size());
 			gameBox.assignCastles(player, players.size());

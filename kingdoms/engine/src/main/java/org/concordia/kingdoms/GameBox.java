@@ -65,23 +65,6 @@ public class GameBox {
 	}
 
 	/**
-	 * method allows to take coins from the gamebox, this actaully removes coins
-	 * from the game box, so make sure you use it appropriately
-	 */
-	public List<Coin> takeCoins(CoinType type, int size) throws GameException {
-		final List<Coin> coinList = this.coins.get(type);
-		if (size > coinList.size()) {
-			throw new GameException(size + " coins of type " + type
-					+ " are not available");
-		}
-		final List<Coin> retCoins = Lists.newArrayList();
-		for (int i = 0; i < size; i++) {
-			retCoins.add(coinList.remove(i));
-		}
-		return retCoins;
-	}
-
-	/**
 	 * Each player chooses a color and takes all the rank 2, 3, and 4 castles of
 	 * his color
 	 * 

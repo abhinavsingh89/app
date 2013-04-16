@@ -2,7 +2,7 @@
  *Class for testing of Kingdoms Board.
  *@author Team K
  *@since version 1.0
-*/
+ */
 package org.concordia.kingdoms;
 
 import java.util.List;
@@ -36,9 +36,9 @@ public class BoardTest extends TestCase {
 		players4.add(Player.newPlayer("testPlayer3", Color.RED));
 
 		try {
-			board = boardBuilder.buildBoard(
-					TDCoordinate.newInstance(Board.MAX_ROWS, Board.MAX_COLUMNS),
-					players4);
+			board = boardBuilder
+					.buildBoard(TDCoordinate.newInstance(Board.MAX_ROWS,
+							Board.MAX_COLUMNS), players4);
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
