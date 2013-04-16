@@ -1,3 +1,8 @@
+/**
+ *Class for testing of Kingdoms Board.
+ *@author Team K
+ *@since version 1.0
+*/
 package org.concordia.kingdoms;
 
 import java.util.List;
