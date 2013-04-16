@@ -1,3 +1,8 @@
+/**
+ * Class for matrix test
+ * @author Team K
+ * @since 2.0
+ */
 package org.concordia.kingdoms;
 
 import java.util.List;
@@ -18,6 +23,10 @@ import com.google.common.collect.Lists;
 
 public class TDMatrixTest extends TestCase {
 	// M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	/**
+	 * Function for testing RHMRHD
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testRHMRHD() {
 		TDMatrix matrix = new TDMatrix(5, 6);
 		try {
@@ -47,6 +56,10 @@ public class TDMatrixTest extends TestCase {
 		}
 	}
 
+	/**
+	 * Function for testing RHMRMD
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testRHMRMD() {
 		TDMatrix matrix = new TDMatrix(5, 6);
 		try {
@@ -77,6 +90,10 @@ public class TDMatrixTest extends TestCase {
 		}
 	}
 
+	/**
+	 * Function for testing MRHRDM
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testMRHRDM() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -107,6 +124,10 @@ public class TDMatrixTest extends TestCase {
 
 	}
 
+	/**
+	 * Function for testing MRHRWM
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testMRHRWM() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -137,6 +158,10 @@ public class TDMatrixTest extends TestCase {
 
 	}
 
+	/**
+	 * Function for testing RRHRDM
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testRRHRDM() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -167,6 +192,10 @@ public class TDMatrixTest extends TestCase {
 
 	}
 
+	/**
+	 * Function for testing MRHRDR
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testMRHRDR() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -196,6 +225,10 @@ public class TDMatrixTest extends TestCase {
 
 	}
 
+	/**
+	 * Function for testing MGRMDH
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testMGRMDH() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -227,7 +260,11 @@ public class TDMatrixTest extends TestCase {
 		}
 
 	}
-
+	
+	/**
+	 * Function for testing MGRHDH
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testMGRHDH() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -259,6 +296,10 @@ public class TDMatrixTest extends TestCase {
 
 	}
 
+	/**
+	 * Function for testing MMRRHH
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testMMRRHH() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -289,7 +330,10 @@ public class TDMatrixTest extends TestCase {
 		}
 
 	}
-
+	/**
+	 * Function for testing RCCCHC
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testRCCCHC() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -318,7 +362,10 @@ public class TDMatrixTest extends TestCase {
 		}
 
 	}
-
+	/**
+	 * Function for testing CGRRMW
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testCGRRMW() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -350,7 +397,10 @@ public class TDMatrixTest extends TestCase {
 		}
 
 	}
-
+	/**
+	 * Function for testing RRCHHC
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testRRCHHC() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -379,7 +429,10 @@ public class TDMatrixTest extends TestCase {
 		}
 
 	}
-
+	/**
+	 * Function for testing CDRMCR
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testCDRMCR() {
 		TDMatrix matrix = new TDMatrix(5, 6);
 		try {
@@ -408,7 +461,10 @@ public class TDMatrixTest extends TestCase {
 		}
 
 	}
-
+	/**
+	 * Function for testing HHCCRR
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testHHCCRR() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -436,6 +492,10 @@ public class TDMatrixTest extends TestCase {
 
 	}
 
+	/**
+	 * Function for testing RCRCH
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testColumnRCRCH() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -460,6 +520,10 @@ public class TDMatrixTest extends TestCase {
 
 	}
 
+	/**
+	 * Function for testing CGRDH
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testColumnCGRDH() {
 		TDMatrix matrix = new TDMatrix(5, 6);
 		try {
@@ -485,6 +549,10 @@ public class TDMatrixTest extends TestCase {
 
 	}
 
+	/**
+	 * Function for testing CRCRC
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testColumnCRCRC() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -509,6 +577,10 @@ public class TDMatrixTest extends TestCase {
 
 	}
 
+	/**
+	 * Function for testing CRHMC
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testColumnCRHMC() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
@@ -535,6 +607,10 @@ public class TDMatrixTest extends TestCase {
 
 	}
 
+	/**
+	 * Function for testing HMHCR
+	 * M=Mountain,G=GoldMine,R=ResourceTile,H=HazardTile,C=Castle,W=Wizard
+	 */
 	public void testColumnHMHCR() {
 		TDMatrix matrix = new TDMatrix(5, 6);
 		try {
@@ -561,6 +637,9 @@ public class TDMatrixTest extends TestCase {
 
 	}
 
+	/**
+	 * Function for testing full board score
+	 */
 	public void testFullBoardScore() {
 
 		TDMatrix matrix = new TDMatrix(5, 6);
