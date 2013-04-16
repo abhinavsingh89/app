@@ -1,3 +1,8 @@
+/**
+ * Class for coordinates test
+ * @author Team K
+ * @since 2.0
+ */
 package org.concordia.kingdoms;
 
 import org.concordia.kingdoms.board.TDCoordinate;
