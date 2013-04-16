@@ -1,3 +1,8 @@
+/**
+ *Class for Gamebox Test.
+ *@author Team K
+ *@since version 1.0
+*/
 package org.concordia.kingdoms;
 
 import java.util.Iterator;
