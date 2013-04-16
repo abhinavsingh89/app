@@ -68,7 +68,7 @@ public class Board<T extends ICoordinate> {
 	 * @param column
 	 *            - row column
 	 */
-	public void putComponent(Component component, T coordinate)
+	public synchronized void putComponent(Component component, T coordinate)
 			throws GameRuleException {
 		this.matrix.putComponent(component, coordinate);
 		// all ready to fire disasters will be striken next
@@ -199,7 +199,7 @@ public class Board<T extends ICoordinate> {
 	 * @param coordinate
 	 * @param boardBuilder
 	 */
-	public void levelChange(final T coordinate,
+	public synchronized void levelChange(final T coordinate,
 			final BoardBuilder<T> boardBuilder) {
 
 		final Iterator<Entry<T>> entries = getEntries();
@@ -242,7 +242,7 @@ public class Board<T extends ICoordinate> {
 		return colorMap;
 	}
 
-	public Tile drawTile() {
+	public synchronized Tile drawTile() {
 		return tileBank.drawTile();
 	}
 
@@ -257,7 +257,9 @@ public class Board<T extends ICoordinate> {
 	public void putTileOnBoard(T coordinate, TileType type)
 			throws GameRuleException {
 		Tile drawnTile = this.tileBank.drawTile(type);
-		putComponent(drawnTile, coordinate);
+		synchronized (this) {
+			putComponent(drawnTile, coordinate);
+		}
 	}
 
 	public void setDisasters(List<IDisaster<T>> disasters) {
@@ -267,15 +269,16 @@ public class Board<T extends ICoordinate> {
 	// return the component back to the player if the component is a Castle
 	// otherwise if it is a tile return to Tilebank, leaving all those tiles
 	// which are immune to be returned.
-	public void returnComponent(Set<T> effectedCoordinates,
-			List<TileType> tileTypes) {
+	public synchronized void returnComponent(Set<T> effectedCoordinates,
+			List<TileType> tileTypes, DisasterType type) {
 		List<Tile> retTiles = Lists.newArrayList();
 		for (T effectedCoordinate : effectedCoordinates) {
 			Component component = this.matrix.getComponent(effectedCoordinate);
+
 			if (component instanceof Tile) {
 				Tile tile = (Tile) component;
 				if (!tileTypes.contains(tile.getType())) {
-					this.matrix.removeComponent(effectedCoordinate);
+					this.matrix.removeComponent(effectedCoordinate, type);
 					retTiles.add(tile);
 				} else {
 					continue;
@@ -291,8 +294,9 @@ public class Board<T extends ICoordinate> {
 				// give it back to the player
 				playersColor.get(color).addCastle(component.getValue(),
 						Lists.newArrayList(((Castle) component)));
-				this.matrix.removeComponent(effectedCoordinate);
+				this.matrix.removeComponent(effectedCoordinate, type);
 			}
+			this.matrix.markDisaster(type, effectedCoordinate);
 		}
 		this.tileBank.addTiles(retTiles);
 		this.tileBank.shuffleTiles();
@@ -300,7 +304,8 @@ public class Board<T extends ICoordinate> {
 
 	// shuffles the component(s) positions from its original position to a
 	// random location among themselves
-	public void shuffle(Set<T> effectedCoordinates) throws GameRuleException {
+	public synchronized void shuffle(Set<T> effectedCoordinates,
+			DisasterType disasterType) throws GameRuleException {
 		List<T> coordList = Lists.newArrayList();
 		List<Component> compList = Lists.newArrayList();
 		for (T coord : effectedCoordinates) {
@@ -311,13 +316,13 @@ public class Board<T extends ICoordinate> {
 
 		for (int i = 0; i < coordList.size(); i++) {
 			T t = coordList.get(i);
-			compList.add(matrix.removeComponent(t));
+			compList.add(matrix.removeComponent(t, disasterType));
 		}
 
 		int i = 0;
 
 		for (T t : effectedCoordinates) {
-			this.matrix.putComponent(compList.get(i), t);
+			this.matrix.putComponent(compList.get(i), t, disasterType);
 			i++;
 		}
 

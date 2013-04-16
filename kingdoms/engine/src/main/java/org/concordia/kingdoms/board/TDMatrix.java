@@ -96,7 +96,13 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 	 * component is placed on the board, checks to see if the coordinate is
 	 * invalid position, and a space is available.
 	 */
-	public void putComponent(Component component, TDCoordinate coordinate)
+	public synchronized void putComponent(Component component,
+			TDCoordinate coordinate) throws GameRuleException {
+		putComponent(component, coordinate, null);
+	}
+
+	public synchronized void putComponent(Component component,
+			TDCoordinate coordinate, DisasterType type)
 			throws GameRuleException {
 
 		final int row = coordinate.getRow();
@@ -110,7 +116,9 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		if (!isEmpty(coordinate)) {
 			throw new GameRuleException("No Space available");
 		}
-		this.entries.get(row).get(column).setComponent(component);
+		Entry<?> entry = this.entries.get(row).get(column);
+		entry.setDisasterType(type);
+		entry.setComponent(component);
 		this.tileFinder.rememberCoordinate(component, coordinate);
 		this.componentsOnBoard++;
 		if (component != null) {
@@ -179,7 +187,7 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 	/**
 	 * score calculated on this board
 	 */
-	public Map<Color, Score> score() {
+	public synchronized Map<Color, Score> score() {
 
 		List<List<Map<Color, Integer>>> rowsRanks = Lists.newArrayList();
 
@@ -195,7 +203,6 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 			List<Map<Color, Integer>> rowRanks = Lists.newArrayList();
 			rowsRanks.add(rowRanks);
 			this.getCastleRankScore(0, MAX_COLUMNS, row, true, rowRanks);
-
 		}
 
 		List<List<Map<Color, Integer>>> columnsRanks = Lists.newArrayList();
@@ -224,7 +231,7 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 	 * 
 	 * @param finalScore
 	 */
-	public void printFinalScore(Map<Color, Score> finalScore) {
+	public synchronized void printFinalScore(Map<Color, Score> finalScore) {
 		if (finalScore == null) {
 			System.out.println("No Entry Found");
 			return;
@@ -313,8 +320,8 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 	 * @param scores
 	 *            - score for each part, divided by mountain if any
 	 */
-	public void getTilesScore(int start, int end, int rowOrColumnNumber,
-			boolean isRow, List<Integer> scores) {
+	public synchronized void getTilesScore(int start, int end,
+			int rowOrColumnNumber, boolean isRow, List<Integer> scores) {
 
 		if (start == end) {
 			return;
@@ -465,8 +472,9 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 	 * @param rowRanks
 	 *            - resolved castle rank map
 	 */
-	public void getCastleRankScore(int start, int end, int rowOrColumnNumber,
-			boolean isRow, List<Map<Color, Integer>> rowRanks) {
+	public synchronized void getCastleRankScore(int start, int end,
+			int rowOrColumnNumber, boolean isRow,
+			List<Map<Color, Integer>> rowRanks) {
 
 		// when mountain is to the extreme left, extreme right, or side by side
 		// mountains
@@ -598,7 +606,7 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		return this.availableCoordinates;
 	}
 
-	private void initAvailableCoordinates() {
+	private synchronized void initAvailableCoordinates() {
 		this.availableCoordinates = Lists.newArrayList();
 		for (int i = 0; i < MAX_ROWS; i++) {
 			for (int j = 0; j < MAX_COLUMNS; j++) {
@@ -607,11 +615,12 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		}
 	}
 
-	public List<Component> clearAllEntries() {
+	public synchronized List<Component> clearAllEntries() {
 		List<Component> components = Lists.newArrayList();
 		Iterator<Entry<TDCoordinate>> entries = getEntries();
 		while (entries.hasNext()) {
 			Entry<TDCoordinate> entry = entries.next();
+			entry.setDisasterType(null);
 			components.add(entry.setNull());
 		}
 		initAvailableCoordinates();
@@ -619,10 +628,12 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 		return components;
 	}
 
-	public Component removeComponent(TDCoordinate coordinate) {
+	public synchronized Component removeComponent(TDCoordinate coordinate,
+			DisasterType type) {
 		Entry<?> entry = this.entries.get(coordinate.getRow()).get(
 				coordinate.getColumn());
 		Component retComponent = entry.getComponent();
+		entry.setDisasterType(type);
 		if (retComponent != null) {
 			entry.setNull();
 			availableCoordinates.add(coordinate);
@@ -642,6 +653,10 @@ public class TDMatrix implements IMatrix<TDCoordinate> {
 	public Component getComponent(TDCoordinate coordinate) {
 		return this.entries.get(coordinate.getRow())
 				.get(coordinate.getColumn()).getComponent();
+	}
+
+	public void markDisaster(DisasterType type, TDCoordinate t) {
+		this.entries.get(t.getRow()).get(t.getColumn()).setDisasterType(type);
 	}
 
 }

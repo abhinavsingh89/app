@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.concordia.kingdoms.board.Board;
+import org.concordia.kingdoms.board.DisasterType;
 import org.concordia.kingdoms.board.Entry;
 import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.domain.Castle;
@@ -69,16 +70,26 @@ public class Console<T extends TDCoordinate> implements Presentable {
 				Entry entry = this.entries.get(i).get(j);
 				Component comp = entry.getComponent();
 
-				String color = "BLACK";
+				BColor bColor = BColor.BLACK;
 				if (comp == null) {
-					color = "WHITE";
+					bColor = BColor.WHITE;
 				}
 				if (comp instanceof Castle) {
 					Castle kastle = (Castle) comp;
-					color = kastle.getColor().name();
+					bColor = BColor.valueOf(kastle.getColor().name());
 				}
-				cp.print(this.entries.get(i).get(j) + "      ", Attribute.BOLD,
-						FColor.WHITE, BColor.valueOf(color));
+				DisasterType disasterType = entry.getDisasterType();
+				Attribute attr = Attribute.BOLD;
+				if (DisasterType.EARTHQUAKE.equals(disasterType)) {
+					bColor = BColor.MAGENTA;
+				}
+
+				if (DisasterType.MUDSLIDE.equals(disasterType)) {
+					attr = Attribute.DARK;
+					bColor = BColor.MAGENTA;
+				}
+
+				cp.print(entry + "      ", attr, FColor.WHITE, bColor);
 				cp.clear();
 			}
 			System.out.println();

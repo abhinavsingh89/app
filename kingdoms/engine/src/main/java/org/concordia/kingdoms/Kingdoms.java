@@ -76,11 +76,13 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 				throw new GameException(
 						"Supports mimimum of 2 and maximum of 4 Players.");
 			} else {
-				// initialize the board with empty entries
-				this.initBoard(players);
-				this.board.setDisasters(getDisasters());
-				log.debug("Board iniitalized Successfully");
-				this.putSpecialTilesOnBoard();
+				synchronized (this) {
+					// initialize the board with empty entries
+					this.initBoard(players);
+					this.board.setDisasters(getDisasters());
+					log.debug("Board iniitalized Successfully");
+					this.putSpecialTilesOnBoard();
+				}
 			}
 		} else {
 			// when game is already in progress, resume the game but not start
@@ -124,7 +126,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	/**
 	 * save the game state
 	 */
-	public void save() throws GameException {
+	public synchronized void save() throws GameException {
 
 		org.concordia.kingdoms.GameState<T> gameState = new org.concordia.kingdoms.GameState<T>();
 		// its own filename
@@ -149,7 +151,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	/**
 	 * re-build the game from the file
 	 */
-	public void resume(File file) throws GameException {
+	public synchronized void resume(File file) throws GameException {
 		GameState<T> gameState = loadGameState(file);
 		// if the game is not in progress then initialize everything
 		if (!this.isGameInProgress) {
@@ -168,7 +170,6 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 			// when game is already in progress, resume the game but not start
 			throw new GameException("Game is Already in Progress");
 		}
-
 	}
 
 	/**
@@ -259,7 +260,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	 * 
 	 * @return
 	 */
-	public Map<Color, Score> score() {
+	public synchronized Map<Color, Score> score() {
 		Map<Color, Score> scoreMap = this.board.score();
 		assignScore(this.getPlayers(), scoreMap);
 		return scoreMap;
@@ -297,7 +298,7 @@ public abstract class Kingdoms<T extends ICoordinate> extends AbstractGame<T> {
 	 * 
 	 * @throws GameRuleException
 	 */
-	public void moveToNextLevel() throws GameRuleException {
+	public synchronized void moveToNextLevel() throws GameRuleException {
 		this.epochCounter.goNextLevel();
 		this.board.levelChange(newCoordinate(), builder);
 		putSpecialTilesOnBoard();

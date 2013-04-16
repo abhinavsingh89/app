@@ -22,6 +22,8 @@ public class Entry<T extends ICoordinate> {
 
 	private Component component;
 
+	private DisasterType disasterType;
+
 	/**
 	 * constructor-every entry must have a coordinate
 	 * 
@@ -113,6 +115,14 @@ public class Entry<T extends ICoordinate> {
 			sb.append(" ");
 		}
 		return sb.toString();
+	}
+
+	public DisasterType getDisasterType() {
+		return disasterType;
+	}
+
+	public void setDisasterType(DisasterType disasterType) {
+		this.disasterType = disasterType;
 	}
 
 }

@@ -13,7 +13,6 @@ import org.concordia.kingdoms.Player;
 import org.concordia.kingdoms.board.Board;
 import org.concordia.kingdoms.board.ICoordinate;
 import org.concordia.kingdoms.board.IMatrix;
-import org.concordia.kingdoms.board.TDCoordinate;
 import org.concordia.kingdoms.board.TileBank;
 import org.concordia.kingdoms.domain.Color;
 import org.concordia.kingdoms.exceptions.GameException;

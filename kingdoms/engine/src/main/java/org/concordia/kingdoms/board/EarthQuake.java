@@ -37,7 +37,8 @@ public class EarthQuake implements IDisaster<TDCoordinate> {
 				System.out.print("(" + coord.getRow() + "," + coord.getColumn()
 						+ ")");
 			}
-			board.returnComponent(effectedCoordinates, getImmuneTileTypes());
+			board.returnComponent(effectedCoordinates, getImmuneTileTypes(),
+					DisasterType.EARTHQUAKE);
 			strike++;
 		}
 

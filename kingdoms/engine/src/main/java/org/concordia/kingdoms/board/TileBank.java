@@ -30,13 +30,12 @@ public class TileBank {
 	}
 
 	public void init() {
-
 		final GameBox gameBox = SpringContainer.INSTANCE.getBean(GameBox.class);
 		gameBox.assignTiles(this);
 		Collections.shuffle(this.tiles);
 	}
 
-	public void addTiles(List<Tile> tiles) {
+	public synchronized void addTiles(List<Tile> tiles) {
 		if (tiles != null && !tiles.isEmpty()) {
 			this.tiles.addAll(tiles);
 		}
@@ -47,7 +46,7 @@ public class TileBank {
 	 * 
 	 * @return tile
 	 */
-	public Tile drawTile() {
+	public synchronized Tile drawTile() {
 		if (tiles.isEmpty()) {
 			return null;
 		}
@@ -71,7 +70,7 @@ public class TileBank {
 		return this.tiles.isEmpty();
 	}
 
-	Tile drawTile(TileType type) {
+	synchronized Tile drawTile(TileType type) {
 		Tile retTile = null;
 		for (Tile tile : tiles) {
 			if (type.equals(tile.getType())) {

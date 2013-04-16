@@ -17,6 +17,9 @@ public interface IMatrix<T extends ICoordinate> extends ScoreService<T> {
 	void putComponent(Component component, T coordinate)
 			throws GameRuleException;
 
+	void putComponent(Component component, T coordinate,
+			DisasterType disasterType) throws GameRuleException;
+
 	// is the coordinate eligible to take a component
 	boolean isValidPosition(T coordinate);
 
@@ -37,7 +40,9 @@ public interface IMatrix<T extends ICoordinate> extends ScoreService<T> {
 
 	List<Component> clearAllEntries();
 
-	Component removeComponent(T coordinate);
+	Component removeComponent(T coordinate, DisasterType type);
 
 	Component getComponent(T coordinate);
+
+	void markDisaster(DisasterType type, T t);
 }

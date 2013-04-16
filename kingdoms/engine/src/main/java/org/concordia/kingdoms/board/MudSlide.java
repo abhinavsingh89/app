@@ -42,7 +42,7 @@ public class MudSlide implements IDisaster<TDCoordinate> {
 				System.out.print("(" + coord.getRow() + "," + coord.getColumn()
 						+ ")");
 			}
-			board.shuffle(effectedCoordinates);
+			board.shuffle(effectedCoordinates, DisasterType.MUDSLIDE);
 			strike++;
 		}
 	}
