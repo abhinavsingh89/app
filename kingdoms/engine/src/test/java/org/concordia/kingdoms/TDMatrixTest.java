@@ -560,6 +560,34 @@ public class TDMatrixTest extends TestCase {
 		}
 
 	}
+	public void testRHMRHG() {
+		TDMatrix matrix = new TDMatrix(5, 6);
+		try {
+			matrix.putComponent(Tile.newTile(TileType.RESOURCE, "test", 1),
+					TDCoordinate.newInstance(0, 0));
+			matrix.putComponent(Tile.newTile(TileType.HAZARD, "hazard", -6),
+					TDCoordinate.newInstance(0, 1));
+			matrix.putComponent(
+					Tile.newTile(TileType.MOUNTAIN, "mountain", null),
+					TDCoordinate.newInstance(0, 2));
+
+			matrix.putComponent(Tile.newTile(TileType.RESOURCE, "test", 1),
+					TDCoordinate.newInstance(0, 3));
+			matrix.putComponent(Tile.newTile(TileType.HAZARD, "hazard", -5),
+					TDCoordinate.newInstance(0, 4));
+			matrix.putComponent(Tile.newTile(TileType.RESOURCE, "RESOURCE", 4),
+					TDCoordinate.newInstance(0, 5));
+
+			List<Integer> scores = Lists.newArrayList();
+			matrix.getTilesScore(0, 6, 0, true, scores);
+			assertEquals(Integer.valueOf(-5), scores.get(0));
+			assertEquals(Integer.valueOf(0), scores.get(1));
+
+		} catch (GameRuleException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
 
 	public void testFullBoardScore() {
 
