@@ -636,7 +636,11 @@ public class TDMatrixTest extends TestCase {
 		}
 
 	}
-	public void testRHMRHG() {
+	/**
+	 * Function for testing RHMRHR
+	 * R=RESOURCE,H=HAZARD,M=MOUNTAIN,H=HazardTile,R=RESOURCE
+	 */
+	public void testRHMRHR() {
 		TDMatrix matrix = new TDMatrix(5, 6);
 		try {
 			matrix.putComponent(Tile.newTile(TileType.RESOURCE, "test", 1),
@@ -653,7 +657,6 @@ public class TDMatrixTest extends TestCase {
 					TDCoordinate.newInstance(0, 4));
 			matrix.putComponent(Tile.newTile(TileType.RESOURCE, "RESOURCE", 4),
 					TDCoordinate.newInstance(0, 5));
-
 			List<Integer> scores = Lists.newArrayList();
 			matrix.getTilesScore(0, 6, 0, true, scores);
 			assertEquals(Integer.valueOf(-5), scores.get(0));
@@ -664,7 +667,36 @@ public class TDMatrixTest extends TestCase {
 			fail();
 		}
 	}
+	/**
+	 * Function for testing RHRRHR
+	 * R=RESOURCE,H=HAZARD,R=RESOURCE,H=HazardTile,R=RESOURCE
+	 */
+	public void testRHRRHR() {
+		TDMatrix matrix = new TDMatrix(5, 6);
+		try {
+			matrix.putComponent(Tile.newTile(TileType.RESOURCE, "test", 1),
+					TDCoordinate.newInstance(0, 0));
+			matrix.putComponent(Tile.newTile(TileType.HAZARD, "hazard", -6),
+					TDCoordinate.newInstance(0, 1));
+			matrix.putComponent(
+					Tile.newTile(TileType.RESOURCE, "RESOURCE", 1),
+					TDCoordinate.newInstance(0, 2));
 
+			matrix.putComponent(Tile.newTile(TileType.RESOURCE, "test", 1),
+					TDCoordinate.newInstance(0, 3));
+			matrix.putComponent(Tile.newTile(TileType.HAZARD, "hazard", -5),
+					TDCoordinate.newInstance(0, 4));
+			matrix.putComponent(Tile.newTile(TileType.RESOURCE, "RESOURCE", 4),
+					TDCoordinate.newInstance(0, 5));
+			List<Integer> scores = Lists.newArrayList();
+			matrix.getTilesScore(0, 6, 0, true, scores);
+			assertEquals(Integer.valueOf(-4), scores.get(0));
+		} catch (GameRuleException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
 	/**
 	 * Function for testing full board score
 	 */
