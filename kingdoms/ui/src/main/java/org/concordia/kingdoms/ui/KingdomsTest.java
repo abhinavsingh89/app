@@ -138,6 +138,8 @@ public class KingdomsTest {
 			// add the final level score to the epoch
 			kingdoms.getEpochCounter().addNewScore(scoreMap);
 			printFinalScore(players, scoreMap);
+			System.out.println();
+			System.out.println();
 
 			Collections.sort(players, Player.PlayerComparator.INSTANCE);
 
